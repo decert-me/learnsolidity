@@ -1,0 +1,8 @@
+{
+  "label": "关于以太坊",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "了解以太坊最重要的概念，为开发 Solidity 智能合约打下坚实的基础"
+  }
+}
