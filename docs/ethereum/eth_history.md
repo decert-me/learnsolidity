@@ -123,30 +123,46 @@
 
 
 
-## 未来：以 rollup 为中心的开发计划
+## 未来：以 rollup 为中心的开发路线
 
 
 
-Vitalik 发布了以太坊的最新路线图，
-
-
-
-The Merge、The Surge、The Scourge、The Verge、The Purge、The Splurge
+Vitalik 在 2022年 11 月 5 日，发表了[以太坊的最新发展路线图](https://twitter.com/VitalikButerin/status/1466411377107558402)：
 
 ![img](https://img.learnblockchain.cn/pics/20230306182836.jpeg)
 
+新的路线图，包含：The Merge、The Surge、The Scourge、The Verge、The Purge、The Splurge 六大阶段， 六个阶段在同时推进。
+
+**The Merge 阶段**已经大部分完成，预计 4 月份进行上海升级，激活取款功能。
+
+**The Surge阶段**是推动以 Rollup 为中心的扩容，包含EIP4844 引入一种新的交易类型，将使得 rollup 的开销降低 10-100 倍。
+
+**The Verge阶段**引入 Verkle 树，优化数据存储及验证。
+
+**The Purge阶段**清理数据、简化存储，降低验证者硬盘空间性能要求。
+
+**The Splurge阶段 ** EVM 改进及全面零知识证明
 
 
-**The Surge**
+
+
+
+
 
  
 
-该路线的主要目标是推动以 Rollup 为中心的扩容，实现每秒 10 万的 TPS，主要分为两个阶段：
+该路线的主要目标是，实现每秒 10 万的 TPS，主要分为两个阶段：
 
-● 实现 Rollup 的初步扩容：EIP4844 向以太坊引入一种新的交易类型，这种交易类型携带短暂存在的 blob 数据，将使得 rollup 的开销降低 10-100 倍，同时结合初步的 OP Rollup 欺诈证明以及 ZK-EVMs 的辅助，实现初步扩容。
+● 实现 Rollup 的初步扩容：，这种交易类型携带短暂存在的 blob 数据，将使得 rollup 的开销降低 10-100 倍，同时结合初步的 OP Rollup 欺诈证明以及 ZK-EVMs 的辅助，实现初步扩容。
 
 ● 实现 Rollup 的完全扩容：在前者基础优化完善的同时，重点着手数据可用性 DA 方面的优化，如数据可用性抽样的客户端、P2P 设计等。
 
 
 
 所有升级部署之后，全新的以太坊区块链有望在保持去中心化的同时，实现可扩展性、安全性和可持续性的提升。
+
+
+
+
+
+其中主要变化包括：1、合并已经完成，不仅仅是关于“verkle trees”，也关于“验证”，结论是“完全SNARK”的以太坊；2、新增“The Scourge”，确保可以和公平可信的中立交易、解决MEV问题；3、作为第2阶段合并程碑的单时隙确定性（single-slot finality）。
