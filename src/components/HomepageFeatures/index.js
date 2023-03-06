@@ -4,32 +4,29 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
+    title: '交互式学习',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Decert.me(链习网) 使用交互式学习方法， 你可以直接在教程中修改代码，查看运行效果，学习更高效。
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: '前沿技术',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Decert.me 关注前沿技术，尤其是区块链技术，提供前沿技术一站式学习体验。
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: '技术认证',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        当你通过一个某个技术的测试之后，你可以选择在区块链上生成技能认证记录，永久证明你的能力。
       </>
     ),
   },

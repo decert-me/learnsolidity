@@ -10,17 +10,14 @@ const config = {
   tagline: 'Solidity 教程',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
   url: 'https://decert.me',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/tutorial/learnsolidity/',
+  baseUrl: '/tutorial/solidity/',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
-    defaultLocale: 'zh-Hansen',
+    defaultLocale: 'zh-Hans',
     locales: ['zh-Hans'],
   },
 
@@ -30,9 +27,8 @@ const config = {
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
+          routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/decert-me/learnsolidity/tree/main/',
         },
@@ -57,6 +53,11 @@ const config = {
         },
         items: [
           {
+            label: '区块链基础',
+            position: 'left',
+            href: 'https://decert.me/tutorial/block_basic/bitcoin/',
+          },
+          {
             type: 'doc',
             docId: 'intro',
             position: 'left',
@@ -76,8 +77,13 @@ const config = {
             title: '教程',
             items: [
               {
-                label: 'Tutorial',
-                to: '/docs/intro',
+                label: '区块链基础',
+                href: 'https://decert.me/tutorial/block_basic/bitcoin/',
+              },
+              {
+                label: 'Solidity 教程',
+                to: '/intro',
+                
               },
             ],
           },
@@ -99,11 +105,11 @@ const config = {
             items: [
               {
                 label: 'Blog',
-                to: '/blog',
+                href: 'https://learnblockchain.cn/people/13917',
               },
               {
                 label: 'GitHub',
-                href: 'https://github.com/facebook/docusaurus',
+                href: 'https://github.com/decert-me',
               },
             ],
           },
