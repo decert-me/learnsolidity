@@ -87,7 +87,7 @@ ABI 是  Application Binary Interface，即应用程序二进制接口，ABI 用
 
 
 
-编译之后， 如果代码没有错误，就可以部署到区块链网络上，我们在 [区块链网络](../ethereum/3_evm_network.md) 介绍过不同的网络。 一个正式的产品推荐的部署流程是：
+编译之后， 如果代码没有错误，就可以部署到区块链网络上，我们在 [区块链网络](../ethereum/2_evm_network.md) 介绍过不同的网络。 一个正式的产品推荐的部署流程是：
 
 1. 在本地的开发者网络（模拟网络）进行部署，测试及验证代码逻辑的正确性
 2. 在测试网络进行灰度发布
@@ -125,7 +125,7 @@ Remix 提供了一个 EVM 开发环境给我们测试合约，功能区切换到
 
 然后在 Remix 的环境里选择`Injected Provider - MetaMask`， 如下图：
 
-![image-20230307112254555](https://img.learnblockchain.cn/pics/20230307115511.png)
+![Injected Provider](https://img.learnblockchain.cn/pics/20230307115511.png)
 
 
 
@@ -143,7 +143,7 @@ Remix 提供了一个 EVM 开发环境给我们测试合约，功能区切换到
 
 
 
-![image-20230307112512208](https://img.learnblockchain.cn/pics/20230307112514.png)
+![合约运行](https://img.learnblockchain.cn/pics/20230307112514.png)
 
 
 

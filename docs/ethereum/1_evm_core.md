@@ -47,7 +47,7 @@ contract Counter {
 
 这段代码有一个类型为uint（无符号整数）名为“counter”的变量。counter变量的内容（值）就是该合约的状态。每当我们调用count()函数时，此智能合约的区块链状态将增加1，这个状态是对任何人都可见的。
 
-在教程的后面，我们会进一步介绍智能合约开发，在[合约的代码组成](../solidity-basic/solidity_layout.md)一节，会进一步介绍这个合约代码构成。
+在教程的后面，我们会进一步介绍智能合约开发，在[合约的代码组成](../solidity-basic/2_solidity_layout.md)一节，会进一步介绍这个合约代码构成。
 
 
 
