@@ -39,6 +39,7 @@ contract Counter {
     constructor() {
         counter = 0;
     }
+
     function count() public {
         counter = counter + 1;
     }

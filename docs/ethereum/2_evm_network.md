@@ -1,4 +1,4 @@
-# EVM 兼容链
+# EVM 兼容链及网络
 
 繁荣的以太坊生态，尤其是在 DEFI 爆发之后，各大公链意识到与其开发自己特色的虚拟机，不如主动兼容以太坊虚拟机，从而可快速的承接以太坊应用。
 
@@ -64,6 +64,23 @@
 ![img](https://img.learnblockchain.cn/pics/20230306203739.png)
 
 
+如下是 Hardhat 提供的开发节点：
+
+```
+/home/decert > npx hardhat node
+Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+Accounts
+========
+
+WARNING: These accounts, and their private keys, are publicly known.
+Any funds sent to them on Mainnet or any other live network WILL BE LOST.
+
+Account #0: 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266 (10000 ETH)
+Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+...
+
+```
 
 通常，本地模拟的区块链，所有的数据都放在内存中，因此当节点重启时，所有的区块数据会消失。进行合约开发及测试时，需要注意。
 
