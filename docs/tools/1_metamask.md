@@ -1,4 +1,4 @@
-## MetaMask 钱包
+# MetaMask 钱包
 
 
 
@@ -132,7 +132,7 @@ ChainTool 是由一些爱好者组成的[开源组织](https://github.com/ChainT
 
 
 
-## 链接不同的 EVM 区块链
+## 连接不同的 EVM 区块链
 
 MetaMask 可以连接很多个不同的网络， 点击如下图切换到不同的网络：
 
