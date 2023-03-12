@@ -1,1 +1,478 @@
 # Hardhat 开发框架
+
+Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、测试和部署智能合约。
+
+
+
+**Hardhat**还内置了**Hardhat 网络（Hardhat Node）**，它是为开发而设计的本地以太坊网络。 用来部署合约，运行测试和**调试代码**。
+
+
+
+在本文中，我们将介绍：
+
+
+
+1. 创建及配置Hardhat项目
+2. 编写智能合约
+3. Hardhat 编译合约
+4. 使用 [Ethers.js](https://learnblockchain.cn/ethers_v5/) 和为合约编写自动化测试
+5. 使用 `console.log()`调试 Solidity
+6. 使用 Hardhat 部署合约
+
+
+
+本文对应的代码在：https://github.com/xilibi2003/training_camp_2/tree/main/w1_hardhat
+
+
+
+
+
+## 创建及配置Hardhat项目
+
+
+
+Hardhat 构建在Node.js之上， 使用 Hardhat 要求我们在电脑先安装好Node.js (>= 16.0)， 环境准备可以参考[这里](https://learnblockchain.cn/docs/hardhat/tutorial/setting-up-the-environment.html)。
+
+先创建项目目录：
+
+```bash
+mkdir hardhat-tutorial
+cd hardhat-tutorial
+```
+
+初始化 Node 项目：
+
+```bash
+npm init
+```
+
+
+
+安装 Hardhat :
+
+```bash
+npm install --save-dev hardhat
+```
+
+
+
+在安装**Hardhat**的目录下运行：
+
+```bash
+npx hardhat
+```
+
+
+
+使用键盘选择"创建一个新的hardhat.config.js（`Create a JavaScript project`）" ，然后回车。
+
+
+
+```markup{14}
+$ npx hardhat
+888    888                      888 888               888
+888    888                      888 888               888
+888    888                      888 888               888
+8888888888  8888b.  888d888 .d88888 88888b.   8888b.  888888
+888    888     "88b 888P"  d88" 888 888 "88b     "88b 888
+888    888 .d888888 888    888  888 888  888 .d888888 888
+888    888 888  888 888    Y88b 888 888  888 888  888 Y88b.
+888    888 "Y888888 888     "Y88888 888  888 "Y888888  "Y888
+
+👷 Welcome to Hardhat v2.13.0 👷‍
+
+? What do you want to do? …
+❯ Create a JavaScript project
+  Create a TypeScript project
+  Create an empty hardhat.config.js
+  Quit
+```
+
+
+
+这个 JavaScript Hardhat 工程会默认下载 hardhat-toolbox 插件及一些常规设置：
+
+
+
+这个工程包含文件有：
+
+- `contracts`：智能合约目录
+- `scripts` ：部署脚本文件
+- test：智能合约测试用例文件夹。
+- `hardhat.config.js`：配置文件，配置hardhat连接的网络及编译选项。
+
+
+
+## 编写合约
+
+合约开发推荐使用 VSCode 编辑器 + [solidity 插件](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity)，在`contracts` 下新建一个合约文件 `Counter.sol` (`*.sol` 是 Solidity 合约文件的后缀名),  复制如下代码：
+
+```js title=”counter.sol“
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract Counter {
+    uint counter;
+
+    constructor() {
+        counter = 0;
+    }
+
+    function count() public {
+        counter = counter + 1;
+    }
+
+    function get() public view returns (uint) {
+        return counter;
+    }
+}
+```
+
+接下来就可以编译这个合约了。
+
+
+
+## 编译合约
+
+
+
+`hardhat.config.js` 有默认的Solidity 编译器配置：
+
+```
+require("@nomicfoundation/hardhat-toolbox");
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  solidity: "0.8.18",
+};
+```
+
+
+
+因此我们直接编译合约即可，在终端中运行 `npx hardhat compile` 。 `compile`任务是内置任务之一。
+
+```
+$ npx hardhat compile
+Compiling 1 file with 0.8.18
+Compilation finished successfully
+```
+
+合约已成功编译了。
+
+
+
+成功编译后，会在 `artifacts/contracts/`  目录下生成`Counter.json` 和 build-info， `Counter.json`包含了智能合约的 ABI 、字节码（Bytecode）等。
+
+
+
+:::tip
+
+智能合约的 **ABI（Application Binary Interface）**信息，其中包括了合约的函数、事件等接口信息。这个文件通常会在与其他合约交互时使用，因为它可以被其他合约和 DApp 使用。
+
+`Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。:::
+
+:::
+
+
+
+## 编写测试用例
+
+为智能合约编写自动化测试至关重要，因为事关用户资金。 
+
+在我们的测试中，使用 Harhdat 内置的网络，使用[ethers.js](https://learnblockchain.cn/ethers_v5/)与前面的合约进行交互，并使用 [Mocha](https://mochajs.org/) 作为测试运行器。
+
+
+
+在项目 `test`下，并创建一个名为`Counter.js`的新文件：
+
+```js title="Counter.js"
+const { ethers } = require("hardhat");
+const { expect } = require("chai");
+
+let counter;
+
+describe("Counter", function () {
+  async function init() {
+    const [owner, otherAccount] = await ethers.getSigners();
+    const Counter = await ethers.getContractFactory("Counter");
+    counter = await Counter.deploy();
+    await counter.deployed();
+    console.log("counter:" + counter.address);
+  }
+
+  before(async function () {
+    await init();
+  });
+
+  // 
+  it("init equal 0", async function () {
+    expect(await counter.get()).to.equal(0);
+  });
+
+  it("add 1 equal 1", async function () {
+    let tx = await counter.count();
+    await tx.wait();
+    expect(await counter.get()).to.equal(1);
+  });
+
+});
+
+```
+
+
+
+在终端上运行`npx hardhat test`。 你应该看到以下输出：
+
+
+
+```
+> npx hardhat test
+
+
+  Counter
+counter:0x5FbDB2315678afecb367f032d93F642f64180aa3
+    ✔ init equal 0
+    ✔ add 1 equal 1
+
+  2 passing (1s)
+```
+
+
+
+
+
+这意味着测试通过了。 现在我们解释主要代码：
+
+
+
+```js
+  const Counter = await ethers.getContractFactory("Counter");
+```
+
+ethers.js中的`ContractFactory`是用于部署新智能合约的抽象，因此此处的`Counter`是用来实例合约的工厂。
+
+
+
+```js
+counter = await Counter.deploy();
+```
+
+在`ContractFactory`上调用`deploy()`将启动部署，并返回解析为`Contract`的`Promise`。 该对象包含了智能合约所有函数的方法。
+
+```
+let tx = await counter.count();
+await tx.wait();
+```
+
+
+
+在`counter` 上调用合约方法， 并等待交易执行完毕。
+
+注意，默认情况下， `ContractFactory`和`Contract`实例连接到第一个[签名者（Singer）](https://learnblockchain.cn/ethers_v5/)。
+
+若需要使用其他的签名这， 可以使用[合约实例connect 到另一个签名者](https://learnblockchain.cn/ethers_v5/api/contract/example/#example-erc-20-contract--methods)， 如 `counter.connect(otherAccount)`
+
+```js
+expect(await counter.get()).to.equal(0);
+```
+
+判断相等，我们使用[Chai](https://www.chaijs.com/)，这是一个断言库。 这些断言函数称为“匹配器”，在此实际上使用的“匹配器”来自[Hardhat Chai Matchers](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-chai-matchers)。
+
+
+
+## 使用 Console.log  调试合约
+
+在**Hardhat Node **节点上运行合约和测试时，你可以在Solidity代码中调用`console.log()`打印日志信息和合约变量，可以方便我们调试代码。
+
+在合约代码中导入**Hardhat **的`console.log`就可以使用它。
+
+
+
+```js {3}
+pragma solidity ^0.8.0;
+
+import "hardhat/console.sol";
+
+contract Counter {
+    uint public counter;
+
+    constructor(uint x) {
+        counter = x;
+    }
+
+    function count() public {
+        counter = counter + 1;
+        console.log("counter is %s ", counter);
+    }
+
+}
+```
+
+
+
+就像在JavaScript中使用一样, 将一些`console.log`添加函数中，运行测试时，将输出日志记录：
+
+```
+> npx hardhat test
+
+  Counter
+counter:0x5FbDB2315678afecb367f032d93F642f64180aa3
+    ✔ init equal 0
+counter is 1
+    ✔ add 1 equal 1 (38ms)
+
+
+  2 passing (1s)
+```
+
+
+
+可以在[这里](https://learnblockchain.cn/docs/hardhat/hardhat-network/#console-log)了解更多 console.log 。 
+
+
+
+## 部署合约
+
+ 其实我们在测试时， 合约已经部署到了Hardhat 内置的网络上，部署合约我们需要编写一个部署脚本。
+
+
+
+在`scripts`文件夹，新建一个`deploy.js` 用来写部署脚本，部署脚本其实和前面测试时 `init` 函数类似：
+
+```js
+const { ethers } = require("hardhat");
+
+async function main() {
+
+	 const Counter = await ethers.getContractFactory("Counter");
+   const counter = await Counter.deploy();
+   await counter.deployed();
+
+  console.log("Counter address:", counter.address);
+}
+
+main();
+```
+
+
+
+运行 `npx hardhat run scripts/deploy.js` 时， 可以合约会部署到Hardhat 内置网络上。
+
+```
+> npx hardhat run scripts/deploy.js
+Counter address: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+```
+
+
+
+
+
+为了在运行任何任务时指示**Hardhat**连接到特定的EVM网络，可以使用`--network`参数。 像这样：
+
+```js
+npx hardhat run scripts/deploy.js --network <network-name>
+```
+
+
+
+`network-name` 需要在 `hardhat.config.js` 文件中进行配置：
+
+```js
+require("@nomicfoundation/hardhat-toolbox");
+
+// 填入自己的私钥或助记词，
+const PRIVATE_KEY1 = "0x.... YOUR PRIVATE KEY1";
+const PRIVATE_KEY2 = "0x....  YOUR PRIVATE KEY1";
+const Mnemonic = "YOUR Mnemonic";
+
+
+module.exports = {
+  solidity: "0.8.9", // solidity的编译版本
+  networks: {
+    goerli: {
+      url: "https://eth-goerli.api.onfinality.io/public",
+      accounts: [PRIVATE_KEY1,PRIVATE_KEY2],
+      chainId: 5,
+    },
+    
+     mumbai: {
+      url: "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+      accounts: {
+        mnemonic: Mnemonic,
+      },
+      chainId: 80001,
+    },
+  }
+};
+```
+
+
+
+以上配置了两个网络，一个是以太坊测试网 `goerli`， 一个是 Polygon 测试网`mumbai`， 我们可以在 https://chainlist.org 找到每个网络的节点 URL 及 chainID。
+
+在网络配置中，需要提供提交交易账号， 可以通过私钥或`助记词`  进行配置，这里配置的账号，在hardhat 脚本中（测试及部署脚本）调用`getSigners` 即可获得：
+
+```
+const [owner, otherAccount] = await ethers.getSigners();
+```
+
+
+
+一个私钥对应一个Singer，助记词则对应无数个 Singer 
+
+:::tip
+
+这是因为助记词可以推导出无数了私钥，可参考：[BIP39](https://learnblockchain.cn/2018/09/28/hdwallet)
+
+:::
+
+
+
+另外要注意， 在 Goerli 上进行部署，需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费或一些测试币，这是Goerli的一个水龙头:
+
+\- [Alchemy Goerli Faucet](https://goerlifaucet.com/)
+
+
+
+最后运行：
+
+```
+npx hardhat run scripts/deploy.js --network goerli
+```
+
+如果一切顺利，你应该看到已部署的合约地址。
+
+
+
+## 代码验证
+
+
+
+待补充
+
+
+
+## 参考文档
+
+
+
+示例非常简单， 更多使用方法，可参考文档：
+
+- Hardhat 官方文档：https://hardhat.org/getting-started/
+
+- Hardhat 中文文档：https://learnblockchain.cn/docs/hardhat/getting-started/
+
+- Harhdat 入门教程：https://learnblockchain.cn/docs/hardhat/tutorial/
+
+- Ethers.js 文档：https://learnblockchain.cn/ethers_v5/
+
+  
+
+
+## 小结
+
+本文介绍了 Hardhat 开发框架的一些基本概念和使用方法，了解了如何使用 Hardhat 进行合约编译、部署、调试及测试，在开发中要经常查看文档，了解更多Hardhat 用法。
+
+
+

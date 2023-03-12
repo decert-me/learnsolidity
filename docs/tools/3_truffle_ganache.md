@@ -21,7 +21,9 @@ Truffle 团队还开发了 Ganache， Ganache 是一个用于以太坊开发和�
 
 
 
-另外补充Truffle Console 及 的使用
+本文对应的代码在： https://github.com/xilibi2003/training_camp_2/tree/main/w1_truffle
+
+另外补充Truffle Console 及 truffle-flattener 的使用
 
 
 
@@ -263,6 +265,14 @@ module.exports = {
 
 
 
+注意要在 Goerli 上进行部署，你需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费或一些测试币，这是Goerli的一个水龙头:
+
+\- [Alchemy Goerli Faucet](https://goerlifaucet.com/)
+
+
+
+
+
 ### 编写部署脚本
 
 编写部署脚本（也称迁移文件），放在 `migrations`  目录下，添加一个文件 `1_counter.js`:
@@ -423,10 +433,6 @@ Truffle-flattener 是一个命令行工具，可以将合约文件中的所有�
 ```bash
 truffle-flattener contracts/MyContract.sol > flattened/MyContract.sol
 ```
-
-
-
-
 
 
 
