@@ -494,7 +494,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 <details>
   <summary>如何获取 Etherscan API 密钥？</summary>
-  <div> 1. 访问部署网络对应主网的 Etherscan 网站，并注册一个账号（如果还没有账号的话）。
+  <div> 1. 访问部署网络<b>对应主网</b>的 Etherscan 网站，并注册一个账号（如果还没有账号的话）。
     <br/>
     2. 登录你的账号并进入 Etherscan 的「我的帐户」页面。
     <br/>

@@ -122,9 +122,6 @@ Foundry 使用 Git submodule 来管理依赖库， `.gitmodules` 文件记录了
 </details>
 
 
-
-**如果我们是克隆一个Foundry 项目，这通过`git submodule init` 和 `git submodule update` 拉取依赖库代码。**
-
 ## 合约开发及编译
 
 合约开发推荐使用 VSCode 编辑器 + [solidity 插件](https://marketplace.visualstudio.com/items?itemName=NomicFoundation.hardhat-solidity)，在`contracts` 下新建一个合约文件 `Counter.sol` (`*.sol` 是 Solidity 合约文件的后缀名),  复制如下代码：
@@ -326,13 +323,14 @@ GOERLI_RPC_URL=
 MNEMONIC=
 ```
 
-.env 中记录自己的助记词及RPC  URL。
+`.env` 中记录自己的助记词及RPC URL。
 
 编辑 `foundry.toml` 文件： 
 
 ```toml
 [rpc_endpoints]
 goerli = "${GOERLI_RPC_URL}"
+local = "http://127.0.0.1:8545"
 ```
 
 
@@ -352,7 +350,8 @@ contract CounterScript is Script {
 				(address deployer, ) = deriveRememberKey(mnemonic, 0);
 				
         vm.startBroadcast(deployer);
-				new Counter();
+		Counter c = new Counter();
+        console2.log("Counter deployed on %s", address(c));
         vm.stopBroadcast();
     }
 }
@@ -390,7 +389,7 @@ vm.startBroadcast(deployerPrivateKey);
 这是一个作弊码，表示使用该密钥来签署交易并广播。
 
 ```
-new Counter();
+Counter c = new Counter();
 ```
 
 创建Counter 合约。
@@ -402,10 +401,26 @@ new Counter();
 > source .env
 
 > forge script script/Counter.s.sol --rpc-url goerli --broadcast 
+[⠒] Compiling...
+[⠊] Compiling 1 files with 0.8.18
+[⠒] Solc 0.8.18 finished in 738.87ms
+Compiler run successful
+Script ran successfully.
+Gas used: 127361
+
+== Logs ==
+  Counter deployed on 0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0
+...
+
 ```
+部署成功打印出合约的地址。
 
 goerli 是我们之前在`foundry.toml` 文件中配置的端点。
+如果我们不想在命令中输入`--rpc-url`， 可以在`foundry.toml`配置一个默认的 URL：
 
+```
+eth-rpc-url = "${GOERLI_RPC_URL}"  // 本地 RPC 为 http://127.0.0.1:8545
+```
 
 
 forge script 支持在部署时进行代码验证，在 `foundry.toml` 文件中配置了 etherscan的 API KEY：
@@ -448,7 +463,6 @@ Available Accounts
 
 (0) "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" (10000 ETH)
 (1) "0x70997970C51812dc3A010C7d01b50e0d17dc79C8" (10000 ETH)
-(2) "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC" (10000 ETH)
 ....
 
 Private Keys
@@ -456,7 +470,7 @@ Private Keys
 
 (0) 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
 (1) 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
-(2) 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a
+....
 
 Wallet
 ==================
@@ -508,22 +522,68 @@ anvil --fork-url=$RPC --fork-block-number=<BLOCK>
 
 
 
-完整的功能选项可参考[文档](https://learnblockchain.cn/docs/foundry/i18n/zh/reference/anvil/index.html#%E9%80%89%E9%A1%B9)
-
-
-
-
+anvil完整的功能选项可参考[文档](https://learnblockchain.cn/docs/foundry/i18n/zh/reference/anvil/index.html#%E9%80%89%E9%A1%B9)
 
 
 
 ## 补充2：Cast 与合约交互使用
+`cast` 命令可以用来和区块链交互，因此可以直接使用 `cast` 在命令行中调用合约。
+
+例如 `cast call` 来调用`counter()` 方法：
+
+```
+> cast call 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0 "counter()" --rpc-url local
+0x0000000000000000000000000000000000000000000000000000000000000000
+```
+`0x9fe467...` 是被调用合约的地址，命令返回了结果 0。
+
+
+使用 `cast send` 调用 `setNumber(uint256)` 方法，发起一个交易: 
+```bash
+> cast send 0x9fe46736679d2d9a65f0992f2272de9f3c7fa6e0 "setNumber(uint256)" 1 --rpc-url local --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+blockHash               0x9311823387753f28f47a5c87357e6207b13b223bd3afca5c1f1b31a5e4f8e400
+blockNumber             1
+contractAddress
+cumulativeGasUsed       21204
+effectiveGasPrice       4000000000
+gasUsed                 21204
+logs                    []
+logsBloom               0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+root
+status                  1
+transactionHash         0x5c74da477ce3922337037d0e153fb99f9b325b49f2bf199a487ddb965f6d1727
+transactionIndex        0
+type                    2
+```
+
+调用的函数有参数，则直接写在函数的后面。
+
+获取账号的余额（返回 Wei 为单位）：
+
+```
+cast balance 0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266
+9999999222505911124404
+```
+
+
+`cast` 命令功能非常多，更多参考[文档](https://learnblockchain.cn/docs/foundry/i18n/zh/reference/cast/cast.html)
 
 
 
-## 补充3： 第 3 方库的安装
+## 补充3：安装第 3 方库
 
+使用 `forge install` 可以安装第三方的库，不同于 npm，forge 会把整个第三方的库的 Git 仓库作为子模块放在lib目录下。
+使用命令如下：
+```
+forge install [OPTIONS] <github username>/<github project>@<tag>
+```
 
+例如，安装`openzepplin`使用命令：
 
+```
+forge install OpenZeppelin/openzeppelin-contracts
+```
 
 
 ## 补充4： 标准库
@@ -536,8 +596,6 @@ anvil --fork-url=$RPC --fork-block-number=<BLOCK>
 - `console.sol` 和 `console2.sol`：Hardhat 风格的日志记录功能， `console2.sol` 包含 `console.sol` 的补丁，允许Forge 解码对控制台的调用追踪，但它与 Hardhat 不兼容。
 - `Script.sol`：[Solidity 脚本](https://learnblockchain.cn/docs/foundry/i18n/zh/tutorials/solidity-scripting.html) 的基本实用程序
 - `Test.sol`：DSTest 的超集，包含标准库、作弊码实例 (`vm`) 和 Foundry 控制台
-
-
 
 
 
