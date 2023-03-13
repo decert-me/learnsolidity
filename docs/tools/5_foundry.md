@@ -17,26 +17,14 @@ Foundry 有非常详细的文档，并且登链社区进行的详尽的翻译，
 
 
 1. Foundry 安装
-
 2. 初始化Foundry项目
-
 3. 编写、编译智能合约
-
 4. 编写自动化测试
-
 5. 使用 Foundry 部署合约
-
-6. 补充1：Cast 与合约交互使用
-
-7. 补充2： Anvil 使用
-
-8. 补充3： 库的安装 
-
+6. 补充1： Anvil 使用
+7. 补充2：Cast 与合约交互使用
+8. 补充3： 第 3 方库的安装 
 9. 补充4： 标准库
-
-10. 补充5： 实战技巧  
-
-    
 
 
 
@@ -319,7 +307,7 @@ Test result: ok. 2 passed; 0 failed; finished in 9.94ms
 
 部署合约到区块链，需要先准备有币的账号及区块链节点的 RPC  URL。
 
-Forge 提供 create 命令部署合约:
+Forge 提供 create 命令部署合约， 如：
 
 ```
 forge create  src/Counter.sol:Counter  --rpc-url <RPC_URL>  --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
@@ -349,7 +337,178 @@ goerli = "${GOERLI_RPC_URL}"
 
 
 
-然后在
+然后在 script  目录下创建一个脚本，`Counter.s.sol`：
+
+```
+pragma solidity ^0.8.13;
+
+import "forge-std/Script.sol";
+import "../src/Counter.sol";
+
+contract CounterScript is Script {
+		
+    function run() external {
+        string memory mnemonic = vm.envString("MNEMONIC");
+				(address deployer, ) = deriveRememberKey(mnemonic, 0);
+				
+        vm.startBroadcast(deployer);
+				new Counter();
+        vm.stopBroadcast();
+    }
+}
+```
+
+我们来分析一下脚本代码：
+
+```
+contract CounterScript is Script {
+```
+
+创建一个名为 `CounterScript` 的合约，它从 Forge Std 继承了 `Script`。
+
+```
+function run() external {
+```
+
+默认情况下，脚本是通过调用名为 `run` 的函数（入口点）来执行的部署。
+
+
+
+```
+string memory mnemonic = vm.envString("MNEMONIC");
+(address deployer, ) = deriveRememberKey(mnemonic, 0);
+```
+
+从 .env 文件中加载助记词，并推导出部署账号，如果 `.env` 配置的是私钥，这使用`uint256 deployer = vm.envUint("PRIVATE_KEY");` 加载账号
+
+
+
+```
+vm.startBroadcast(deployerPrivateKey);
+```
+
+这是一个作弊码，表示使用该密钥来签署交易并广播。
+
+```
+new Counter();
+```
+
+创建Counter 合约。
+
+脚本代码编写好了， 让我们运行它， 在项目的根目录运行：
+
+```
+
+> source .env
+
+> forge script script/Counter.s.sol --rpc-url goerli --broadcast 
+```
+
+goerli 是我们之前在`foundry.toml` 文件中配置的端点。
+
+
+
+forge script 支持在部署时进行代码验证，在 `foundry.toml` 文件中配置了 etherscan的 API KEY：
+
+```
+[etherscan]
+goerli = { key = "${ETHERSCAN_API_KEY}" }
+```
+
+然后需要在 script 命令中加入 `--verify`  就可以执行代码开源验证。
+
+
+
+至此，我们已经知道了如何使用 Foundry 进行合约开发，下面继续补充一些常用知识点。
+
+
+
+## 补充1： Anvil 使用
+
+`anvil` 命令创建一个本地开发网节点（好像是对 hardhat node的封装 ），用于部署和测试智能合约。它也可以用来分叉其他与 EVM 兼容的网络。
+
+运行 `anvil` 效果如下
+
+```
+> anvil
+
+
+                             _   _
+                            (_) | |
+      __ _   _ __   __   __  _  | |
+     / _` | | '_ \  \ \ / / | | | |
+    | (_| | | | | |  \ V /  | | | |
+     \__,_| |_| |_|   \_/   |_| |_|
+
+    0.1.0 (1d9a34e 2023-03-07T00:07:41.730822Z)
+    https://github.com/foundry-rs/foundry
+
+Available Accounts
+==================
+
+(0) "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266" (10000 ETH)
+(1) "0x70997970C51812dc3A010C7d01b50e0d17dc79C8" (10000 ETH)
+(2) "0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC" (10000 ETH)
+....
+
+Private Keys
+==================
+
+(0) 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+(1) 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
+(2) 0x5de4111afa1a4b94908f83103eb1f1706367c2e68ca870fc3fb9a804cdab365a
+
+Wallet
+==================
+Mnemonic:          test test test test test test test test test test test junk
+Derivation path:   m/44'/60'/0'/0/
+
+
+Base Fee
+==================
+
+1000000000
+
+Gas Limit
+==================
+
+30000000
+
+Genesis Timestamp
+==================
+
+1678704146
+
+Listening on 127.0.0.1:8545
+```
+
+
+
+anvil 命令常用到的功能选项有：
+
+```
+anvil --port <PORT>
+```
+
+设置节点端口
+
+```
+anvil --mnemonic=<MNEMONIC> 
+```
+
+使用自定义助记词
+
+
+
+```
+anvil --fork-url=$RPC --fork-block-number=<BLOCK>
+```
+
+ 从节点URL（需要是存档节点）fork 区块链状态，可以指定某个区块时的状态。
+
+
+
+完整的功能选项可参考[文档](https://learnblockchain.cn/docs/foundry/i18n/zh/reference/anvil/index.html#%E9%80%89%E9%A1%B9)
 
 
 
@@ -357,9 +516,19 @@ goerli = "${GOERLI_RPC_URL}"
 
 
 
+## 补充2：Cast 与合约交互使用
 
 
-## 标准库
+
+## 补充3： 第 3 方库的安装
+
+
+
+
+
+## 补充4： 标准库
+
+
 
 有用的合约的集合，使编写测试更容易、更快、更人性化，分为 4 个部分：
 
