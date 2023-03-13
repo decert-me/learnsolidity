@@ -1,6 +1,6 @@
 # Hardhat 开发框架
 
-Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、测试和部署智能合约。
+Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、测试和部署智能合约。Hardhat 使用 Node 进行包管理，如果你熟悉 Node 及 Javascript， Hardhat 将非常简单上手。
 
 
 
@@ -18,6 +18,7 @@ Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、
 4. 使用 [Ethers.js](https://learnblockchain.cn/ethers_v5/) 和为合约编写自动化测试
 5. 使用 `console.log()`调试 Solidity
 6. 使用 Hardhat 部署合约
+7. 使用 Hardhat Etherscan 进行开源验证。
 
 
 
@@ -90,15 +91,15 @@ $ npx hardhat
 
 
 
-这个 JavaScript Hardhat 工程会默认下载 hardhat-toolbox 插件及一些常规设置：
+这个 JavaScript Hardhat 工程会默认下载 `hardhat-toolbox 插件`及一些常规设置：
 
 
 
-这个工程包含文件有：
+创建好的Hardhat工程包含文件有：
 
 - `contracts`：智能合约目录
 - `scripts` ：部署脚本文件
-- test：智能合约测试用例文件夹。
+- `test`：智能合约测试用例文件夹。
 - `hardhat.config.js`：配置文件，配置hardhat连接的网络及编译选项。
 
 
@@ -411,7 +412,7 @@ module.exports = {
 
 以上配置了两个网络，一个是以太坊测试网 `goerli`， 一个是 Polygon 测试网`mumbai`， 我们可以在 https://chainlist.org 找到每个网络的节点 URL 及 chainID。
 
-在网络配置中，需要提供提交交易账号， 可以通过私钥或`助记词`  进行配置，这里配置的账号，在hardhat 脚本中（测试及部署脚本）调用`getSigners` 即可获得：
+在网络配置中，需要提供提交交易账号， 可以通过私钥或`助记词`  进行配置，这里配置的账号（需要提前充币进入到账号中），在hardhat 脚本中（测试及部署脚本）调用`getSigners` 即可获得：
 
 ```
 const [owner, otherAccount] = await ethers.getSigners();
@@ -419,11 +420,11 @@ const [owner, otherAccount] = await ethers.getSigners();
 
 
 
-一个私钥对应一个Singer，助记词则对应无数个 Singer 
+一个私钥对应一个Singer，助记词则对应无数个 Singer ， 为每个项目生成一个独立的账号是比较推荐的做法，使用 [ChainTool 开源工具](https://chaintool.tech/generateWallet) 可以生成账号。
 
 :::tip
 
-这是因为助记词可以推导出无数了私钥，可参考：[BIP39](https://learnblockchain.cn/2018/09/28/hdwallet)
+助记词可以推导出无数了私钥，可参考：[BIP39](https://learnblockchain.cn/2018/09/28/hdwallet)
 
 :::
 
@@ -431,7 +432,7 @@ const [owner, otherAccount] = await ethers.getSigners();
 
 另外要注意， 在 Goerli 上进行部署，需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费或一些测试币，这是Goerli的一个水龙头:
 
-\- [Alchemy Goerli Faucet](https://goerlifaucet.com/)
+- [Alchemy Goerli Faucet](https://goerlifaucet.com/)
 
 
 
@@ -445,11 +446,84 @@ npx hardhat run scripts/deploy.js --network goerli
 
 
 
-## 代码验证
+## 代码开源验证 
 
 
 
-待补充
+智能代码开源会增加了合约的透明度和可靠性，是项目建立信任很重要的一个步骤。
+
+在 `hardhat-toolbox` 工具箱里，包含了 [hardhat-etherscan](https://hardhat.org/hardhat-runner/plugins/nomiclabs-hardhat-etherscan) 插件用于验证已经部署到区块链网络上的智能合约代码与源代码是否匹配，在完成验证后在区块链浏览器中合约标签上会出现✅， 如图：
+
+
+
+![image-20230313104044517](https://img.learnblockchain.cn/pics/20230313104045.png)
+
+
+
+在部署智能合约时，合约字节码会被写入到区块链中，这意味着其他人无法检查合约的源代码。代码验证的过程是将已部署合约的字节码与原始Solidity代码再次编译后与部署的字节码进行比较，确保它们是一致的。
+
+
+
+相比在区块链浏览器上上传代码验证， hardhat-etherscan 有很多优点，否则会自动使用 hardhat config 值设置的编译器选项，并且当代码中引用的第三方库或合约， hardhat-etherscan 能自动探测并处理。
+
+
+
+开源验证的步骤是：
+
+1. 安装 `hardhat-toolbox`  或 `hardhat-etherscan` ， 这一步我们这里已经完成，因为在初始化项目的时候安装了 `hardhat-toolbox`  ， 如果没有安装，可以使用以下命令安装
+
+   ```
+   npm install --save-dev @nomiclabs/hardhat-etherscan
+   ```
+
+   
+
+2. 在 `hardhat.config.js` 中配置您的 Etherscan API 密钥和网络设置，例如：
+
+```js
+  require("@nomicfoundation/hardhat-toolbox");
+  或
+  // require("@nomiclabs/hardhat-etherscan");
+  
+  etherscan: {
+    apiKey: ""
+  },
+  
+ 
+```
+
+<details>
+  <summary>如何获取 Etherscan API 密钥？</summary>
+  <div> 1. 访问部署网络对应主网的 Etherscan 网站，并注册一个账号（如果还没有账号的话）。
+    <br/>
+    2. 登录你的账号并进入 Etherscan 的「我的帐户」页面。
+    <br/>
+    3. 点击页面左侧的「API-KEYs」标签页。
+    <br/>
+4. 在页面上方的「Create New API KEY」部分，输入 API 密钥的名称和描述，然后选择需要访问的 API 权限。
+    <br/>
+    5. 点击「Generate」按钮来生成 API 密钥。
+  </div>
+</details>
+
+
+
+
+3. 执行验证命令：
+
+   ```
+   npx hardhat verify <deployed-contract-address> "参数(若有)" --network <network-name> 
+   ```
+   
+   例如，要在 goerli  网络上验证合约，可以运行以下命令：
+   
+   ```
+   npx hardhat verify 0x..... --network goerli
+   ```
+
+该命令会为我们上传合约代码并验证其源代码。如果一切顺利（网络顺畅的话），在 Etherscan 上看到的合约被成功验证。
+
+
 
 
 
@@ -472,7 +546,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 ## 小结
 
-本文介绍了 Hardhat 开发框架的一些基本概念和使用方法，了解了如何使用 Hardhat 进行合约编译、部署、调试及测试，在开发中要经常查看文档，了解更多Hardhat 用法。
+本文介绍了 Hardhat 开发框架的一些基本概念和使用方法，了解了如何使用 Hardhat 进行合约编译、部署、调试及测试，在开发中要**经常查看文档**，了解更多Hardhat 用法。
 
 
 
