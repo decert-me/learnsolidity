@@ -114,10 +114,9 @@ Foundry 使用 Git submodule 来管理依赖库， `.gitmodules` 文件记录了
   <summary>了解 Git submodule  </summary>
   <div> 1. Git submodule 是 Git 中用于管理子模块的工具。允许在一个 Git 仓库中把另一个 Git 仓库作为子目录，实现代码共享和重用（而不是拷贝代码）。
     <br/>
-    2. 将子仓库添加到当前库使用：git submodule add <url_to_repository> <path_to_submodule> ， 在当前库下会生成 .gitmodules 文件用来跟踪子库。
+    2. 将子仓库添加到当前库使用：git submodule add url_to_repository path_to_submodule ， 在当前库下会生成 .gitmodules 文件用来跟踪子库。
     <br/>
     3. 如果我们 clone 的库包含子库，需要使用 git submodule init 及 git submodule update 来获取子库的代码。
-    <br/>
   </div>
 </details>
 
@@ -582,23 +581,116 @@ forge install [OPTIONS] <github username>/<github project>@<tag>
 例如，安装`openzepplin`使用命令：
 
 ```
-forge install OpenZeppelin/openzeppelin-contracts
+> forge install OpenZeppelin/openzeppelin-contracts
+Installing openzeppelin-contracts in "/Users/emmett/course/hello_decert/lib/openzeppelin-contracts" (url: Some("https://github.com/OpenZeppelin/openzeppelin-contracts"), tag: None)
+    Installed openzeppelin-contracts v4.8.2
+
 ```
+
+安装之后，`.gitmodules` 会添加新记录：
+
+```
+[submodule "lib/openzeppelin-contracts"]
+	path = lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
+	branch = v4.8.2
+```
+
+lib 下也会多一个openzeppelin文件夹:
+```
+> tree lib -L 1
+lib
+├── forge-std
+└── openzeppelin-contracts
+```
+
+然后，就可以在代码中引用 openzeppelin 库代码了， 让我们给 `setNumber` 加一个限制：仅所有者才可以调用，代码如下：
+
+```
+import "openzeppelin-contracts/contracts/access/Ownable.sol";
+
+contract Counter is Ownable {
+    uint256 public number;
+
+    function setNumber(uint256 newNumber) public onlyOwner {
+        number = newNumber;
+    }
+    // ....
+}
+```
+
+
+### 使用 npm 安装库
+
+如果你使用NPM来安装库，也同样可以支持，在项目根目录下初始化项目，并安装库：
+
+```
+npm init -y
+npm install @openzeppelin/contracts 
+```
+
+安装完成之后，把node_modules文件夹 配置在 foundry.toml 的 libs中：
+
+```
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib','node_modules']
+```
+
+
 
 
 ## 补充4： 标准库
 
+标准库封装了很多好好的方法可以直接使用，分为 4 个部分：
 
-
-有用的合约的集合，使编写测试更容易、更快、更人性化，分为 4 个部分：
-
-- `Vm.sol`：最新的作弊码接口
+- `Vm.sol`：提供作弊码（Cheatcodes）
 - `console.sol` 和 `console2.sol`：Hardhat 风格的日志记录功能， `console2.sol` 包含 `console.sol` 的补丁，允许Forge 解码对控制台的调用追踪，但它与 Hardhat 不兼容。
 - `Script.sol`：[Solidity 脚本](https://learnblockchain.cn/docs/foundry/i18n/zh/tutorials/solidity-scripting.html) 的基本实用程序
 - `Test.sol`：DSTest 的超集，包含标准库、作弊码实例 (`vm`) 和 Foundry 控制台
 
 
+介绍几个常用的作弊码：
+1. `vm.startPrank(address)` 来模拟用户， 在`startPrank`之后的调用使用设置的地址作为`msg.sender` 直到`stopPrank` 被调用。
 
+举例：
+
+```
+address owner = address(0x123);
+// 模拟owner
+vm.startPrank(owner);
+
+erc20.transfer(0x...., 1);  //  从bob 账号转出
+erc20.mint(100);
+....
+
+// 结束模拟
+vm.stopPrank();
+```
+
+如果只有一个调用需要模拟可以使用 `prank(address)`
+
+2. `warp(uint256)` 设置区块时间，可以用来测试时间的流逝。
+
+举例：
+```
+vm.warp(1641070800);
+emit log_uint(block.timestamp); // 1641070800
+```
+
+3. `roll(uint256)` 设置区块
+
+举例：
+```
+vm.roll(100);
+emit log_uint(block.number); // 100
+```
+
+更多用法可参考。
 
 
 ## 小结
+
+Foundry 以Solidity为中心进行开发，减少了用户使用的心智负担。
+Foundry 发布以来，使用率一直的攀升，非常推荐大家使用。
