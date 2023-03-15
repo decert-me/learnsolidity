@@ -49,13 +49,13 @@ const config = {
         title: 'Decert.me',
         logo: {
           alt: 'Decert Logo',
-          src: 'img/logo.svg',
+          src: 'img/logo.png',
         },
         items: [
           {
             label: '区块链基础',
             position: 'left',
-            href: 'https://decert.me/tutorial/block_basic/bitcoin/',
+            href: 'https://decert.me/tutorial/block_basic/start/',
           },
           {
             type: 'doc',
