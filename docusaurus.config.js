@@ -10,6 +10,14 @@ const config = {
   tagline: 'Solidity 教程',
   favicon: 'img/favicon.ico',
 
+  scripts: [
+    {
+      src: "https://s9.cnzz.com/z_stat.php?id=1281242163&web_id=1281242163",
+      async: true,
+      defer: true
+    },
+  ],
+
   url: 'https://decert.me',
   baseUrl: '/tutorial/solidity/',
 
