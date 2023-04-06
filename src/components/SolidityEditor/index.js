@@ -9,7 +9,6 @@ export default function SolidityEditor(props) {
     const { children } = props;
     let [initEditor, setInitEditor] = useState(false);
     let [value, setValue] = useState();
-    let [loading, setLoading] = useState(false);
     let [log, setLog] = useState([1,1,1,1,1,1,1,1,]);
 
     function onChange(newValue) {
@@ -23,10 +22,6 @@ export default function SolidityEditor(props) {
 
     function reload() {
         setValue(children.trim())
-    }
-
-    function compliler(params) {
-        
     }
 
     useEffect(() => {
@@ -45,8 +40,7 @@ export default function SolidityEditor(props) {
                 <>
                     <Operation 
                         reload={reload} 
-                        compliler={compliler} 
-                        loading={loading} 
+                        changeLog={changeLog}
                     />
                     <Console 
                         log={log}
