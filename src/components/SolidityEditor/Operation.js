@@ -3,6 +3,7 @@ import { Button } from "antd";
 import { getCompilerVersions, solidityCompiler } from "../../worker/compiler";
 import VmProvider from "../../worker/deploy";
 import { deploy } from "../../utils/deploy";
+import Abi from "./Abi";
 const vmProvider = new VmProvider();
 
 export default function Operation(props) {
@@ -15,6 +16,11 @@ export default function Operation(props) {
     let [abi, setAbi] = useState([]);
     let [bytecode, setBytecode] = useState();
     let [selectIndex, setSelectIndex] = useState();
+
+    function showInner(i) {
+        selectIndex = i === selectIndex ? null : i;
+        setSelectIndex(selectIndex);
+    }
 
     function initState() {
         setContract();
@@ -116,6 +122,17 @@ export default function Operation(props) {
             <Button onClick={() => compiler()} loading={loading} >
                 编译 / 部署
             </Button>
+            {
+                contract &&
+                <Abi 
+                    abi={abi}
+                    contractName={contractName}
+                    contract={contract}
+                    changeLog={changeLog}
+                    selectIndex={selectIndex}
+                    showInner={showInner}
+                />
+            }
         </div>
     )
 }

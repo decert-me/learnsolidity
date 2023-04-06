@@ -9,7 +9,7 @@ export default function Console(props) {
     }
 
     useEffect(() => {
-        scrollTopChange()
+        log.length > 0 && scrollTopChange()
     },[log])
 
     return (

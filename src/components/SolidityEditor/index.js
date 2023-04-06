@@ -9,7 +9,7 @@ export default function SolidityEditor(props) {
     const { children } = props;
     let [initEditor, setInitEditor] = useState(false);
     let [value, setValue] = useState();
-    let [log, setLog] = useState([1,1,1,1,1,1,1,1,]);
+    let [log, setLog] = useState([]);
 
     function onChange(newValue) {
         setValue(newValue)
