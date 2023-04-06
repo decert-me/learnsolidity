@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import { Button } from "antd";
+import { solidityCompiler } from "../../worker/compiler";
 
 export default function Operation(props) {
     
-    const { reload, changeLog } = props;
+    const { reload, changeLog, code } = props;
     let [loading, setLoading] = useState(false);
+    let [contract, setContract] = useState();
+    let [contractName, setContractName] = useState();
+    let [abi, setAbi] = useState([]);
+    let [bytecode, setBytecode] = useState();
+    let [selectIndex, setSelectIndex] = useState();
 
-    function initState(params) {
+    function initState() {
         setContract();
         setContractName();
         abi = []
@@ -14,7 +20,7 @@ export default function Operation(props) {
         setBytecode();
     }
 
-    function initSol(params) {
+    function initSol() {
         var input = {
             language: 'Solidity',
             sources: {
@@ -70,8 +76,8 @@ export default function Operation(props) {
     }
 
     async function goDeploy() {
-        const signer = vmProviderRef.current.provider.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
-        contract = await deploy(abi, bytecode, signer,[]);
+        // const signer = vmProviderRef.current.provider.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
+        // contract = await deploy(abi, bytecode, signer,[]);
         setContract({...contract});
     }
 

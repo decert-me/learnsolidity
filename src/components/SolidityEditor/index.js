@@ -41,6 +41,7 @@ export default function SolidityEditor(props) {
                     <Operation 
                         reload={reload} 
                         changeLog={changeLog}
+                        code={value}
                     />
                     <Console 
                         log={log}
