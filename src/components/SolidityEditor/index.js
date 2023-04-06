@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import CustomEditor from "../CustomEditor";
 import Console from "./Console";
 import Operation from "./Operation";
-
+import "../../css/component/solidityEditor.scss"
 
 export default function SolidityEditor(props) {
     

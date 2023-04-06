@@ -6,12 +6,12 @@ export default function Operation(props) {
     const { reload, compliler, loading } = props;
 
     return (
-        <div className="Operation">
+        <div className="operation">
             <Button onClick={() => reload()} >
                 重置
             </Button>
             <Button onClick={() => compliler()} loading={loading} >
-                编译/部署
+                编译 / 部署
             </Button>
         </div>
     )
