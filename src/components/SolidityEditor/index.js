@@ -7,9 +7,10 @@ import "../../css/component/solidityEditor.scss"
 export default function SolidityEditor(props) {
     
     const { children } = props;
+    let [initEditor, setInitEditor] = useState(false);
     let [value, setValue] = useState();
     let [loading, setLoading] = useState(false);
-    let [log, setLog] = useState([]);
+    let [log, setLog] = useState([1,1,1,1,1,1,1,1,]);
 
     function onChange(newValue) {
         setValue(newValue)
@@ -36,16 +37,22 @@ export default function SolidityEditor(props) {
         <div className="solidityEditor">
             <CustomEditor 
                 onChange={onChange} 
-                value={value}  
+                value={value}
+                isOk={setInitEditor}
             />
-            <Operation 
-                reload={reload} 
-                compliler={compliler} 
-                loading={loading} 
-            />
-            <Console 
-                log={log}
-            />
+            {
+                initEditor && 
+                <>
+                    <Operation 
+                        reload={reload} 
+                        compliler={compliler} 
+                        loading={loading} 
+                    />
+                    <Console 
+                        log={log}
+                    />
+                </>
+            }
         </div>
     )
 }

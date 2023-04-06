@@ -1,9 +1,13 @@
 import React, { useEffect } from "react"
 import Editor, { useMonaco } from "@monaco-editor/react";
+import {
+    LoadingOutlined,
+} from '@ant-design/icons';
 import { constans } from "../../utils/constans";
+
 export default function CustomEditor(props) {
     
-    const { value, onChange } = props;
+    const { value, onChange, isOk } = props;
     const { languages } = constans();
     const monaco = useMonaco();
 
@@ -12,6 +16,7 @@ export default function CustomEditor(props) {
     };
 
     function editorInit(params) {
+        isOk(true);
         monaco.languages.register({ id: 'solidity' });
         monaco.languages.setMonarchTokensProvider('solidity', languages.solidity);
       }
@@ -28,6 +33,7 @@ export default function CustomEditor(props) {
             value={value}
             options={options}
             onChange={onChange}
+            loading={<LoadingOutlined style={{color: "#fff", fontSize: "30px"}} />}
         /> 
     )
 }
