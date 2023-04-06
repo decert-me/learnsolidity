@@ -116,10 +116,10 @@ export default function Operation(props) {
 
     return (
         <div className="operation">
-            <Button onClick={() => reload()} >
+            <Button className="btn" onClick={() => reload()} >
                 重置
             </Button>
-            <Button onClick={() => compiler()} loading={loading} >
+            <Button className="btn" onClick={() => compiler()} loading={loading} >
                 编译 / 部署
             </Button>
             {

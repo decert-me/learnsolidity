@@ -23,6 +23,8 @@ p{
         border-radius: 0;
         color: #fff;
         font-weight: 800;
+    }
+    .btn{
         &:nth-child(1){
             background-color: #3e4451;
         }
@@ -51,11 +53,13 @@ p{
         display: flex;
         align-items: center;
         position: relative;
-        background-color: #0080FF;
         button{
             width: calc(100%);
             padding-inline: 25px;
             border-radius: 0;
+            background-color: #0080FF;
+            color: #fff;
+            border: none;
         }
         .icon{
             width: 100%;
@@ -114,22 +118,4 @@ p{
             margin-bottom: 0;
         }
     }
-
-    ::-webkit-scrollbar-track {
-        background-color: #e90000;
-    }
-      
-      /* Firefox浏览器 */
-      scrollbar-track {
-        background-color: #e90000;
-      }
-      
-      /* IE和Edge浏览器 */
-      -ms-overflow-style: none; /* 隐藏默认滚动条 */
-    //   scrollbar-face-color: #f2f2f2; /* 滚动条的背景颜色 */
-    //   scrollbar-arrow-color: #fff; /* 滚动条箭头的颜色 */
-    //   scrollbar-shadow-color: #fff; /* 滚动条阴影的颜色 */
-    //   scrollbar-highlight-color: #fff; /* 滚动条亮色区域的颜色 */
-    //   scrollbar-3dlight-color: #fff; /* 滚动条亮色区域的阴影颜色 */
-    //   scrollbar-darkshadow-color: #fff; /* 滚动条暗色区域的阴影颜色 */
 }
