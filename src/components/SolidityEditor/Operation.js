@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button } from "antd";
-import { solidityCompiler } from "../../worker/compiler";
+import { getCompilerVersions, solidityCompiler } from "../../worker/compiler";
+import VmProvider from "../../worker/deploy";
+import { deploy } from "../../utils/deploy";
+const vmProvider = new VmProvider();
 
 export default function Operation(props) {
     
     const { reload, changeLog, code } = props;
+    const vmProviderRef = useRef(vmProvider);
     let [loading, setLoading] = useState(false);
     let [contract, setContract] = useState();
     let [contractName, setContractName] = useState();
@@ -43,10 +47,17 @@ export default function Operation(props) {
         return input
     }
 
+    async function getVersions(params) {
+        await getCompilerVersions()
+        .then(res => {
+            console.log(res);
+        })
+    }
+
     async function goCompiler(input) {
         await new Promise((resolve, reject) => {
             solidityCompiler({
-                version: 'https://binaries.soliditylang.org/bin/soljson-v0.8.16+commit.07a7930e.js', 
+                version: 'https://ipfs.decert.me/sol/soljson-v0.8.16%2Bcommit.07a7930e.js', 
                 input: input
             })
             .then(res => {
@@ -76,8 +87,8 @@ export default function Operation(props) {
     }
 
     async function goDeploy() {
-        // const signer = vmProviderRef.current.provider.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
-        // contract = await deploy(abi, bytecode, signer,[]);
+        const signer = vmProviderRef.current.provider.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
+        contract = await deploy(abi, bytecode, signer,[]);
         setContract({...contract});
     }
 
@@ -85,7 +96,7 @@ export default function Operation(props) {
         changeLog('开始编译...')
         setLoading(true);
         initState();
-        // await getVersions()
+        await getVersions()
         const input = initSol();
         try {
             await goCompiler(input);
