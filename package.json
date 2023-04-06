@@ -23,6 +23,7 @@
     "assert": "^2.0.0",
     "clsx": "^1.2.1",
     "crypto-browserify": "^3.12.0",
+    "docusaurus-node-polyfills": "^1.0.0",
     "docusaurus-plugin-sass": "^0.2.3",
     "ethers": "^6.2.3",
     "https-browserify": "^1.0.0",

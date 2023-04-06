@@ -20,7 +20,8 @@ const config = {
 
   plugins: [
     require.resolve('./sitePlugin'),
-    "docusaurus-plugin-sass"
+    "docusaurus-plugin-sass", 
+    "docusaurus-node-polyfills",
   ],
 
   url: 'https://decert.me',
