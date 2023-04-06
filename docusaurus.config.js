@@ -18,6 +18,11 @@ const config = {
     },
   ],
 
+  plugins: [
+    require.resolve('./sitePlugin'),
+    "docusaurus-plugin-sass"
+  ],
+
   url: 'https://decert.me',
   baseUrl: '/tutorial/solidity/',
 
