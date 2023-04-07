@@ -4,6 +4,7 @@ import { getCompilerVersions, solidityCompiler } from "../../worker/compiler";
 import VmProvider from "../../worker/deploy";
 import { deploy } from "../../utils/deploy";
 import Abi from "./Abi";
+import { getVersion } from "../../utils/getVersion";
 const vmProvider = new VmProvider();
 
 export default function Operation(props) {
@@ -11,6 +12,7 @@ export default function Operation(props) {
     const { reload, changeLog, code } = props;
     const vmProviderRef = useRef(vmProvider);
     let [loading, setLoading] = useState(false);
+    let [selectVersion, setSelectVersion] = useState();
     let [contract, setContract] = useState();
     let [contractName, setContractName] = useState();
     let [abi, setAbi] = useState([]);
@@ -48,6 +50,13 @@ export default function Operation(props) {
         };
         const regex = /contract\s+(\w+)/;
         const result = code.match(regex);
+        // selectVersion
+        const version = /pragma solidity ((\^|>=)\d+\.\d+\.\d+|>=\d+\.\d+\.\d+ <\d+\.\d+\.\d+);/;
+        const versionResult = code.match(version);
+
+        selectVersion = getVersion(versionResult[1]);
+        setSelectVersion(selectVersion);
+
         contractName = result[1];
         setContractName(contractName);
         return input
@@ -63,7 +72,7 @@ export default function Operation(props) {
     async function goCompiler(input) {
         await new Promise((resolve, reject) => {
             solidityCompiler({
-                version: 'https://ipfs.decert.me/sol/soljson-v0.8.16%2Bcommit.07a7930e.js', 
+                version: 'https://ipfs.decert.me/sol/'+selectVersion, 
                 input: input
             })
             .then(res => {
@@ -102,7 +111,7 @@ export default function Operation(props) {
         changeLog('开始编译...')
         setLoading(true);
         initState();
-        await getVersions()
+        // await getVersions()
         const input = initSol();
         try {
             await goCompiler(input);
@@ -111,6 +120,7 @@ export default function Operation(props) {
             return
         }
         setLoading(false);
+        return
         goDeploy()
     }
 
