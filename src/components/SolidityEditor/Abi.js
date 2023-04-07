@@ -4,6 +4,7 @@ import {
     DownOutlined,
   } from '@ant-design/icons';
 import Inner from "./Inner";
+const point = (<>,&nbsp;</>)
 
 
 export default function Abi(props) {
