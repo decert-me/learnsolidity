@@ -18,6 +18,12 @@ const config = {
     },
   ],
 
+  plugins: [
+    require.resolve('./sitePlugin'),
+    "docusaurus-plugin-sass", 
+    "docusaurus-node-polyfills",
+  ],
+
   url: 'https://decert.me',
   baseUrl: '/tutorial/solidity/',
 
@@ -42,7 +48,10 @@ const config = {
         },
         blog: false,
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: [
+            require.resolve('./src/css/custom.css'),
+            require.resolve('antd/dist/reset.css')
+          ],
         },
       }),
     ],
