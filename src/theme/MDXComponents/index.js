@@ -11,7 +11,6 @@ import Admonition from '@theme/Admonition';
 import Mermaid from '@theme/Mermaid';
 import SolidityEditor from '@site/src/components/SolidityEditor';
 const MDXComponents = {
-  SolidityEditor: SolidityEditor,
   head: MDXHead,
   code: MDXCode,
   a: MDXA,
@@ -25,6 +24,7 @@ const MDXComponents = {
   h4: (props) => <MDXHeading as="h4" {...props} />,
   h5: (props) => <MDXHeading as="h5" {...props} />,
   h6: (props) => <MDXHeading as="h6" {...props} />,
+  SolidityEditor: (props) => <SolidityEditor {...props} />,
   admonition: Admonition,
   mermaid: Mermaid,
 };
