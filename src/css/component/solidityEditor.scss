@@ -93,11 +93,29 @@ p{
         color: #fff;
         font-weight: 600;
         text-align: center;
+        position: relative;
+        .close{
+            position: absolute;
+            right: 0;
+            top: 0;
+            color: #fff;
+            cursor: pointer;
+        }
         p{
             margin-bottom: 5px;
             &:last-child{
                 margin: 0;
             }
+        }
+    }
+    .title .close{
+        transform: rotate(180deg);
+    }
+    .hide{
+        height: 75px;
+        overflow: hidden;
+        .title .close{
+            transform: rotate(0deg);
         }
     }
 }

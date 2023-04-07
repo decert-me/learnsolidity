@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "antd";
 import {
     DownOutlined,
@@ -11,10 +11,17 @@ export default function Abi(props) {
     
     const { abi, contractName, contract, changeLog, selectIndex, showInner } = props;
 
+    let [isHideAbi, setIsHideAbi] = useState(true);
 
     async function callFunc(name, args) {
-        const result = args ? await contract[name].apply(null, args) : await contract[name]();
-        
+        let result;
+        try {
+            result = args ? await contract[name].apply(null, args) : await contract[name]();
+            
+        } catch (error) {
+            changeLog(`Error: ${error.message}`)
+            return
+        }
         if (result.hash) {
             changeLog(`发起请求：${contractName}.${name}( ) Gas使用: ${result.gasLimit.toString()}`)
         }else{
@@ -23,11 +30,14 @@ export default function Abi(props) {
     }
 
     return (
-        <ul>
+        <ul className={`${isHideAbi ? "show" : "hide" }`}>
             <li>
                 <div className="title">
                     <p>{contractName}</p>
                     <p>{contract.address.slice(0,6)}...{contract.address.slice(38,42)}</p>
+                    <div className="close" onClick={() => {setIsHideAbi(!isHideAbi)}}>
+                        <DownOutlined />
+                    </div>
                 </div>
             </li>
             {
