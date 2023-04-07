@@ -120,7 +120,6 @@ export default function Operation(props) {
             return
         }
         setLoading(false);
-        return
         goDeploy()
     }
 
