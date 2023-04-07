@@ -1,16 +1,15 @@
 import React, { useRef, useState } from "react";
 import { Button } from "antd";
 import { getCompilerVersions, solidityCompiler } from "../../worker/compiler";
-import VmProvider from "../../worker/deploy";
 import { deploy } from "../../utils/deploy";
 import Abi from "./Abi";
 import { getVersion } from "../../utils/getVersion";
-const vmProvider = new VmProvider();
+import { VmProvider } from "../../worker/deploy";
 
 export default function Operation(props) {
     
     const { reload, changeLog, code } = props;
-    const vmProviderRef = useRef(vmProvider);
+    const vmProviderRef = VmProvider();
     let [loading, setLoading] = useState(false);
     let [selectVersion, setSelectVersion] = useState();
     let [contract, setContract] = useState();
@@ -102,7 +101,7 @@ export default function Operation(props) {
     }
 
     async function goDeploy() {
-        const signer = vmProviderRef.current.provider.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
+        const signer = await vmProviderRef.getSigner('0x5B38Da6a701c568545dCfcB03FcB875f56beddC4');
         contract = await deploy(abi, bytecode, signer,[]);
         setContract({...contract});
     }

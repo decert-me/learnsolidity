@@ -12,6 +12,7 @@ self.onmessage = (e) => {
     }
     case 'sendAsync':
     {
+      console.log(provider);
       if (provider) {
         provider.sendAsync(data.query, (error, result) => {
           self.postMessage({
