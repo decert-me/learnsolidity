@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
@@ -47,6 +47,11 @@ function Feature({Svg, title, description}) {
 }
 
 export default function HomepageFeatures() {
+
+  useEffect(() => {
+    window.location.href = "https://decert.me/tutorials";
+  },[])
+  
   return (
     <section className={styles.features}>
       <div className="container">
