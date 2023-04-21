@@ -1,0 +1,74 @@
+.Header{
+    a:hover{
+        text-decoration: none;
+    }
+    .header-content{
+        width: 1286px;
+        height: 60px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .nav-left, .nav-right{
+        display: flex;
+        align-items: center;
+    }
+    .nav-left > a{
+        margin-left: 40px;
+    }
+    .logo{
+        width: auto;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        img{
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+    button{
+        height: 32px;
+        border-radius: 20px;
+    }
+    .user{
+        height: 32px;
+        padding-right: 10px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        img{
+            width: 28px;
+            height: 28px;
+            margin-left: 2px;
+            overflow: hidden;
+            border-radius: 50%;
+            background-color: yellowgreen;
+        }
+        p{
+            margin-left: 10px;
+        }
+    }
+    .test{
+        width: 200px !important;
+    }
+        .menu-item{
+            width: 100px;
+        }
+}
+.Header{
+    background-color: #fff;
+    border-bottom: 1px solid #D8D8D8;
+    &,.nav-left a{
+        color: #000;
+    }
+    .user{
+        color: #fff;
+        background-color: #000;
+    }
+}
