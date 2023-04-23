@@ -11,6 +11,7 @@ import NavbarMobileSidebarToggle from '@theme/Navbar/MobileSidebar/Toggle';
 import NavbarLogo from '@theme/Navbar/Logo';
 import NavbarSearch from '@theme/Navbar/Search';
 import styles from './styles.module.css';
+
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved
   return useThemeConfig().navbar.items;
@@ -18,15 +19,28 @@ function useNavbarItems() {
 function NavbarItems({items}) {
   return (
     <>
-      {items.map((item, i) => (
-        <NavbarItem {...item} key={i} />
-      ))}
+    {/* Custom: 隐藏github选项 */}
+      {
+        window.screen.width <= 996 ?  //mobile
+        (
+          items.length === 2 &&
+          items.map((item, i) => (
+            <NavbarItem className="custom-nav" {...item} key={i} />
+          ))
+        )
+        :
+        items.map((item, i) => (
+          <NavbarItem className="custom-nav" {...item} key={i} />
+        ))
+      }
+    {/* Custom: 隐藏github选项 */}
     </>
   );
 }
-function NavbarContentLayout({left, right}) {
+function NavbarContentLayout(props) {
+  const {left, right} = props;
   return (
-    <div className="navbar__inner">
+    <div className={`navbar__inner ${window.screen.width <= 996 ? "custom-header" : ""}`}>
       <div className="navbar__items">{left}</div>
       <div className="navbar__items navbar__items--right">{right}</div>
     </div>
@@ -37,6 +51,7 @@ export default function NavbarContent() {
   const items = useNavbarItems();
   const [leftItems, rightItems] = splitNavbarItems(items);
   const searchBarItem = items.find((item) => item.type === 'search');
+
   return (
     <NavbarContentLayout
       left={

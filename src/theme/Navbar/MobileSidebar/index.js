@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   useLockBodyScroll,
   useNavbarMobileSidebar,
@@ -14,10 +14,13 @@ export default function NavbarMobileSidebar() {
     return null;
   }
   return (
-    <NavbarMobileSidebarLayout
-      header={<NavbarMobileSidebarHeader />}
-      primaryMenu={<NavbarMobileSidebarPrimaryMenu />}
-      secondaryMenu={<NavbarMobileSidebarSecondaryMenu />}
-    />
+    <></>
+    // Custom: 隐藏侧边栏组件
+    // <NavbarMobileSidebarLayout
+    //   header={<NavbarMobileSidebarHeader />}
+    //   primaryMenu={<NavbarMobileSidebarPrimaryMenu />}
+    //   secondaryMenu={<NavbarMobileSidebarSecondaryMenu />}
+    // />
+    // Custom: 隐藏侧边栏组件
   );
 }

@@ -4,12 +4,19 @@ import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
 import { Divider, Modal } from "antd";
-import { useAccount, useConnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
 
-export const items = (address) => {
-    return [
+
+
+export default function CustomNav() {
+
+    const [ isOpen, setIsOpen ] = useState(false);
+    const { address, isConnected, connector } = useAccount();
+    const { disconnect: dis } = useDisconnect();
+
+    const items = [
         {
             label: (<a href={`https://decert.me/user/${address}`}>个人中心</a>),
             key: '1',
@@ -21,31 +28,22 @@ export const items = (address) => {
             icon: '',
         },
         {
-            label: (<p>断开链接</p>),
+            label: (<p onClick={disconnect}>断开链接</p>),
             key: '3',
             icon: '',
         }
-    ]
-}
+    ];
+    
+    async function disconnect() {
+        // await connector.disconnect();
+        dis();
+        console.log(isConnected);
+    }
 
-export default function CustomNav(params) {
-
-    const [ isOpen, setIsOpen ] = useState(false);
-    const { address, isConnected } = useAccount();
-    let [ menu, setMenu ] = useState([]);
-
-
-    function goDecertme(params) {
+    function goDecertme() {
         window.location.href = "https://decert.me";
     }
-    
-    useEffect(() => {
-        if (address) {
-            menu = items(address);
-            setMenu([...menu]);
-            console.log(menu);
-        }
-    },[address])
+
 
     return (
         <div className="Header">
@@ -71,40 +69,26 @@ export default function CustomNav(params) {
                     >
                         {i18n.language === 'zh-CN' ? "中文" : "EN"}
                     </Button> */}
-                {
-                    isConnected ?
-                        // <Dropdown
-                        //     placement="bottom" 
-                        //     arrow
-                        //     // menu={{menu}}
-                        //     menu={[
-                        //         {
-                        //             label: (<a href={`https://decert.me/user/${address}`}>个人中心</a>),
-                        //             key: '1',
-                        //             icon: '',
-                        //         },
-                        //         {
-                        //             label: (<a href={`https://decert.me/${address}`}>认证</a>),
-                        //             key: '2',
-                        //             icon: '',
-                        //         },
-                        //         {
-                        //             label: (<p>断开链接</p>),
-                        //             key: '3',
-                        //             icon: '',
-                        //         }
-                        //     ]}
-                        // >
-                            <div className="user">
-                                <img src={hashAvatar(address)} alt="" />
-                                <p>{nickName(address)}</p>
+                    {
+                        isConnected ? (
+                            <Dropdown
+                                placement="bottom" 
+                                arrow
+                                menu={{items}}
+                            >
+                                <div className="user">
+                                    <img src={hashAvatar(address)} alt="" />
+                                    <p>{nickName(address)}</p>
+                                </div>
+                            </Dropdown>
+                        )
+                        :
+                        (
+                            <div>
+                                <Button onClick={() => setIsOpen(true)}>链接钱包</Button>
                             </div>
-                        // </Dropdown>
-                    :
-                    <div>
-                        <Button onClick={() => setIsOpen(true)}>链接钱包</Button>
-                    </div>
-                }
+                        )
+                    }
                 </div>
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />

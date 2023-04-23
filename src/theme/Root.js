@@ -36,7 +36,9 @@ export default function Root({children}) {
 
     return (
         <WagmiConfig client={wagmiClient}>
+          <div className={window.screen.width <= 996 ? "custom-mobile" : ""}>
             {children}
+          </div>
         </WagmiConfig>
     )
 }

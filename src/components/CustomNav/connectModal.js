@@ -2,6 +2,8 @@ import { Divider, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from "../../hooks/useIsMounted";
+import MetaMask from "../../../static/img/MetaMask.png"
+import WalletConnect from "../../../static/img/WalletConnect.png"
 
 
 
@@ -50,13 +52,12 @@ export default function ConnectModal(props) {
                     >
                         <div className="item">
                             <div className="img">
-                                {/* {
+                                {
                                     x.name === 'MetaMask' ? 
-                                        <img src={require("@/assets/images/img/MetaMask.png")} alt="" />
+                                        <img src={MetaMask} alt="" />
                                         :
-                                        <img src={require("@/assets/images/img/WalletConnect.png")} alt="" />
-                                } */}
-                                {x.name}
+                                        <img src={WalletConnect} alt="" />
+                                }
                             </div>
                             <p className="name">
                                 {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
