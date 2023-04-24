@@ -20,7 +20,9 @@ import {
 import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 import clsx from 'clsx';
 import Link from '@docusaurus/Link';
-
+import {
+  HomeFilled,
+} from '@ant-design/icons';
 
 function useNavbarItems() {
   // TODO temporary casting until ThemeConfig type is improved
@@ -106,12 +108,11 @@ function NavbarContentLayout(props) {
           className="breadcrumbs"
           itemScope
           itemType="https://schema.org/BreadcrumbList">
-          {
-          homePageRoute && 
-            <>
-              <HomeBreadcrumbItem />
-            </>
-          }
+          <li className='breadcrumbs__item'>
+            <a href="https://decert.me/tutorials">
+              <HomeFilled style={{color: "#000"}} />
+            </a>
+          </li>
           {leftItems.concat(breadcrumbs).map((item, idx) => {
             const isLast = idx === leftItems.concat(breadcrumbs).length - 1;
             return (
