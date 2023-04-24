@@ -131,15 +131,12 @@ body{
 .custom-bread{
     display: none;
 }
-// 移动端隐藏侧边栏
-.custom-mobile{
-    .custom-nav{
-        display: block;
+
+@media screen and (max-width: 996px) {
+    .theme-doc-breadcrumbs{
+        display: none;
     }
-    .theme-doc-sidebar-menu{
-        padding-bottom: 30px;
-    }
-    .custom-header{
+    .navbar .navbar__inner{
         .breadcrumbs__item{
             margin-bottom: 5px;
         }
@@ -153,9 +150,16 @@ body{
             line-height: 44px;
             font-size: 20px;
         }
-        .select{
-            transform: rotate(180deg);
-        }
+    }
+
+
+
+    // 移动端隐藏侧边栏
+    .custom-nav{
+        display: block;
+    }
+    .theme-doc-sidebar-menu{
+        padding-bottom: 30px;
     }
     .custom-bread{
         width: 100%;

@@ -28,15 +28,9 @@ function useNavbarItems() {
 }
 function NavbarItems({items}) {
   return (
-    <>
-    {/* Custom: 隐藏github选项 */}
-      {
-          items.map((item, i) => (
-            <NavbarItem className="custom-nav" {...item} key={i} />
-          ))
-      }
-    {/* Custom: 隐藏github选项 */}
-    </>
+    items.map((item, i) => (
+      <NavbarItem className="custom-nav" {...item} key={i} />
+    ))
   );
 }
 
@@ -99,7 +93,7 @@ function NavbarContentLayout(props) {
   const breadcrumbs = useSidebarBreadcrumbs();
 
   return (
-    <div className={`navbar__inner ${typeof window !== 'undefined' && window.screen.width <= 996 ? "custom-header" : ""}`}>
+    <div className="navbar__inner">
       {
         typeof window !== 'undefined' && window.screen.width > 996 ?
         <>

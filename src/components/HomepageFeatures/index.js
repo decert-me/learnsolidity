@@ -47,12 +47,6 @@ function Feature({Svg, title, description}) {
 }
 
 export default function HomepageFeatures() {
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      window.location.href = "https://decert.me/tutorials";
-    }
-  },[])
   
   return (
     <section className={styles.features}>

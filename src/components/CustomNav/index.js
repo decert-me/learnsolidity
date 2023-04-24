@@ -11,6 +11,7 @@ import {
     GlobalOutlined
   } from '@ant-design/icons';
 import json from "./i18n.json";
+import Link from '@docusaurus/Link';
 
 
 export default function CustomNav() {
@@ -46,12 +47,6 @@ export default function CustomNav() {
         // console.log(isConnected);
     }
 
-    function goDecertme() {
-        if (typeof window !== 'undefined') {
-            window.location.href = "https://decert.me";
-        }
-    }
-
     function toggleI18n() {
         language = language === "cn" ? "en" : "cn";
         setLanguage(language);
@@ -67,8 +62,10 @@ export default function CustomNav() {
         <div className="Header">
             <div className="header-content">
                 <div className='nav-left'>
-                    <div className="logo" onClick={() => goDecertme()}>
-                        <img src={logo} alt="" />
+                    <div className="logo">
+                        <a href="https://decert.me">
+                            <img src={logo} alt="" />
+                        </a>
                     </div>
                     {
                         menus.map((e,i) => 
