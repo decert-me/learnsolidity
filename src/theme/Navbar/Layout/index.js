@@ -45,9 +45,7 @@ export default function NavbarLayout({children}) {
         },
       )}>
       {children}
-      {/* Custom: 隐藏侧边栏 */}
-      {/* <NavbarBackdrop onClick={mobileSidebar.toggle} /> */}
-      {/* Custom: 隐藏侧边栏 */}
+      <NavbarBackdrop onClick={mobileSidebar.toggle} />
       <NavbarMobileSidebar />
     </nav>
   );

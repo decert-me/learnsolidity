@@ -158,9 +158,6 @@ body{
     .custom-nav{
         display: block;
     }
-    .theme-doc-sidebar-menu{
-        padding-bottom: 30px;
-    }
     .custom-bread{
         width: 100%;
         margin-bottom: 10px;
@@ -174,6 +171,9 @@ body{
         }
         .block{
             display: block;
+        }
+        ul{
+            padding-bottom: 30px;
         }
     }
     .custom-mask{
