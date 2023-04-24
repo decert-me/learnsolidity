@@ -12,7 +12,7 @@ import {
   } from '@ant-design/icons';
 import json from "./i18n.json";
 import Link from '@docusaurus/Link';
-
+// import DocBreadcrumbs from '../../theme/DocBreadcrumbs';
 
 export default function CustomNav() {
 
@@ -59,13 +59,12 @@ export default function CustomNav() {
     ]
 
     return (
+        <>
         <div className="Header">
             <div className="header-content">
                 <div className='nav-left'>
                     <div className="logo">
-                        <a href="https://decert.me">
-                            <img src={logo} alt="" />
-                        </a>
+                        <img src={logo} alt="" />
                     </div>
                     {
                         menus.map((e,i) => 
@@ -168,6 +167,8 @@ export default function CustomNav() {
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
+        {/* <DocBreadcrumbs /> */}
+        </>
     )
 }
                 
