@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import Link from "@docusaurus/Link";
+import React, { useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
@@ -20,7 +19,7 @@ export default function CustomNav() {
     const { address, isConnected, connector } = useAccount();
     const { disconnect: dis } = useDisconnect();
     let [isOpenM, setIsOpenM] = useState(false);
-    let [language, setLanguage] = useState(navigator.language === "cn" ? "cn" : "en");
+    let [language, setLanguage] = useState("cn");
     
 
     const items = [
@@ -48,13 +47,14 @@ export default function CustomNav() {
     }
 
     function goDecertme() {
-        window.location.href = "https://decert.me";
+        if (typeof window !== 'undefined') {
+            window.location.href = "https://decert.me";
+        }
     }
 
     function toggleI18n() {
         language = language === "cn" ? "en" : "cn";
         setLanguage(language);
-        console.log(json[language].lesson);
     }
 
     const menus = [
@@ -79,7 +79,7 @@ export default function CustomNav() {
                     }
                 </div>
                 {
-                    window.screen.width <= 996 ? 
+                    typeof window !== 'undefined' && window?.screen.width <= 996 ? 
                     <div className='nav-right'>
                         {
                             isConnected && !isOpenM &&

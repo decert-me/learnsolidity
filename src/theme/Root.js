@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
@@ -36,7 +36,7 @@ export default function Root({children}) {
 
     return (
         <WagmiConfig client={wagmiClient}>
-          <div className={window.screen.width <= 996 ? "custom-mobile" : ""}>
+          <div className={typeof window !== 'undefined' && window.screen.width <= 996 ? "custom-mobile" : ""}>
             {children}
           </div>
         </WagmiConfig>

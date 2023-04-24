@@ -98,15 +98,10 @@ function NavbarContentLayout(props) {
   const homePageRoute = useHomePageRoute();
   const breadcrumbs = useSidebarBreadcrumbs();
 
-
-  useEffect(() => {
-    console.log(left);
-  },[])
-
   return (
-    <div className={`navbar__inner ${window.screen.width <= 996 ? "custom-header" : ""}`}>
+    <div className={`navbar__inner ${typeof window !== 'undefined' && window.screen.width <= 996 ? "custom-header" : ""}`}>
       {
-        window.screen.width > 996 ?
+        typeof window !== 'undefined' && window.screen.width > 996 ?
         <>
           <div className="navbar__items">{left}</div>
           <div className="navbar__items navbar__items--right">{right}</div>

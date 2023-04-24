@@ -57,7 +57,7 @@ export default function DocBreadcrumbs() {
     return null;
   }
   return (
-    window.screen.width > 996 &&
+    typeof window !== 'undefined' && window.screen.width > 996 &&
       <nav
         className={clsx(
           ThemeClassNames.docs.docBreadcrumbs,
