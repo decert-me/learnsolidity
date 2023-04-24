@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
 import {
@@ -11,13 +11,11 @@ import {
     GlobalOutlined
   } from '@ant-design/icons';
 import json from "./i18n.json";
-import Link from '@docusaurus/Link';
-// import DocBreadcrumbs from '../../theme/DocBreadcrumbs';
 
 export default function CustomNav() {
 
     const [ isOpen, setIsOpen ] = useState(false);
-    const { address, isConnected, connector } = useAccount();
+    const { address, isConnected } = useAccount();
     const { disconnect: dis } = useDisconnect();
     let [isOpenM, setIsOpenM] = useState(false);
     let [language, setLanguage] = useState("cn");
@@ -42,9 +40,7 @@ export default function CustomNav() {
     ];
     
     async function disconnect() {
-        // await connector.disconnect();
         dis();
-        // console.log(isConnected);
     }
 
     function toggleI18n() {
@@ -167,7 +163,6 @@ export default function CustomNav() {
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
-        {/* <DocBreadcrumbs /> */}
         </>
     )
 }
