@@ -3,11 +3,15 @@ import Link from "@docusaurus/Link";
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
-import { Divider, Modal } from "antd";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
-
+import {
+    MenuOutlined,
+    CloseOutlined,
+    GlobalOutlined
+  } from '@ant-design/icons';
+import json from "./i18n.json";
 
 
 export default function CustomNav() {
@@ -15,6 +19,9 @@ export default function CustomNav() {
     const [ isOpen, setIsOpen ] = useState(false);
     const { address, isConnected, connector } = useAccount();
     const { disconnect: dis } = useDisconnect();
+    let [isOpenM, setIsOpenM] = useState(false);
+    let [language, setLanguage] = useState(navigator.language === "cn" ? "cn" : "en");
+    
 
     const items = [
         {
@@ -28,7 +35,7 @@ export default function CustomNav() {
             icon: '',
         },
         {
-            label: (<p onClick={disconnect}>断开链接</p>),
+            label: (<p onClick={disconnect}>{json[language].disconnect}</p>),
             key: '3',
             icon: '',
         }
@@ -37,13 +44,24 @@ export default function CustomNav() {
     async function disconnect() {
         // await connector.disconnect();
         dis();
-        console.log(isConnected);
+        // console.log(isConnected);
     }
 
     function goDecertme() {
         window.location.href = "https://decert.me";
     }
 
+    function toggleI18n() {
+        language = language === "cn" ? "en" : "cn";
+        setLanguage(language);
+        console.log(json[language].lesson);
+    }
+
+    const menus = [
+        { to: "https://decert.me/tutorials", label: json[language].lesson },
+        { to: "https://decert.me/challenges", label: json[language].explore },
+        { to: "https://decert.me/vitae", label: json[language].cert }
+    ]
 
     return (
         <div className="Header">
@@ -52,44 +70,104 @@ export default function CustomNav() {
                     <div className="logo" onClick={() => goDecertme()}>
                         <img src={logo} alt="" />
                     </div>
-                    <a href="https://decert.me/tutorials">教程</a>
-                    <a href="https://decert.me/challenges">挑战</a>
-                    <a href="https://decert.me/vitae">认证</a>
-                </div>
-                <div className='nav-right'>
-                    {/* <Button
-                        type="ghost"
-                        ghost
-                        className='lang'
-                        onClick={() => {
-                            let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                            i18n.changeLanguage(lang);
-                            localStorage.setItem("decert.lang", lang)
-                        }}
-                    >
-                        {i18n.language === 'zh-CN' ? "中文" : "EN"}
-                    </Button> */}
                     {
-                        isConnected ? (
-                            <Dropdown
-                                placement="bottom" 
-                                arrow
-                                menu={{items}}
-                            >
-                                <div className="user">
-                                    <img src={hashAvatar(address)} alt="" />
-                                    <p>{nickName(address)}</p>
-                                </div>
-                            </Dropdown>
-                        )
-                        :
-                        (
-                            <div>
-                                <Button onClick={() => setIsOpen(true)}>链接钱包</Button>
-                            </div>
+                        menus.map((e,i) => 
+                            <a href={e.to} key={i}>
+                                {e.label}
+                            </a>    
                         )
                     }
                 </div>
+                {
+                    window.screen.width <= 996 ? 
+                    <div className='nav-right'>
+                        {
+                            isConnected && !isOpenM &&
+                                <Dropdown
+                                    placement="bottomRight" 
+                                    menu={{items}}
+                                    overlayStyle={{
+                                        width: "160px",
+                                        fontWeight: 500
+                                    }}
+                                >
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                    </div>
+                                </Dropdown>
+                        }
+                            
+                            <div 
+                                className={isOpenM ? "cfff":""}
+                                style={{fontSize: "16px"}}
+                                onClick={() => {setIsOpenM(!isOpenM)}} 
+                            >
+                                {
+                                    isOpenM ?
+                                    <CloseOutlined />
+                                    :
+                                    <MenuOutlined /> 
+                                }
+                            </div>
+                            <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
+                                <ul>
+                                    {
+                                        menus.map((e,i) => 
+                                            <a href={e.to}>
+                                                <li key={i}>
+                                                    {e.label}
+                                                </li>
+                                            </a>    
+                                        )
+                                    }
+                                    
+                                    <li className="toggle" onClick={() => toggleI18n()}>
+                                        <GlobalOutlined className='icon' />
+                                        <p>{language === 'cn' ? "中文" : "EN"}</p>
+                                    </li>
+                                </ul>
+
+                                {
+                                    isConnected ?
+                                    <Button danger type="primary" onClick={() => disconnect()}>{json[language].disconnect}</Button>
+                                    :
+                                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
+                                }
+                            </div>
+                        
+                    </div>
+                    :
+                    <div className='nav-right'>
+                        <Button
+                            type="ghost"
+                            ghost
+                            className='lang'
+                            onClick={() => toggleI18n()}
+                        >
+                            {language === 'cn' ? "中文" : "EN"}
+                        </Button>
+                        {
+                            isConnected ? (
+                                <Dropdown
+                                    placement="bottom" 
+                                    arrow
+                                    menu={{items}}
+                                >
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                        <p>{nickName(address)}</p>
+                                    </div>
+                                </Dropdown>
+                            )
+                            :
+                            (
+                                <div>
+                                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
+                                </div>
+                            )
+                        }
+                    </div>
+                }
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
