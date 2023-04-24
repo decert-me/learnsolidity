@@ -113,8 +113,8 @@ export default function CustomNav() {
                                 <ul>
                                     {
                                         menus.map((e,i) => 
-                                            <a href={e.to}>
-                                                <li key={i}>
+                                            <a href={e.to} key={i}>
+                                                <li>
                                                     {e.label}
                                                 </li>
                                             </a>    

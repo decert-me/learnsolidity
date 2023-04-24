@@ -9,7 +9,6 @@ import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
 import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 import styles from './styles.module.css';
-import NavbarMobileSidebarSecondaryMenu from '@theme/Navbar/MobileSidebar/SecondaryMenu';
 
 // TODO move to design system folder
 function BreadcrumbsItemLink({children, href, isLast}) {
@@ -58,12 +57,7 @@ export default function DocBreadcrumbs() {
     return null;
   }
   return (
-    <>
-    {/* Custom: 添加自定义bread */}
-      <div className='custom-bread'>
-        <NavbarMobileSidebarSecondaryMenu />
-      </div>
-    {/* Custom: 添加自定义bread */}
+      false &&
       <nav
         className={clsx(
           ThemeClassNames.docs.docBreadcrumbs,
@@ -81,7 +75,7 @@ export default function DocBreadcrumbs() {
           {
           homePageRoute && 
             <>
-              <HomeBreadcrumbItem />
+              <HomeBreadcrumbItem />xx
             </>
           }
           {breadcrumbs.map((item, idx) => {
@@ -100,6 +94,5 @@ export default function DocBreadcrumbs() {
           })}
         </ul>
       </nav>
-    </>
   );
 }

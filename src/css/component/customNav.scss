@@ -119,7 +119,12 @@
 //     background-color: #000;
 // }
   
-
+body{
+    overflow: auto !important;
+}
+.navbar{
+    height: auto;
+}
 .navigation-with-keyboard{
     overflow: auto !important;
 }
@@ -131,22 +136,49 @@
     .custom-nav{
         display: block;
     }
+    .theme-doc-sidebar-menu{
+        padding-bottom: 30px;
+    }
     .custom-header{
+        .breadcrumbs__item{
+            margin-bottom: 5px;
+        }
         .navbar__items{
             justify-content: flex-start;
             button, .navbar__brand{
                 display: none;
             }
         }
+        .custom-icon{
+            line-height: 44px;
+            font-size: 20px;
+        }
+        .select{
+            transform: rotate(180deg);
+        }
     }
     .custom-bread{
-        // max-height: 32px;
+        width: 100%;
         margin-bottom: 10px;
-        // overflow: hidden;
         display: block;
+        position: absolute;
+        top: 52px;
+        background-color: #fff;
+        z-index: 300;
         .navbar-sidebar__back{
             display: none;
         }
+        .block{
+            display: block;
+        }
+    }
+    .custom-mask{
+        width: 100%;
+        height: 80%;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background-color: #00000020;
     }
     .Header{
         .header-content{
