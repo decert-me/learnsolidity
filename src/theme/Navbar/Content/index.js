@@ -159,11 +159,11 @@ export default function NavbarContent() {
   }
 
   useEffect(() => {
-    leftItems.map(e => {
+    leftItems.forEach(e => {
       if (!e.href) {
         primaryMenu.push(e)
       }
-    })
+    });
     setPrimaryMenu([...primaryMenu])
   },[])
 
@@ -172,7 +172,6 @@ export default function NavbarContent() {
     const resizeObserver = new ResizeObserver(entries => {
       // 监听到元素大小变化后执行的回调函数
       const { height } = entries[0].contentRect;
-      console.log(entries[0].contentRect);
       top = height;
       setTop(top);
     });

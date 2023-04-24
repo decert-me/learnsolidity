@@ -1,6 +1,6 @@
 import { Divider, Modal } from "antd";
 import React, { useEffect, useState } from "react";
-import { useAccount, useConnect } from "wagmi";
+// import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from "../../hooks/useIsMounted";
 import MetaMask from "../../../static/img/MetaMask.png"
 import WalletConnect from "../../../static/img/WalletConnect.png"
@@ -11,12 +11,12 @@ export default function ConnectModal(props) {
     
     const { isOpen, setIsOpen } = props;
     const isMounted = useIsMounted();
-    const { connect, connectors } = useConnect();
-    const { connector, isReconnecting } = useAccount({
-        onConnect() {
-            handleCancel()
-        }
-    })
+    // const { connect, connectors } = useConnect();
+    // const { connector, isReconnecting } = useAccount({
+    //     onConnect() {
+    //         handleCancel()
+    //     }
+    // })
     const [ isShow, setIsShow ] = useState(false);
 
     function handleOk() {
@@ -42,7 +42,7 @@ export default function ConnectModal(props) {
             width={500}
             centered
         >
-            {
+            {/* {
                 connectors.map((x,i) => (
                     <div key={x.name}>
                     <div
@@ -76,7 +76,7 @@ export default function ConnectModal(props) {
                     }
                     </div>
                 ))
-                }
+                } */}
         </Modal>
     )
 }

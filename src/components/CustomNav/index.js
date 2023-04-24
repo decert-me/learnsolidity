@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+// import { useAccount, useConnect, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
 import {
@@ -16,8 +16,11 @@ import json from "./i18n.json";
 export default function CustomNav() {
 
     const [ isOpen, setIsOpen ] = useState(false);
-    const { address, isConnected, connector } = useAccount();
-    const { disconnect: dis } = useDisconnect();
+    // const { address, isConnected, connector } = useAccount();
+    // const { disconnect: dis } = useDisconnect();
+    const address = "";
+    const isConnected = false;
+    
     let [isOpenM, setIsOpenM] = useState(false);
     let [language, setLanguage] = useState("cn");
     
@@ -42,7 +45,7 @@ export default function CustomNav() {
     
     async function disconnect() {
         // await connector.disconnect();
-        dis();
+        // dis();
         // console.log(isConnected);
     }
 
