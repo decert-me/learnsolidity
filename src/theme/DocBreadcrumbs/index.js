@@ -57,7 +57,7 @@ export default function DocBreadcrumbs() {
     return null;
   }
   return (
-      false &&
+    window.screen.width > 996 &&
       <nav
         className={clsx(
           ThemeClassNames.docs.docBreadcrumbs,
@@ -75,7 +75,7 @@ export default function DocBreadcrumbs() {
           {
           homePageRoute && 
             <>
-              <HomeBreadcrumbItem />xx
+              <HomeBreadcrumbItem />
             </>
           }
           {breadcrumbs.map((item, idx) => {

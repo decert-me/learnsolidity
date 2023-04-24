@@ -31,7 +31,6 @@ function NavbarItems({items}) {
     <>
     {/* Custom: 隐藏github选项 */}
       {
-        (window.screen.width <= 996) === false || items.length === 2 &&  //mobile
           items.map((item, i) => (
             <NavbarItem className="custom-nav" {...item} key={i} />
           ))
@@ -99,12 +98,21 @@ function NavbarContentLayout(props) {
   const homePageRoute = useHomePageRoute();
   const breadcrumbs = useSidebarBreadcrumbs();
 
+
+  useEffect(() => {
+    console.log(left);
+  },[])
+
   return (
     <div className={`navbar__inner ${window.screen.width <= 996 ? "custom-header" : ""}`}>
-      {/* <div className="navbar__items">{left}</div>
-      <div className="navbar__items navbar__items--right">{right}</div> */}
-
-
+      {
+        window.screen.width > 996 ?
+        <>
+          <div className="navbar__items">{left}</div>
+          <div className="navbar__items navbar__items--right">{right}</div>
+        </>
+        :
+        <>
         <ul
           className="breadcrumbs"
           itemScope
@@ -136,6 +144,8 @@ function NavbarContentLayout(props) {
             );
           })}
         </ul>
+        </>
+      }
     </div>
   );
 }
@@ -147,6 +157,7 @@ export default function NavbarContent() {
   let [select, setSelect] = useState(false);
   const [isShow, setIsShow] = useState(false);
   let [primaryMenu, setPrimaryMenu] = useState([]);
+  let [top, setTop] = useState(0);
 
   function toggleMenu(params) {
     setIsShow(params)
@@ -160,6 +171,24 @@ export default function NavbarContent() {
     })
     setPrimaryMenu([...primaryMenu])
   },[])
+
+  useEffect(() => {
+    const box = document.querySelector(".navbar");
+    const resizeObserver = new ResizeObserver(entries => {
+      // 监听到元素大小变化后执行的回调函数
+      const { height } = entries[0].contentRect;
+      console.log(entries[0].contentRect);
+      top = height;
+      setTop(top);
+    });
+
+    resizeObserver.observe(box);
+
+    return () => {
+      resizeObserver.unobserve(box);
+    };
+  }, []);
+
 
   return (
     <>
@@ -193,7 +222,7 @@ export default function NavbarContent() {
       {
         select &&
         <>
-          <div className='custom-bread'>
+          <div className='custom-bread' style={{top: `${top + 16}px`}}>
             {
               isShow ?
               <NavbarMobileSidebarPrimaryMenu />
