@@ -28,12 +28,9 @@ function BreadcrumbsItemLink({children, href, isLast}) {
     );
   }
   return href ? (
-    // <Link className={className} href={href} itemProp="item">
-    //   <span itemProp="name">{children}</span>
-    // </Link>
-    <span className={className} itemProp="name">
-        {children}
-      </span>
+    <Link className={className} href={href} itemProp="item">
+      <span itemProp="name">{children}</span>
+    </Link>
   ) : (
     // TODO Google search console doesn't like breadcrumb items without href.
     // The schema doesn't seem to require `id` for each `item`, although Google
