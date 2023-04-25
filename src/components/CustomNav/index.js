@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-black.png"
@@ -19,6 +19,7 @@ export default function CustomNav() {
     const { disconnect: dis } = useDisconnect();
     let [isOpenM, setIsOpenM] = useState(false);
     let [language, setLanguage] = useState("cn");
+    let [cache, setCache] = useState("");
     
 
     const items = [
@@ -53,6 +54,18 @@ export default function CustomNav() {
         { to: "https://decert.me/challenges", label: json[language].explore },
         { to: "https://decert.me/vitae", label: json[language].cert }
     ]
+
+    useEffect(() => {
+        if (isOpenM) {
+          cache = document.querySelector("body").style.cssText;
+          setCache(cache);
+          document.querySelector("body").style.cssText = cache + "overflow: hidden !important;"
+          document.querySelector("#docusaurus_skipToContent_fallback").style.cssText = "z-index: 1;"
+        }else{
+          document.querySelector("body").style.cssText = cache
+          document.querySelector("#docusaurus_skipToContent_fallback").style.cssText = ""
+        }
+    },[isOpenM])
 
     return (
         <>
@@ -101,32 +114,6 @@ export default function CustomNav() {
                                     <MenuOutlined /> 
                                 }
                             </div>
-                            <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
-                                <ul>
-                                    {
-                                        menus.map((e,i) => 
-                                            <a href={e.to} key={i}>
-                                                <li>
-                                                    {e.label}
-                                                </li>
-                                            </a>    
-                                        )
-                                    }
-                                    
-                                    <li className="toggle" onClick={() => toggleI18n()}>
-                                        <GlobalOutlined className='icon' />
-                                        <p>{language === 'cn' ? "中文" : "EN"}</p>
-                                    </li>
-                                </ul>
-
-                                {
-                                    isConnected ?
-                                    <Button danger type="primary" onClick={() => disconnect()}>{json[language].disconnect}</Button>
-                                    :
-                                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
-                                }
-                            </div>
-                        
                     </div>
                     :
                     <div className='nav-right'>
@@ -163,6 +150,34 @@ export default function CustomNav() {
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
+        {
+            typeof window !== 'undefined' && window?.screen.width <= 996 &&
+            <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
+                <ul>
+                    {
+                        menus.map((e,i) => 
+                            <a href={e.to} key={i}>
+                                <li>
+                                    {e.label}
+                                </li>
+                            </a>    
+                        )
+                    }
+                    
+                    <li className="toggle" onClick={() => toggleI18n()}>
+                        <GlobalOutlined className='icon' />
+                        <p>{language === 'cn' ? "中文" : "EN"}</p>
+                    </li>
+                </ul>
+    
+                {
+                    isConnected ?
+                    <Button danger type="primary" onClick={() => disconnect()}>{json[language].disconnect}</Button>
+                    :
+                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
+                }
+            </div>
+        }
         </>
     )
 }

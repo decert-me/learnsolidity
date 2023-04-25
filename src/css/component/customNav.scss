@@ -233,54 +233,55 @@ body{
             color: #000;
         }
         .nav-right{
-            .mask-box{
-                width: 100vh;
-                height: calc(100vh - 3.75rem);
-                display: none;
-                background-color: #fff;
-                position: fixed;
-                top: 3.75rem;
-                left: 0;
-                li{
-                    height: 4.375rem;
-                    padding-left: 2.125rem;
-                    padding-right: 2.125rem;
-                    line-height: 4.375rem;
-                    font-size: 1.25rem;
-                    font-weight: 700;
-                    border-bottom: .0625rem solid #F7F7F7;
-                    color: #3D3D3D;
-                    display: flex;
-                }
-                .toggle{
-                    font-weight: 500;
-                    .icon{
-                        margin-top: .1875rem;
-                        font-size: 1.6875rem;
-                        line-height: 4.375rem;
-                    }
-                    p{
-                        margin-left: .3125rem;
-                        font-size: .875rem;
-                    }
-                }
-                a{
-                    color: #3D3D3D;
-                }
-                button{
-                    width: 78vw;
-                    height: 3.125rem;
-                    border-radius: 1.5625rem;
-                    position: absolute;
-                    left: calc((100vw - 78vw) / 2);
-                    bottom: 15%;
-                }
+            
+        }
+    }
+    .mask-box{
+        width: 100vh;
+        height: calc(100vh - 3.75rem);
+        display: none;
+        background-color: #fff;
+        position: fixed;
+        top: 3.75rem;
+        left: 0;
+        li{
+            height: 4.375rem;
+            padding-left: 2.125rem;
+            padding-right: 2.125rem;
+            line-height: 4.375rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            border-bottom: .0625rem solid #F7F7F7;
+            color: #3D3D3D;
+            display: flex;
+        }
+        .toggle{
+            font-weight: 500;
+            .icon{
+                margin-top: .1875rem;
+                font-size: 1.6875rem;
+                line-height: 4.375rem;
             }
-            .mask-box-show{
-                display: block;
-                z-index: 300;
+            p{
+                margin-left: .3125rem;
+                font-size: .875rem;
             }
         }
+        a{
+            color: #3D3D3D;
+        }
+        button{
+            width: 78vw;
+            height: 3.125rem;
+            border-radius: 1.5625rem;
+            position: absolute;
+            left: calc((100vw - 78vw) / 2);
+            bottom: 15%;
+        }
+    }
+    .mask-box-show{
+        display: block;
+        z-index: 300;
     }
     .Header{
         background-color: #fff;

@@ -44,7 +44,6 @@ function BreadcrumbsItemLink({children, href, isLast}) {
 function BreadcrumbsItem({children, active, index, addMicrodata, select, setSelect, toggleMenu}) {
   function isSelect(params) {
     if (setSelect) {      
-      console.log(setSelect, index);
       if (index === 1) {
         toggleMenu(false)
         setSelect(!select)
@@ -118,6 +117,15 @@ export default function DocBreadcrumbs() {
   if (!breadcrumbs) {
     return null;
   }
+
+  useEffect(() => {
+    if (select) {
+      document.querySelector("body").style.cssText = "overflow: hidden !important;"
+    }else{
+      document.querySelector("body").style.cssText = "overflow: auto;"
+    }
+  },[select])
+
   return (
     <>
       <nav
@@ -192,7 +200,7 @@ export default function DocBreadcrumbs() {
       </nav>
       {
         select &&
-        <>
+        <div>
           <div className='custom-bread' style={{top: `${top + 16 + 60 + 5}px`}}>
             {
               isShow ?
@@ -204,7 +212,7 @@ export default function DocBreadcrumbs() {
             }
           </div>
           <div className="custom-mask" onClick={() => setSelect(false)}></div>
-        </>
+        </div>
       }
     </>
   );
