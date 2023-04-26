@@ -1,0 +1,20 @@
+{
+    "cn": {
+        "explore": "挑战",
+        "lesson": "教程",
+        "lesson-sub": "推荐课程",
+        "cert": "认证",
+        "connect": "链接钱包",
+        "disconnect": "断开连接",
+        "profile": "个人中心"
+    },
+    "en": {
+        "explore": "Challenges",
+        "lesson": "Tutorials",
+        "lesson-sub": "Recommended course",
+        "cert": "Vitae",
+        "connect": "Connect wallet",
+        "disconnect": "Disconnect",
+        "profile": "Profile"
+    }
+}

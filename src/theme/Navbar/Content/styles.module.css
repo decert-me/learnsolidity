@@ -1,0 +1,10 @@
+/*
+Hide color mode toggle in small viewports
+ */
+@media (max-width: 996px) {
+  /* Custom: 展示被隐藏的主标题  ===> 区块链基础、学习 Solidity */
+  .colorModeToggle {
+    display: block;
+  }
+  /* Custom: 展示被隐藏的主标题  ===> 区块链基础、学习 Solidity */
+}

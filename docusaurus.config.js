@@ -63,11 +63,11 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Decert.me',
-        logo: {
-          alt: 'Decert Logo',
-          src: 'img/logo.png',
-        },
+        // title: 'Decert.me',
+        // logo: {
+        //   alt: 'Decert Logo',
+        //   src: 'img/logo.png',
+        // },
         items: [
           {
             label: '区块链基础',
