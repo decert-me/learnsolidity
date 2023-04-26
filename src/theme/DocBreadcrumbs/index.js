@@ -15,6 +15,8 @@ import styles from './styles.module.css';
 import {
   HomeFilled,
 } from '@ant-design/icons';
+import { useLocation } from '@docusaurus/router';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
 // TODO move to design system folder
@@ -79,6 +81,8 @@ function useNavbarItems() {
 export default function DocBreadcrumbs() {
   const breadcrumbs = useSidebarBreadcrumbs();
   const items = useNavbarItems();
+  const location = useLocation();
+  const baseUrl = useBaseUrl('/', { forcePrependBaseUrl: true });
   const [leftItems, rightItems] = splitNavbarItems(items);
   const [isShow, setIsShow] = useState(false);
   let [select, setSelect] = useState(false);
@@ -91,7 +95,8 @@ export default function DocBreadcrumbs() {
 
   useEffect(() => {
     leftItems.map(e => {
-      if (!e.href) {
+      const base = e.docId.split("/")[0];
+      if (location.pathname.includes(base)) {
         primaryMenu.push(e)
       }
     })
