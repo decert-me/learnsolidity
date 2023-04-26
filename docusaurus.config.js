@@ -25,8 +25,8 @@ const config = {
   ],
 
   url: 'https://decert.me',
-  baseUrl: '/tutorial/solidity/',
-
+  baseUrl: '/tutorial',
+// tutorial/solidity/
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
@@ -69,14 +69,20 @@ const config = {
         //   src: 'img/logo.png',
         // },
         items: [
+          // {
+          //   label: '区块链基础',
+          //   position: 'left',
+          //   href: 'https://decert.me/tutorial/block_basic/start/',
+          // },
           {
-            label: '区块链基础',
+            type: 'doc',
+            docId: 'block_basic/start',
             position: 'left',
-            href: 'https://decert.me/tutorial/block_basic/start/',
+            label: '区块链基础',
           },
           {
             type: 'doc',
-            docId: 'intro',
+            docId: 'solidity/intro',
             position: 'left',
             label: '学习 Solidity',
           },
@@ -99,7 +105,7 @@ const config = {
               },
               {
                 label: 'Solidity 教程',
-                to: '/intro',
+                to: '/solidity/intro',
                 
               },
             ],
