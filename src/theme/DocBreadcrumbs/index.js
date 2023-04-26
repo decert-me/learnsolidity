@@ -4,11 +4,9 @@ import {ThemeClassNames, useThemeConfig} from '@docusaurus/theme-common';
 import {
   splitNavbarItems,
   useSidebarBreadcrumbs,
-  useHomePageRoute,
 } from '@docusaurus/theme-common/internal';
 import Link from '@docusaurus/Link';
 import {translate} from '@docusaurus/Translate';
-import HomeBreadcrumbItem from '@theme/DocBreadcrumbs/Items/Home';
 import NavbarMobileSidebarSecondaryMenu from '@theme/Navbar/MobileSidebar/SecondaryMenu';
 import NavbarMobileSidebarPrimaryMenu from '@theme/Navbar/MobileSidebar/PrimaryMenu';
 import styles from './styles.module.css';
@@ -16,7 +14,6 @@ import {
   HomeFilled,
 } from '@ant-design/icons';
 import { useLocation } from '@docusaurus/router';
-import useBaseUrl from '@docusaurus/useBaseUrl';
 
 
 // TODO move to design system folder
@@ -82,7 +79,6 @@ export default function DocBreadcrumbs() {
   const breadcrumbs = useSidebarBreadcrumbs();
   const items = useNavbarItems();
   const location = useLocation();
-  const baseUrl = useBaseUrl('/', { forcePrependBaseUrl: true });
   const [leftItems, rightItems] = splitNavbarItems(items);
   const [isShow, setIsShow] = useState(false);
   let [select, setSelect] = useState(false);
