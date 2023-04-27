@@ -101,7 +101,7 @@ const config = {
             items: [
               {
                 label: '区块链基础',
-                href: 'https://decert.me/tutorial/block_basic/bitcoin/',
+                href: '/block_basic/start',
               },
               {
                 label: 'Solidity 教程',
