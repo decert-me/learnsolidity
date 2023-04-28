@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
-import logo from "../../../static/img/logo-black.png"
+import logo from "../../../static/img/logo-normal.png"
 import { useAccount, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
@@ -49,6 +49,12 @@ export default function CustomNav() {
         setLanguage(language);
     }
 
+    function goHome(params) {
+        if (typeof window !== 'undefined') {
+            window.open("https://decert.me", "_self");
+        }
+    }
+
     const menus = [
         { to: "https://decert.me/tutorials", label: json[language].lesson },
         { to: "https://decert.me/challenges", label: json[language].explore },
@@ -72,7 +78,7 @@ export default function CustomNav() {
         <div className="Header">
             <div className="header-content">
                 <div className='nav-left'>
-                    <div className="logo">
+                    <div className="logo" onClick={goHome}>
                         <img src={logo} alt="" />
                     </div>
                     {
