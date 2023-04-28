@@ -1,11 +1,12 @@
 .Header{
     z-index: 1;
+    height: 55px;
     a:hover{
         text-decoration: none;
     }
     .header-content{
         width: 1286px;
-        height: 60px;
+        height: 100%;
         margin: 0 auto;
         display: flex;
         align-items: center;
@@ -17,7 +18,8 @@
         align-items: center;
     }
     .nav-left > a{
-        margin-left: 40px;
+        margin-left: 50px;
+        font-size: 14px;
     }
     .logo{
         width: auto;
@@ -54,6 +56,7 @@
         }
         p{
             margin-left: 10px;
+            font-size: 14px;
         }
     }
     .test{

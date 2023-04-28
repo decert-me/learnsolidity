@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Dropdown } from "antd";
 import "../../css/component/customNav.scss"
-import logo from "../../../static/img/logo-black.png"
+import logo from "../../../static/img/logo-normal.png"
 import { useAccount, useDisconnect } from "wagmi";
 import ConnectModal from './connectModal';
 import { hashAvatar, nickName } from '../../utils/common';
