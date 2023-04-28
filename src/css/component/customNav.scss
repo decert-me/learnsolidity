@@ -1,6 +1,7 @@
 .Header{
     z-index: 1;
     height: 55px;
+    box-sizing: content-box;
     a:hover{
         text-decoration: none;
     }
