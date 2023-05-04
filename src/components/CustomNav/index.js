@@ -18,6 +18,7 @@ export default function CustomNav() {
     const { address, isConnected } = useAccount();
     const { disconnect: dis } = useDisconnect();
     let [isOpenM, setIsOpenM] = useState(false);
+    let [isMobile, setIsMobile] = useState(false);
     let [language, setLanguage] = useState("cn");
     let [cache, setCache] = useState("");
     
@@ -73,6 +74,11 @@ export default function CustomNav() {
         }
     },[isOpenM])
 
+    useEffect(() => {
+        isMobile = document.documentElement.clientWidth <= 996;
+        setIsMobile(isMobile);
+    },[])
+
     return (
         <>
         <div className="Header">
@@ -89,25 +95,25 @@ export default function CustomNav() {
                         )
                     }
                 </div>
-                {
-                    typeof window !== 'undefined' && window?.screen.width <= 996 ? 
-                    <div className='nav-right'>
-                        {
-                            isConnected && !isOpenM &&
-                                <Dropdown
-                                    placement="bottomRight" 
-                                    menu={{items}}
-                                    overlayStyle={{
-                                        width: "160px",
-                                        fontWeight: 500
-                                    }}
-                                >
-                                    <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
-                                    </div>
-                                </Dropdown>
-                        }
-                            
+                <div className='nav-right'>
+                    {
+                        isMobile ?
+                        <>
+                            {
+                                isConnected && !isOpenM &&
+                                    <Dropdown
+                                        placement="bottomRight" 
+                                        menu={{items}}
+                                        overlayStyle={{
+                                            width: "160px",
+                                            fontWeight: 500
+                                        }}
+                                    >
+                                        <div className="user">
+                                            <img src={hashAvatar(address)} alt="" />
+                                        </div>
+                                    </Dropdown>
+                            }
                             <div 
                                 className={isOpenM ? "cfff":""}
                                 style={{fontSize: "16px"}}
@@ -120,44 +126,39 @@ export default function CustomNav() {
                                     <MenuOutlined /> 
                                 }
                             </div>
-                    </div>
-                    :
-                    <div className='nav-right'>
-                        <Button
-                            type="ghost"
-                            ghost
-                            className='lang'
-                            onClick={() => toggleI18n()}
-                        >
-                            {language === 'cn' ? "中文" : "EN"}
-                        </Button>
-                        {
-                            isConnected ? (
-                                <Dropdown
-                                    placement="bottom" 
-                                    arrow
-                                    menu={{items}}
-                                >
-                                    <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
-                                        <p>{nickName(address)}</p>
-                                    </div>
-                                </Dropdown>
-                            )
-                            :
-                            (
+                        </>
+                        :
+                        <>
+                            <Dropdown
+                                placement="bottom" 
+                                arrow
+                                menu={{items}}
+                            >
+                                <div className="user">
+                                    {
+                                        address &&
+                                        <>
+                                            <img src={hashAvatar(address)} alt="" />
+                                            <p>{nickName(address)}</p>
+                                        </>
+                                    }
+
+                                </div>
+                            </Dropdown>
+                            {
+                                !address && 
                                 <div>
                                     <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
                                 </div>
-                            )
-                        }
-                    </div>
-                }
+                            }
+                        </>
+                    }
+                </div>
             </div>
             <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         {
-            typeof window !== 'undefined' && window?.screen.width <= 996 &&
+            isMobile &&
             <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
                 <ul>
                     {
