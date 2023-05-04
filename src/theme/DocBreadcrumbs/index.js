@@ -81,10 +81,11 @@ export default function DocBreadcrumbs() {
   const location = useLocation();
   const [leftItems, rightItems] = splitNavbarItems(items);
   const [isShow, setIsShow] = useState(false);
+  let [isMobile, setIsMobile] = useState(false);
   let [select, setSelect] = useState(false);
   let [primaryMenu, setPrimaryMenu] = useState([]);
   let [top, setTop] = useState(0);
- 
+  
   function toggleMenu(params) {
     setIsShow(params)
   }
@@ -127,6 +128,11 @@ export default function DocBreadcrumbs() {
     }
   },[select])
 
+  useEffect(() => {
+    isMobile = document.documentElement.clientWidth <= 996 ? true : false;
+    setIsMobile(isMobile);
+  },[])
+
   return (
     <>
       <nav
@@ -140,7 +146,7 @@ export default function DocBreadcrumbs() {
           description: 'The ARIA label for the breadcrumbs',
         })}>
           {
-            typeof window !== 'undefined' && window.screen.width > 996 ?
+            isMobile ?
             <ul
               className="breadcrumbs"
               itemScope
@@ -150,8 +156,8 @@ export default function DocBreadcrumbs() {
                 <HomeFilled style={{color: "#000"}} />
               </a>
             </li>
-              {breadcrumbs.map((item, idx) => {
-                const isLast = idx === breadcrumbs.length - 1;
+            {primaryMenu.concat(breadcrumbs).map((item, idx) => {
+              const isLast = idx === primaryMenu.concat(breadcrumbs).length - 1;
                 return (
                   <BreadcrumbsItem
                     key={idx}
