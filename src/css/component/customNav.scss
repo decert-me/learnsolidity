@@ -120,10 +120,18 @@
         color: rgb(169, 169, 188);
     }
 }
-// .navbar__toggle{
-//     color: white;
-//     background-color: #000;
-// }
+.modalSigner{
+    .ant-modal-content{
+        background: none;
+    }
+    .ant-modal-content{
+        background-color: #222832 !important;
+    }
+    .ant-modal-confirm-title{
+        color: #fff !important;
+        text-align: center;
+    }
+}
   
 body{
     overflow: auto !important;
