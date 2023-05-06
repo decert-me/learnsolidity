@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Dropdown } from "antd";
+import { Button } from "antd";
 import "../../css/component/customNav.scss"
 import logo from "../../../static/img/logo-normal.png"
-import { useAccount, useDisconnect } from "wagmi";
-import ConnectModal from './connectModal';
-import { hashAvatar, nickName } from '../../utils/common';
 import {
     MenuOutlined,
     CloseOutlined,
@@ -14,37 +11,11 @@ import json from "./i18n.json";
 
 export default function CustomNav() {
 
-    const [ isOpen, setIsOpen ] = useState(false);
-    const { address, isConnected } = useAccount();
-    const { disconnect: dis } = useDisconnect();
     let [isOpenM, setIsOpenM] = useState(false);
     let [isMobile, setIsMobile] = useState(false);
     let [language, setLanguage] = useState("cn");
     let [cache, setCache] = useState("");
     
-
-    const items = [
-        {
-            label: (<a href={`https://decert.me/user/${address}`}>个人中心</a>),
-            key: '1',
-            icon: '',
-        },
-        {
-            label: (<a href={`https://decert.me/${address}`}>认证</a>),
-            key: '2',
-            icon: '',
-        },
-        {
-            label: (<p onClick={disconnect}>{json[language].disconnect}</p>),
-            key: '3',
-            icon: '',
-        }
-    ];
-    
-    async function disconnect() {
-        dis();
-    }
-
     function toggleI18n() {
         language = language === "cn" ? "en" : "cn";
         setLanguage(language);
@@ -99,21 +70,6 @@ export default function CustomNav() {
                     {
                         isMobile ?
                         <>
-                            {
-                                isConnected && !isOpenM &&
-                                    <Dropdown
-                                        placement="bottomRight" 
-                                        menu={{items}}
-                                        overlayStyle={{
-                                            width: "160px",
-                                            fontWeight: 500
-                                        }}
-                                    >
-                                        <div className="user">
-                                            <img src={hashAvatar(address)} alt="" />
-                                        </div>
-                                    </Dropdown>
-                            }
                             <div 
                                 className={isOpenM ? "cfff":""}
                                 style={{fontSize: "16px"}}
@@ -128,34 +84,17 @@ export default function CustomNav() {
                             </div>
                         </>
                         :
-                        <>
-                            <Dropdown
-                                placement="bottom" 
-                                arrow
-                                menu={{items}}
-                            >
-                                <div className="user">
-                                    {
-                                        address &&
-                                        <>
-                                            <img src={hashAvatar(address)} alt="" />
-                                            <p>{nickName(address)}</p>
-                                        </>
-                                    }
-
-                                </div>
-                            </Dropdown>
-                            {
-                                !address && 
-                                <div>
-                                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
-                                </div>
-                            }
-                        </>
+                        <Button 
+                            type="ghost"
+                            ghost
+                            className='lang'
+                            onClick={() => toggleI18n()}
+                        >
+                            {language === 'cn' ? "中文" : "EN"}
+                        </Button>
                     }
                 </div>
             </div>
-            <ConnectModal isOpen={isOpen} setIsOpen={setIsOpen} />
         </div>
         {
             isMobile &&
@@ -176,13 +115,6 @@ export default function CustomNav() {
                         <p>{language === 'cn' ? "中文" : "EN"}</p>
                     </li>
                 </ul>
-    
-                {
-                    isConnected ?
-                    <Button danger type="primary" onClick={() => disconnect()}>{json[language].disconnect}</Button>
-                    :
-                    <Button onClick={() => setIsOpen(true)}>{json[language].connect}</Button>
-                }
             </div>
         }
         </>
