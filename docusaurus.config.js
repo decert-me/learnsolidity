@@ -76,13 +76,7 @@ const config = {
           // },
           {
             type: 'doc',
-            docId: 'block_basic/start',
-            position: 'left',
-            label: '区块链基础',
-          },
-          {
-            type: 'doc',
-            docId: 'solidity/intro',
+            docId: 'intro',
             position: 'left',
             label: '学习 Solidity',
           },
@@ -92,52 +86,6 @@ const config = {
             position: 'right',
           },
         ],
-      },
-      footer: {
-        style: 'dark',
-        links: [
-          {
-            title: '教程',
-            items: [
-              {
-                label: '区块链基础',
-                href: '/block_basic/start',
-              },
-              {
-                label: 'Solidity 教程',
-                to: '/solidity/intro',
-                
-              },
-            ],
-          },
-          {
-            title: '社区',
-            items: [
-              {
-                label: 'Discord',
-                href: 'https://discord.com/invite/2Vg8EWpg2F',
-              },
-              {
-                label: 'Twitter',
-                href: 'https://twitter.com/DecertMe',
-              },
-            ],
-          },
-          {
-            title: 'More',
-            items: [
-              {
-                label: 'Blog',
-                href: 'https://learnblockchain.cn/people/13917',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/decert-me',
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} Decert.me | <a style="text-decoration-line: none; color: #ebedf0" href="https://beian.miit.gov.cn/" target="_blank" rel="nofollow">粤ICP备17140514号-3</a>`,
       },
       prism: {
         theme: lightCodeTheme,
