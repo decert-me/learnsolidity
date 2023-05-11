@@ -1,5 +1,8 @@
 # 开始学习 Solidity
 
+ [《Solidity 开发教程》](https://decert.me/tutorial/solidity/intro)  力求**系统**、**深入**的介绍 Solidity 开发， 这是一套交互式教程，你可以实时的修改教程里的合约代码并运行。
+ 
+ 当你完成学习之后，你可以前往[挑战](https://decert.me/challenges)，完成挑战，领取技能认证 NFT。
 
 Solidity是一种专门为以太坊平台设计的编程语言，它是EVM智能合约的核心，是区块链开发人员必须掌握的一项技能。
 

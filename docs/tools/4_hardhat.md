@@ -1,5 +1,10 @@
 # Hardhat 开发框架
 
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+
+> 如果你已经熟练使用 Hardhat ，可以直接跳到[Hardhat 挑战](https://decert.me/quests/10003) ，完成调整领取技能认证 NFT。
+
+
 Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、测试和部署智能合约。Hardhat 使用 Node 进行包管理，如果你熟悉 Node 及 Javascript， Hardhat 将非常简单上手。
 
 
@@ -131,7 +136,29 @@ contract Counter {
 
 接下来就可以编译这个合约了。
 
+### 使用OpenZepplin 等第三方库
 
+在编写合约时，尽量不要重复造轮子，基于优质开源的第三方库，不仅可以提交效率，还可以让我们的合约代码更安全，例如要开发一个 Token，可以用npm 安装OpenZepplin 库：
+
+```bash
+npm install @openzeppelin/contracts --save-dev
+```
+
+
+
+然后在合约中 `import`  相应库中的合约文件及可。
+
+```solidity
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract Token is ERC20 {
+  constructor(uint256 initialSupply) ERC20("Token Name", "Token Symbol") {
+    _mint(msg.sender, initialSupply);
+  }
+}
+```
 
 ## 编译合约
 
@@ -524,7 +551,11 @@ npx hardhat run scripts/deploy.js --network goerli
 该命令会为我们上传合约代码并验证其源代码。如果一切顺利（网络顺畅的话），在 Etherscan 上看到的合约被成功验证。
 
 
+## Hardhat 插件（Plugin）的使用
 
+上面代码开源验证时，使用了`hardhat-etherscan`插件，其实也可以使用 [hardhat-verify](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify#hardhat-verify) 插件。
+
+在 https://hardhat.org/hardhat-runner/plugins 链接可以找到当前使用较多的插件，例如：[hardhat-gas-reporter](https://www.npmjs.com/package/hardhat-gas-reporter) 可以对部署合约及函数执行的Gas消耗给出报告；[solidity-coverage](https://www.npmjs.com/package/solidity-coverage) 可以对测试覆盖率给出报告。
 
 
 ## 参考文档
@@ -550,3 +581,4 @@ npx hardhat run scripts/deploy.js --network goerli
 
 
 
+Hardhat 的使用你掌握了吗？ 去[挑战](https://decert.me/quests/10003)一下看看，挑战完成你就可以领取到一枚技能认证 NFT。
