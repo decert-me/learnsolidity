@@ -69,7 +69,7 @@ contract Counter {
 大家操练一下以下代码，运行之前，先自己预测一下结果，看是否和运行结果不一样。
 
 
-<SolidityEditor>
+<SolidityEditor language="solidity">
 {`
 pragma solidity ^0.8.0;
     

@@ -1,39 +1,47 @@
-import React, { useEffect } from "react"
-import Editor, { useMonaco } from "@monaco-editor/react";
+import React, { useEffect, useState } from "react"
+
+import MonacoEditor from "./MonacoEditor";
+import { loader } from "@monaco-editor/react";
 import {
     LoadingOutlined,
 } from '@ant-design/icons';
-import { constans } from "../../utils/constans";
+
+const loading = (
+    <LoadingOutlined style={{color: "#fff", fontSize: "30px"}} />
+)
 
 export default function CustomEditor(props) {
     
-    const { value, onChange, isOk } = props;
-    const { languages } = constans();
-    const monaco = useMonaco();
+    const { value, onChange, isOk, language } = props;
+    const { config, init } = loader;
+    let [editorIsOk, setEditorIsOk] = useState();
 
-    const options = {
-        minimap: { enabled: false },  // 隐藏侧边栏
-    };
 
-    function editorInit(params) {
-        isOk(true);
-        monaco.languages.register({ id: 'solidity' });
-        monaco.languages.setMonarchTokensProvider('solidity', languages.solidity);
-      }
-    
+    async function monacoInit(params) {
+        config({
+            paths: {
+                vs: "https://ipfs.decert.me/lib/monaco-editor@0.36.1"
+            },
+            // monaco: monaco
+        })
+        await init();
+        setEditorIsOk(true);
+    }
+
     useEffect(() => {
-        monaco && editorInit()
-    },[monaco])
+        monacoInit();
+    },[])
+
     return (
-        <Editor
-            // width="800"
-            height="300px"
-            theme="vs-dark"
-            language="solidity"
+        editorIsOk ?
+        <MonacoEditor
             value={value}
-            options={options}
             onChange={onChange}
-            loading={<LoadingOutlined style={{color: "#fff", fontSize: "30px"}} />}
-        /> 
+            isOk={isOk}
+            language={language}
+            loading={loading}
+        />
+        :
+        loading
     )
 }
