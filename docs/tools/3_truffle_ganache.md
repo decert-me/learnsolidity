@@ -452,4 +452,12 @@ truffle-flattener contracts/MyContract.sol > flattened/MyContract.sol
 不过，目前合约开发使用 Truffle 工具的项目越来越少， 有更多的人开始使用 [Hardhat](./4_hardhat.md) 和 [Foundry](./5_foundry.md)。
 
 
+--- 
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+
+
 

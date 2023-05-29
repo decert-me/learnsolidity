@@ -694,3 +694,11 @@ emit log_uint(block.number); // 100
 
 Foundry 以Solidity为中心进行开发，减少了用户使用的心智负担。
 Foundry 发布以来，使用率一直的攀升，非常推荐大家使用。
+
+
+--- 
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。

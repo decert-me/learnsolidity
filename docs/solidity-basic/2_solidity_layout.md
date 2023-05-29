@@ -1,27 +1,13 @@
-# 合约代码组成
+# 第一个 Solidity 程序 
 
-本节我们来分析下合约代码，看看一个合约代码由哪些部分组成，为后面编写代码打下基础。
-
-
- 通常一个合约sol文件之后会包含以下几个部分：
-
-（0）声明文件的 License；
-
-（1）声明编译合约使用的编译器版本；
-
-（2）用 import 引入其他合约文件
-
-（3）用contract定义一个合约/用library定义一个库/用 interface 定义接口。
-
-（4）定义合约内的状态变量、函数、事件、自定义类型等。
+在前面了解了 [MetaMask](https://decert.me/tutorial/solidity/tools/metamask/) 和 [Remix](https://decert.me/tutorial/solidity/tools/remix) 的使用，也了解了Solidity智能合约如何编译及部署。
 
 
-
-
+本节我们来从代码层面来分析下合约代码，看看一个合约代码由哪些部分组成，为后面编写代码打下基础。
 
 先回顾一下代码：
-<SolidityEditor>
-{`
+
+```
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
  
@@ -40,10 +26,21 @@ contract Counter {
         return counter;
     }
 }
-`}
-</SolidityEditor>
+```
 
-  
+ 通常一个智能合约sol文件会包含以下几个部分：
+
+（0）声明合约源文件的 License 声明；
+
+（1）声明编译合约使用的编译器版本；
+
+（2）用 import 引入其他合约文件
+
+（3）用contract定义一个合约/用library定义一个库/用 interface 定义接口。
+
+（4）定义合约内的状态变量、函数、事件、自定义类型等。
+
+
 
 ## License 许可声明
 
@@ -69,7 +66,7 @@ pragma solidity ^0.8.0;
 pragma solidity >=0.8.0 <0.9.0;
 ```
 
-Solidity中编译器的版本的声明，表达式遵循npm版本语义，可以参考https://docs.npmjs.com/misc/semver。
+Solidity中编译器的版本的声明，表达式遵循npm版本语义，可以参考 https://docs.npmjs.com/misc/semver。
 
 ## 定义合约
 
@@ -116,4 +113,45 @@ function get() public view returns (uint) {
 `Counter` 非常简单，没有使用 `import` 引入其他文件，也没有定义事件和其他自定义类型，这些内容我们将在后面的文章里进一步介绍。
 
 
+## 练一练
 
+以下代码`set` 和 `get` 需要你补全功能，动手练习一下吧。
+
+<SolidityEditor>
+{`
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+ 
+contract Counter {
+    uint counter;
+    
+    constructor() {
+    }
+    
+    // 如何给 counter 赋值
+    function set(uint x) public {
+        
+    }
+     
+    // 如何返回  counter 变量
+    function get() public view returns (uint) {
+        
+    }
+}
+`}
+</SolidityEditor>
+
+
+
+## 小结
+
+这一节我们介绍了Solidity合约代码结构，我们准备了一个 [Solidity 基础测试题](https://decert.me/quests/10002)，挑战通过你就可以领取到一枚技能认证 NFT。 
+
+学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)
+
+--- 
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
