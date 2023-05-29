@@ -254,7 +254,7 @@ Remix 对初学者非常友好，非常使用开发小合约及验证性代码�
 
 
 
---- 
+\------
 
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。

@@ -160,7 +160,7 @@ MetaMask 可以连接很多个不同的网络， 点击如下图切换到不同�
 
 读完这篇文章，你应该知道如何使用 MetaMask 了。
 
---- 
+------
 
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。

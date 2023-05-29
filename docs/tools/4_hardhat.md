@@ -581,7 +581,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 Hardhat 的使用你掌握了吗？ 去[挑战](https://decert.me/quests/10003)一下看看，挑战完成你就可以领取到一枚技能认证 NFT。
 
---- 
+\------
 
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。

@@ -5,6 +5,7 @@
 
 本节我们来从代码层面来分析下合约代码，看看一个合约代码由哪些部分组成，为后面编写代码打下基础。
 
+## Counter 代码
 先回顾一下代码：
 
 ```
@@ -149,9 +150,14 @@ contract Counter {
 
 学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)
 
---- 
+\------
 
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
 
 本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+
+
+
