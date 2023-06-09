@@ -1,4 +1,6 @@
-# 整型
+# 使用整型
+
+和大多数语言一样，但我们要表达一个数值时，通常用整型（这种数据类型）来表达。
 
 ## uint/int
 
@@ -30,18 +32,22 @@ contract Counter {
 
 从 0.8.0 开始，算术运算有两个计算模式：一个是 unchecked（不检查）模式，一个是”checked” （检查）模式。 
 
-默认情况下，算术运算在 “checked” 模式下，即都会进行溢出检查，如果结果落在取值范围之外，调用会通过 [失败异常](https://learnblockchain.cn/docs/solidity/control-structures.html#assert-and-require) 回退。 你也可以通过 `unchecked { ... }` 切换到 “unchecked”模式，更多可参考文档 [unchecked](https://learnblockchain.cn/docs/solidity/control-structures.html#unchecked) .
+默认情况下，算术运算在 “checked” 模式下，即都会进行溢出检查，如果结果落在取值范围之外，调用会通过 [失败异常](https://learnblockchain.cn/docs/solidity/control-structures.html#assert-and-require) 回退。 你也可以通过 `unchecked { ... }` 切换到 “unchecked”模式，更多可参考文档 [unchecked](https://learnblockchain.cn/docs/solidity/control-structures.html#unchecked) 。
 
 :::
 
+
+:::info
+
+当我们确定一个运算不会发生溢出时，使用 `unchecked` 模式，有更高的 GAS 效率。
+
+:::
 
 
 ## 整型运算符
 
 
-
 整型支持的运算符包括以下几种：
-
 
 
 * 比较运算符： `<=`（小于等于）、<（小于） 、`==`（等于）、!=（不等于）、`>=`（大于等于）、>（大于）
@@ -55,7 +61,7 @@ contract Counter {
 
 1. 整型变量除法总是会截断取整，但是整型常量不会截断。
 
-2. 整数除0会抛出异常。
+2. 整数除 0 会抛出异常。
 
    
 
@@ -66,8 +72,8 @@ contract Counter {
 
 ## 操练
 
+### 关注溢出
 大家操练一下以下代码，运行之前，先自己预测一下结果，看是否和运行结果不一样。
-
 
 <SolidityEditor>
 {`
@@ -77,6 +83,7 @@ contract testInt {
     int8 a = -1;
     int16 b = 2;
     
+
     uint32 c = 10;
     uint8 d = 16;
     
@@ -115,38 +122,33 @@ contract testInt {
         uint8 y = x * 2;
         return y;
     }
-    
+
 }
 `}
 </SolidityEditor>
+
   
-  
-  
-尤其有对比`testMul1` 和 `testMul2` 
 
+尤其对比 `testMul1` 和 `testMul2` 。
 
-
-
-
-`testOverflow`  的结果是0，而不是256，这是因为发生了溢出，溢出就像时钟一样，当秒针走到59之后，下一秒又从0开始。
+`testMul1()` 的结果是0，而不是256，这是因为发生了溢出，溢出就像时钟一样，当秒针走到59之后，下一秒又从0开始。
 
 
 
 ![image-20230308190447149](https://img.learnblockchain.cn/pics/20230308190448.png)
 
 
-
-
-
-testMul2() 调用这会失败，如图：
+`testMul2()` 调用则会失败（revert），如图：
 
 ![image-20230308190730837](https://img.learnblockchain.cn/pics/20230308190731.png)
 
 
 
-在 0.8.0 之前或者在unchecked 模式下，我们都需要防止整型溢出问题，一个方法是对结果使用进行判断，防止出现异常值，例如：
+在 0.8.0 之前或者在 unchecked 模式下，我们都需要防止整型溢出问题，一个方法是对结果使用进行判断，防止出现异常值，例如：
 
 ```js
+
+pragma solidity ^0.5.0;
 function add(uint256 a, uint256 b) internal pure returns (uint256) {
     uint256 c = a + b;
     require(c >= a);  // 做溢出判断，加法的结果肯定比任何一个元素大。
@@ -154,13 +156,46 @@ function add(uint256 a, uint256 b) internal pure returns (uint256) {
 }
 ```
 
+### 关注 Gas
+
+```
+pragma solidity ^0.8.0;
+
+contract testUintGas {
+    uint z1;  
+    function add_high_gas(uint x, uint y) public  {
+        z1 = x + y;
+    }
+
+    uint z2;
+    function add_less_gas(uint x, uint y) public  {
+        unchecked {
+            z2 = x + y;
+        }
+    }
+
+}
+```
+
+前面提到，当我们确定一个运算不会发生溢出时，使用 `unchecked` 模式，有更高的 GAS 效率。
+
+以下分别是 `add_high_gas` 和 `add_less_gas` 使用同样的参数消耗的Gas：
+
+
+
+![image-20230608211622816](https://img.learnblockchain.cn/pics/20230608211624.png)
+
+
+
+![image-20230608211552332](https://img.learnblockchain.cn/pics/20230608211553.png)
+
 
 
 ## 小结
 
 
+提炼本节的重点：整型是合约开发中使用最多的类型，使用也简单，当很多人容易忽视**整型运算的安全问题**（溢出，截断等），同时要注意在确定安全的情况下，使用 `unchecked` 来优化 GAS 消耗。
 
-整型是使用最多的类型，本节我们提炼了关键知识点，大家可以参看文档了解更多：
 
 [中文 Solidity 文档 - 整型](https://learnblockchain.cn/docs/solidity/types.html#integers)
 

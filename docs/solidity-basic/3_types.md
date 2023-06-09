@@ -19,7 +19,7 @@ Solidity 类型分：
 
 值类型包含：
  * 布尔类型（Booleans）
- * 整型（Integers）
+ * [整型（Integers）](./4_int.md)
  * 定长浮点型（Fixed Point Numbers）
  * 定长字节数组（Fixed-size byte arrays）
  * 有理数和整型常量（Rational and Integer Literals) 
