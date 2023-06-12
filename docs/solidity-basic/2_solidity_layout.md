@@ -1,4 +1,4 @@
-# 第一个 Solidity 程序 
+# 第一个 Solidity 程序
 
 在前面了解了 [MetaMask](https://decert.me/tutorial/solidity/tools/metamask/) 和 [Remix](https://decert.me/tutorial/solidity/tools/remix) 的使用，也了解了Solidity智能合约如何编译及部署。
 
@@ -94,7 +94,7 @@ Solidity是一个静态类型语言，每个变量需要在声明时确定类型
 
 ## 合约函数
 
-```
+```solidity
 constructor()  {
     counter = 0;
 }
@@ -124,7 +124,7 @@ function get() public view returns (uint) {
 {`
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
- 
+
 contract Counter {
     uint counter;
     

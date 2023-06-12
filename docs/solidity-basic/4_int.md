@@ -76,14 +76,14 @@ contract Counter {
 大家操练一下以下代码，运行之前，先自己预测一下结果，看是否和运行结果不一样。
 
 <SolidityEditor>
-{`
+{` 
 pragma solidity ^0.8.0;
     
 contract testInt {
     int8 a = -1;
     int16 b = 2;
     
-
+    
     uint32 c = 10;
     uint8 d = 16;
     
@@ -122,8 +122,8 @@ contract testInt {
         uint8 y = x * 2;
         return y;
     }
-
-}
+    
+ }
 `}
 </SolidityEditor>
 
