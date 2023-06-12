@@ -120,8 +120,7 @@ function get() public view returns (uint) {
 
 以下代码`set` 和 `get` 需要你补全功能，动手练习一下吧。
 
-<SolidityEditor>
-{`
+```SolidityEditor
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
@@ -141,8 +140,7 @@ contract Counter {
         
     }
 }
-`}
-</SolidityEditor>
+```
 
 
 

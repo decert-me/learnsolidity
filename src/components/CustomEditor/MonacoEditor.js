@@ -6,7 +6,7 @@ import { constans } from "../../utils/constans";
 export default function MonacoEditor(props) {
     
     const { value, onChange, isOk, language, loading } = props;
-    const { languages } = constans();
+    const { languages, config } = constans();
     const monaco = useMonaco();
 
     const options = {
@@ -17,6 +17,7 @@ export default function MonacoEditor(props) {
         isOk(true);
         monaco.languages.register({ id: 'solidity' });
         monaco.languages.setMonarchTokensProvider('solidity', languages.solidity);
+        monaco.languages.setLanguageConfiguration('solidity', config.solidity);
     }
 
     function languageSwitch(params) {

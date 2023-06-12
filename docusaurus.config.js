@@ -3,6 +3,7 @@
 
 const lightCodeTheme = require('prism-react-renderer/themes/github');
 const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const codeBlock = require('./src/comment/codeBlock');
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -45,6 +46,8 @@ const config = {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
             'https://github.com/decert-me/learnsolidity/tree/main/',
+          remarkPlugins: [codeBlock]
+
         },
         blog: false,
         theme: {
