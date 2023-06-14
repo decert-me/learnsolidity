@@ -17,7 +17,7 @@ function HomepageHeader() {
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
-            to="/solidity/intro">
+            to="/">
             Solidity Tutorial - 5天 ⏱️
           </Link>
         </div>

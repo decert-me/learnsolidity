@@ -210,7 +210,7 @@ contract C {
 
 状态变量的初始化，也可以在声明时进行指定，未指定时，默认为0。
 
-构造函数可以是公有函数`public`，也可以是内部函数`internal`，当构造函数为`internal`时，表示此合约不可以部署，仅仅作为一个[抽象合约](../solidity_adv/abstract.md)。
+构造函数可以是公有函数`public`，也可以是内部函数`internal`，当构造函数为`internal`时，表示此合约不可以部署，仅仅作为一个[抽象合约](../solidity-adv/abstract.md)。
 
 下面是一个构造函数的示例代码： 
 

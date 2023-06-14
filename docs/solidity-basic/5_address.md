@@ -1,6 +1,6 @@
 # 使用地址类型
 
-在前面的[开发工具 -  MetaMask 钱包](../tools/1_metamask) 一节中，我们创建了自己的钱包[账号](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)。
+在前面的[开发工具 -  MetaMask 钱包](../tools/1_metamask.md) 一节中，我们创建了自己的钱包[账号](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)。
 
 ## 账户与地址
 
