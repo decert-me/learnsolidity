@@ -233,9 +233,8 @@ contract Base {
 
 在合约里可以定义常量，使用 `constant` 来声明一个常量，常量不占用合约的存库空间，而是在编译时使用对应的表达式值替换常量名。
 
-```
+```solidity
 pragma solidity >=0.8.0;
-
 
 contract C {
     uint constant x = 32**22 + 8;
@@ -255,66 +254,76 @@ constant目前仅支持修饰strings及值类型。
 
 ## 不可变量
 
+不可变量的性质和常量很类似，同样在变量赋值之后，就无法修改。不可变量在构造函数中进行赋值，构造函数是在部署的时候执行，因此这是运行时赋值。
 
 
-## **视图函数**
 
-可以将函数声明为view，表示这个函数不会修改状态，这个函数在通过DAPP外部调用时可以获得函数的返回值（对于会修改状态的函数，我们仅仅可以获得交易的hash）。
+Solidity 中使用 `immutable` 来定义一个不可变量，`immutable`不可变量同样不会占用状态变量存储空间，在部署时，变量的值会被追加的运行时字节码中，因此它比使用状态变量便宜的多，同样带来了更多的安全性（确保了这个值无法再修改）。
 
-以下代码定义了一个名为 f() 的视图函数：
+这个特性在很多时候非常有用，最常见的如ERC20代币用来指示小数位置的decimals变量，它应该是一个不能修改的变量，很多时候我们需要在创建合约的时候指定它的值，这时immutable就大有用武之地，类似的还有保存创建者地址、关联合约地址等。 
 
-```
-pragma solidity  >=0.5.0 <0.7.0;
-contract C {
-    function f(uint a, uint b) public view returns (uint) {
-        return a * (b + 42) + now;
+ 
+
+以下是`immutable`的使用举例：
+
+```solidity
+contract Example {    
+    uint immutable decimals;
+    uint immutable maxBalance;
+    
+    constructor(uint _decimals, address _reference) public {
+       decimals = _decimals;
+       maxBalance = _reference.balance; 
     }
 }
 ```
 
+
+
+## 视图函数
+
+视图函数表示这个函数不会修改状态， 将函数声明为 `view` 就是一个视图函数。
+
+```solidity
+pragma solidity >=0.8.0;
+contract C {
+    // highlight-next-line
+    function cal(uint a, uint b) public view returns (uint) {
+        return a * (b + 42) + now;
+    }
+    
+    function set(uint a, uint b) public returns (uint) {
+			return cal(a, b);
+    }
+}
+```
+
+当我们调用一个普通的合约函数（会修改区块链状态）， 这笔交易需要全网节点共识之后才会真正确认，状态修改才会生效。
+
+而调用视图函数时，只需要当前链接的节点执行，就可返回结果。
+
+
+
+:::note
+
+有一个点要注意，平时我们（从外部）调用视图函数是不需要支付手续费。当视图函数本身依赖是会消耗 gas 的，我们可以理解为外部调用时Gas价格为0。
+
+如果视图函数是在一个普通函数中调用，那么这个视图函数是会消耗 GAS 的。 例如上面代码的`set`函数调用的 gas 就包含`cal`函数的 gas。
+
+:::
+
+
+
+如果在声明为`view`的函数中修改了状态，则编译器会报错误，除直接修改状态变量外，其他如：触发事件，发送代币等都会视为修改状态。详细可参考[Solidity文档](https://learnblockchain.cn/docs/solidity/contracts.html#state-mutability)。
+
  
 
-下面的操作被认为是修改状态，在声明为view的函数中使用以下语句时，编译器会报错误。
+## 纯函数
 
-（1）修改状态变量。
-
-（2）触发一个事件。
-
-（3）创建其它合约。
-
-（4）使用selfdestruct。
-
-（5）通过调用发送以太币。
-
-（6）调用任何没有标记为view或者pure的函数。
-
-（7）使用低级调用。
-
-（8）使用包含特定操作码的内联汇编。
-
-
-
-
-
-## **纯函数**
-
-函数可以声明为pure，表示函数不读取也不修改状态。除了上一节列举的状态修改语句之外，以下操作被认为是读取状态。
-
-（1）读取状态变量。
-
-（2）访问`address(this).balance`或者`.balance`。 
-
-（3）访问block、tx、msg中任意成员（除msg.sig和msg.data之外）。 
-
-（4）调用任何未标记为pure的函数。
-
-（5）使用包含某些操作码的内联汇编。
-
-示例代码：
+纯函数表示函数不读取也不修改状态， 函数声明为pure 表示函数是纯函数，纯函数仅做计算， 例如：
 
 ```solidity
 pragma solidity >=0.5.0 <0.7.0;
-
 
 contract C {
     function f(uint a, uint b) public pure returns (uint) {
@@ -322,8 +331,6 @@ contract C {
     }
 }
 ```
-
-
 
 
 
