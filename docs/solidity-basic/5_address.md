@@ -159,7 +159,7 @@ function safeTransferETH(address to, uint256 value) internal {
 
 
 
-学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)
+学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)。
 
 \------
 

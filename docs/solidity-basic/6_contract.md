@@ -2,6 +2,10 @@
 
 # 使用合约
 
+合约是一段包含了多个函数的程序，是部署到区块链的最小单元。合约部署到链上后，依旧使用地址来表示一个合约。
+
+
+
 ## 定义合约
 
 每一个合约，合约本身也是一个数据类型， 称为合约类型，如下代码定义了一个`Hello`合约类型:
@@ -117,7 +121,7 @@ Solidity对函数和状态变量提供了4种可见性：`external`、`public`�
 
 声明为 `public` 的函数或变量，他们既可以在合约内部访问，也以合约接口形式暴露合约外部（其他合约或链下）调用。
 
-另外，`public` 类型的状态变量，会自动创建一个同名的公共函数（称为访问器），来获取状态变量的值。
+另外，`public` 类型的状态变量，会自动创建一个同名的公共函数（称为[访问器](https://learnblockchain.cn/docs/solidity/contracts.html#getter-functions)），来获取状态变量的值。
 
 
 
@@ -379,3 +383,22 @@ Solidity 从 0.6 版本开始，Solidity 增加了一些属性来获取合约类
  
 
 字节码是什么东西？ 先留一个坑， 以后有机会介绍 EVM 时，在详细介绍。
+
+
+
+## 小结
+
+提炼本节的重点：合约和类（`class`）很类似， 我们可以在合约里定义多个变量、常量及函数，可以给函数确定可见性。
+
+我们定义的合约是一个自定义的类型，由于合约账号在链上也使用地址表示，因此合约类型可以和地址类型相互转换。
+
+
+
+\------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
