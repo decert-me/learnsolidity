@@ -27,7 +27,7 @@ Solidity 类型分：
  * 十六进制常量（Hexadecimal literals）
  * 枚举（Enums）
  * 函数类型（Function Types）
- * 地址类型（Address) 
+ * [地址类型（Address)](./5_address.md) 
  * 地址常量（Address Literals）
  * 用户定义值
 

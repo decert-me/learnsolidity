@@ -88,7 +88,7 @@ address payable ap = payable(addr);
 
 
 
-## 对地址转账及获取余额
+## 对地址转账及获取地址余额
 
 地址类型还有一些成员函数属性及函数，因此在在表现上还类似面向对象语言的中的类（内置类）， 先介绍获取余额与转账：
 
@@ -106,8 +106,6 @@ address payable ap = payable(addr);
 send是transfer的低级版本。如果执行失败，当前的合约不会因为异常而终止， 而在使用 send 的时候，如果不检查返回值，就会有额外风险， 编写智能合约风险真是无处不在呀。
 
 :::
-
-
 
 
 
@@ -134,7 +132,7 @@ contract testAddr {
 
 上面代码的 `address myAddress = address(this);` 就是把合约转换为地址类型，然后用`.balance`获取余额， 再使用 `.transfer` 向 x 转账。 
 
->  在[账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)中，在 EVM 层面是，外部用户账户和合约账户是一样的，因此可以把合约转换为地址类型。
+>  在[账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)中，在 EVM 层面是，外部用户账户和合约账户是一样的，因此可以把合约类似转换为地址类型。
 
 
 
