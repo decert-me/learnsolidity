@@ -43,7 +43,7 @@ contract HelloCreator {
 }
 ```
 
-上面的代码，调用 `HelloCreator` 合约的 `createHello` 函数可以创建一个合约。
+上面的代码，调用 `HelloCreator` 合约的 `createHello` 函数可以创建一个合约（`new Hello()`）。
 
 我们在 Remix 演练一下，先部署`HelloCreator` 合约（注意不是部署Hello）:
 
@@ -69,29 +69,21 @@ contract HelloCreator {
 
 
 
-
-
-`callsayHi` 函数中，声明一个合约类型的变量（`Hello c`）并**创建一个合约**对变量`c`初始化 （`new Hello()`），然后用`c.sayHi() `调用函数。
-
-So easy... 对吧~  
-
-
+ `createHello` 函数中，创建的合约赋值给了状态变量 `h` ， 在 `HelloCreator` 合约，也可以利用`h`来调用`sayHi` 函数， 例如，可以在`HelloCreator` 合约中，添加如下函数：
 
 
 ```solidity
 function callHi() public returns (uint) {
-
 	// highlight-start
-
 	x = h.sayHi();
   // highlight-end
 	return x;
 }
 ```
 
+
+
 ## 合约类型元数据成员
-
-
 
 Solidity 从 0.6 版本开始，Solidity 增加了一些属性来获取合约类型类似的元信息。
 
@@ -111,9 +103,9 @@ Solidity 从 0.6 版本开始，Solidity 增加了一些属性来获取合约类
 
 
 
-## 额外知识点1：如何区分合约及外部地址
+## 额外知识点：如何区分合约及外部地址
 
-我们经常需要区分一个地址是合约地址还是外部账号地址，区分的关键是看这个地址有没有与之相关联的代码。EVM提供了一个操作码EXTCODESIZE，用来获取地址相关联的代码大小（长度），如果是外部账号地址，则没有代码返回。因此我们可以使用以下方法判断合约地址及外部账号地址。
+经常需要区分一个地址是合约地址还是外部账号地址，区分的关键是看这个地址有没有与之相关联的代码。EVM提供了一个操作码`EXTCODESIZE`，用来获取地址相关联的代码大小（长度），如果是外部账号地址，则没有代码返回。因此我们可以使用以下方法判断合约地址及外部账号地址。
 
 ```
 function isContract(address addr) internal view returns (bool) {
@@ -131,21 +123,13 @@ function isContract(address addr) internal view returns (bool) {
 >web3.eth.getCode(“0xd5677cf67b5aa051bb40496e68ad359eb97cfbf8”) “0x600160008035811a818181146012578301005b601b6001356025565b8060005260206000f25b600060078202905091905056” 
 ```
 
-这时候，通过对比getCode()的输出内容，就可以很容易判断出是哪一种地址。
-
-
-
-
-
-## 额外知识点2: 
+这时候，通过对比`getCode()`的输出内容，就可以很容易判断出是哪一种地址。
 
 
 
 ## 小结
 
-提炼本节的重点：合约和类（`class`）很类似， 我们可以在合约里定义多个变量、常量及函数，可以给函数确定可见性。
-
-我们定义的合约是一个自定义的类型，由于合约账号在链上也使用地址表示，因此合约类型可以和地址类型相互转换。
+提炼本节的重点：合约是一个类型，我们可以通过这个合约类型来创建合约（即部署合约），然后与合约里的函数交互。
 
 
 

@@ -12,7 +12,7 @@
 
 之前我们的Counter 合约里就定义了一个 `uint` 变量`counter`：
 
-```
+```solidity
 pragma solidity ^0.8.0;
 
 contract Counter {
