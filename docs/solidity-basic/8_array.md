@@ -86,6 +86,49 @@ Solidity 也支持多维数组。例如，声明一个类型为uint、长度为5
 
 
 
+
+
+## 数组访问器
+
+`public` 状态变量，编译器会帮我们生成访问器函数， 如果是`public`的数组变量，生成访问器函数有一个参数，参数是访问数组的下标索引。
+
+例如，我们在Remix 可以部署以下合约：
+
+```SolidityEditor
+contract testArray {
+    uint [] public arr = [1, 2, 3];
+}
+```
+
+编译器会生成类似的函数：
+
+```solidity
+  function arr(uint i) external view returns (uint) {
+      return arr[i];
+  }
+```
+
+我们可以调用 `arr(uint i)` 函数获得某个元素的值。
+
+![image-20230627222008400](https://img.learnblockchain.cn/pics/20230627222009.png)
+
+
+
+一维数组的访问器函数有一个参数， 如果是多维数组，会有多个参数。 并且返回数组的一个元素。
+
+
+
+如果我们要返回整个数据， 需要额外添加函数，如：
+
+```solidity
+  // 返回整个数组
+  function getArray() external view returns  (uint[] memory) {
+      return arr;
+  }
+```
+
+
+
 ## 数组成员
 
 数组类型可以通过成员属性内获取数组状态以及可以通过成员函数来修改数组的状态，这些成员有：

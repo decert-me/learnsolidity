@@ -68,7 +68,7 @@ struct Person {
 
 ```solidity
 pragma solidity ^0.8.0;
-  contract testStruct {
+contract testStruct {
   struct Person {
     address account;
     bool gender;
@@ -119,6 +119,46 @@ Person memory person =  Person({account: address(0x0), gender: false, age: 18}) 
         person.age = 12;
     }
 ```
+
+
+
+
+
+## 结构体访问器
+
+`public` 状态变量，编译器会帮我们生成访问器函数， 如果是`public`的结构体变量，生成访问器函数没有参数，返回一个元组，元组对应结构体的成员。
+
+例如，我们在Remix 可以部署以下合约：
+
+```SolidityEditor
+contract testStruct{
+
+    struct Person {
+        address account;
+        bool gender;
+        uint8 age;
+    }
+
+    Person public person = Person(address(0x1), true, 18) ;
+
+}
+```
+
+编译器会生成类似的函数：
+
+```solidity
+  function person() external view returns (address account, bool gender, uint8 age) {
+      return (person.account, person.gender, person.age);
+  }
+```
+
+我们可以调用 `person()` 函数获得各成员的值。
+
+以下我在Remix 调用示例：
+
+![image-20230627231831537](https://img.learnblockchain.cn/pics/20230627231832.png)
+
+
 
 
 
