@@ -77,7 +77,7 @@ contract testStruct {
   
   // 声明变量而不初始化
   // highlight-next-line
-  Person person;
+  Person person;   // 默认为storage
 }
 ```
 
