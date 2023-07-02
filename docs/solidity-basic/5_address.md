@@ -145,7 +145,7 @@ function safeTransferETH(address to, uint256 value) internal {
 }
 ```
 
-`safeTransferETH` 函数涉及两个新的知识点：[合约接收以太币](./receive.md)和地址类型上[成员函数 call 的用法](../solidity-adv/addr_call.md)，本节不展开，大家通过链接前往阅读。
+`safeTransferETH` 函数涉及两个新的知识点：[合约接收以太币](./12_receive.md)和地址类型上[成员函数 call 的用法](../solidity-adv/addr_call.md)，本节不展开，大家通过链接前往阅读。
 
 
 
