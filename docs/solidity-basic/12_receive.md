@@ -106,13 +106,13 @@ function safeTransferETH(address to, uint256 value) internal {
 
 fallback函数的声明如下：
 
-```
+```solidity
 fallback() external payable { ... }
 ```
 
 >  注意，在solidity 0.6里，回退函数是一个无名函数（没有函数名的函数），如果你看到一些老合约代码出现没有名字的函数，不用感到奇怪，它就是回退函数。
 
-和接收函数类似，一个合约最多有一个`fallback`函数，这个函数无参数，也无返回值，也没有function关键字, 必须是external可见性。
+和接收函数类似，一个合约最多有一个`fallback`函数，这个函数无参数，也无返回值，也没有`function`关键字, 必须是`external`可见性。
 
  
 
@@ -166,9 +166,80 @@ contract Caller {
 }
 ```
 
-再次提醒，当使用合约中使用send和transfer向合约转账时，EVM 仅会提供 2300 gas来执行， 如果receive或fallback函数的实现需要较多的运算量，会导致转账失败。
+以上代码，使用了地址上的底层调用，来模拟调用不存在的函数，这部分内容将在 [地址高阶用法](../solidity-adv/addr_call.md) 进一步介绍。
+
+再次提醒，当使用合约中使用send和transfer向合约转账时，EVM 仅会提供 2300 gas来执行， 如果`receive`或`fallback`函数的实现需要较多的运算量，会导致转账失败。
 
 
 
-## 函数接受以太币
+## 合约函数接受以太币(payable)
 
+有时我们希望调用某个合约函数时，把以太币转给合约，这个时候我们只需要在合约函数上添加一个 `payable` 修饰符。
+
+例如，我们要实现一个Bank， 用户调用`deposit() `把 ETH 存入合约Bank， 调用`withdraw` 从合约取出自己的 ETH。
+
+```solidity
+contract Bank {
+    mapping(address => uint) public deposits;
+    
+    function deposit() public payable {
+        deposits[msg.sender] += msg.value;
+    }
+    
+    
+    // 从合约取款
+    function withdraw() public {
+        uint d = deposits[msg.sender];
+        deposits[msg.sender] = 0;
+
+        (bool success, ) = msg.sender.call{value:  d}("");
+        require(success, "Failed to send Ether");
+    }
+}
+```
+
+此时我们可以不需要要合约中实现 `receive` 或 `fallback` 函数，大家可以直接在 Remix 中演练一下。
+
+![image-20230703215441410](https://img.learnblockchain.cn/pics/20230703215444.png)
+
+
+
+也许大家会注意到一个细节，当函数可以附加ETH时，Remix会在函数按钮上显示红色。
+
+
+
+思考一个问题： 如果想在合约部署时把ETH转入合约要怎么做呢？
+
+类似的， 只需要在  构造函数中加入 `payable` 就可以，例如：
+
+```solidity
+contract testPayable {
+    constructor() payable {
+    }
+}
+```
+
+
+
+## 小结
+
+提炼本节的重点：这一节，我们介绍了合约如何接收 ETH，理解了  `receive` 和 `fallback` 函数的作用，以及`payable` 修饰符的作用，可以总结为一下几句话：
+
+1. `payable` 修饰符表示该函数可以接收 ETH
+2. `receive` 函数是在合约可以接收 ETH 调用的函数。
+3.  `fallback` 函数是在匹配不到对应的函数（`receive` 函数或其他函数找不到）时被调用的函数。
+
+
+
+我画了一个图，`receive` 和 `fallback` 函数在什么时候被调用就一目了然了。
+
+![image-20230703223858675](https://img.learnblockchain.cn/pics/20230703223900.png)
+
+\------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
