@@ -55,7 +55,7 @@ address payable ap = payable(addr);
 
 
 
-若被转换的地址是一个是合约地址时，则合约需要实现了接收（`receive`）函数或`payable`回退函数（参考[合约如何接收 ETH](./receive.md)）。
+若被转换的地址是一个是合约地址时，则合约需要实现了接收（`receive`）函数或`payable`回退函数（参考[合约如何接收 ETH](./12_receive.md)）。
 
 如果转换的合约地址上没有接收或 payable 回退函数，可以使用这个魔法`payable(address(addr))` ， 即先转为普通地址类型，在转换为`address payable`类型 。
 
