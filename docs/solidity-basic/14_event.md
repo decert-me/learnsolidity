@@ -18,10 +18,10 @@
 
 
 
-以下定义了一个`Deposit` 事件并在 deposit 函数中触发了该事件：
+以下定义了一个`Deposit` 事件并在 `deposit()` 函数中触发了该事件：
 
 ```solidity
-pragma solidity >0.5.0;
+pragma solidity >0.8.0;
 
 contract testEvent {
     constructor() public {
@@ -31,8 +31,7 @@ contract testEvent {
     event Deposit(address _from, uint _value);  // 定义事件
 
     function deposit(uint value) public {
-    // do something
-    
+        // 忽略其他的代码
     		// highlight-next-line
         emit Deposit(msg.sender, value);  // 触发事件
     }
@@ -42,11 +41,52 @@ contract testEvent {
 
 
 
+在 Remix 中调用 `deposit` 试试，直观感受一下看看生成的日志是什么样子。
+
+![image-20230714155352541](https://img.learnblockchain.cn/pics/20230714155353.png)
+
+事件触发的日志(logs)包含的信息如下：
+
+```js
+[
+	{
+		"from": "0xf8e81D47203A594245E36C48e151709F0C19fBe8",
+		"topic": "0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c",
+		"event": "Deposit",
+		"args": {
+			"0": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
+			"1": "1000",
+			"_from": "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
+			"_value": "1000"
+		}
+	}
+]
+```
+
+Logs 是一个数组，当函数触发多个事件时，Logs 就会有多条记录，每一个条记录又包含：
+
+1. `from`  ：表示当前事件来自哪个合约。
+2. ` topic`：事件的主题，下面会有单独的[一节](#事件主题)来介绍。
+3. `event`:  事件名 
+4. `args`: 事件参数数据， 这里有两个参数， 分别对应着 `_from`, `_value` 。
+
+
+
+## 事件主题
+
+事件主题的作用是提供一种有效的方法，用来方便从区块中的所有交易中过滤出感兴趣的事件。
+
+一个事件可以包含多个
+
+
+
+
+
 
 
 如果使用 Web3.js ，则监听 Deposit 事件方法如下：
 
-```
+```javascript
 var abi = /* 编译器生成的abi */;
 var addr = "0x1234...ab67"; /* 合约地址 */
 var CI = new web3.eth.contract(abi, addr);
@@ -89,3 +129,10 @@ createdEvent.watch(function(err, result) {
 })
 ```
 
+
+
+## 更多事件
+
+
+
+廉价的存储
