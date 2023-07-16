@@ -169,7 +169,7 @@ Solidity对函数和状态变量提供了4种可见性：`external`、`public`�
 
 这个有一个对比表格：
 
-![可见性](https://img.learnblockchain.cn/pics/20230610124717.png)
+![solidity 函数可见性](https://img.learnblockchain.cn/pics/20230610124717.png!decert.logo.water)
 
 
 

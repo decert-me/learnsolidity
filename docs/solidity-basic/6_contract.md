@@ -47,11 +47,11 @@ contract HelloCreator {
 
 我们在 Remix 演练一下，先部署`HelloCreator` 合约（注意不是部署Hello）:
 
-![image-20230623163833081](https://img.learnblockchain.cn/pics/20230623163834.png)
+![solidity-合约](https://img.learnblockchain.cn/pics/20230623163834.png!decert.logo.water)
 
 然后调用`createHello` 在链上创建一个`Hello`合约：
 
-![image-20230623164119207](https://img.learnblockchain.cn/pics/20230623164120.png)
+![solidity-创建合约](https://img.learnblockchain.cn/pics/20230623164120.png!decert.logo.water)
 
 右下角的日志中，可以看到创建的合约地址`0x93Ff8fe9BF4005...`。让我们在Remix 加载该合约，并调用 `sayHi` 来验证该合约确实部署成功了。
 
@@ -59,13 +59,13 @@ contract HelloCreator {
 
 
 
-![image-20230623164622328](https://img.learnblockchain.cn/pics/20230623164624.png)
+![solidity-加载合约](https://img.learnblockchain.cn/pics/20230623164624.png!decert.logo.water)
 
 
 
 然后调用`sayHi()` : 
 
-![](https://img.learnblockchain.cn/pics/20230623164825.png)
+![solidity-调用合约函数](https://img.learnblockchain.cn/pics/20230623164825.png!decert.logo.water)
 
 
 

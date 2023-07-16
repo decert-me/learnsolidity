@@ -73,6 +73,7 @@ contract Counter {
 ## 操练
 
 ### 关注溢出
+
 大家操练一下以下代码，运行之前，先自己预测一下结果，看是否和运行结果不一样。
 
 ```SolidityEditor
@@ -133,12 +134,12 @@ contract testInt {
 
 
 
-![image-20230308190447149](https://img.learnblockchain.cn/pics/20230308190448.png)
+![solidity - 整型溢出](https://img.learnblockchain.cn/pics/20230308190448.png)
 
 
 `testMul2()` 调用则会失败（revert），如图：
 
-![image-20230308190730837](https://img.learnblockchain.cn/pics/20230308190731.png)
+![溢出回退](https://img.learnblockchain.cn/pics/20230308190731.png)
 
 
 
@@ -181,11 +182,16 @@ contract testUintGas {
 
 
 
-![image-20230608211622816](https://img.learnblockchain.cn/pics/20230608211624.png)
+![solidity - 整型 gas](https://img.learnblockchain.cn/pics/20230608211624.png!decert.logo.water)
 
 
 
-![image-20230608211552332](https://img.learnblockchain.cn/pics/20230608211553.png)
+![solidity - 整型 gas](https://img.learnblockchain.cn/pics/20230608211553.png)
+
+主要是对比 transaction cost 与 execution cost。
+**transaction cost**： 是真实花费的gas， 对应着区块链浏览器中`gas_used`。
+
+**execution cost**: 是纯粹函数执行的所需的 gas，不包含交易基础费用 21000， 也不包含交易calldata的费用。
 
 
 

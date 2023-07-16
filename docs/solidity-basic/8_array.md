@@ -110,7 +110,7 @@ contract testArray {
 
 我们可以调用 `arr(uint i)` 函数获得某个元素的值。
 
-![image-20230627222008400](https://img.learnblockchain.cn/pics/20230627222009.png)
+![solidity-数组](https://img.learnblockchain.cn/pics/20230627222009.png!decert.logo.water)
 
 
 
