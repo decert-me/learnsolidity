@@ -1,7 +1,6 @@
 # 映射（mapping）
 
 
-
 映射类型是一种键值对的映射关系存储结构， 在功能上和Java的Map、Python的Dict差不多。
 
 

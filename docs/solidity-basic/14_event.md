@@ -13,8 +13,8 @@
 
 
 
+![Solidity 事件](https://img.learnblockchain.cn/pics/20230715100542.png!decert.logo.water)
 
-<img src="https://img.learnblockchain.cn/pics/20230715100542.png!decert.logo.water" alt="Solidity 事件" style="zoom:40%;" />
 
 
 
