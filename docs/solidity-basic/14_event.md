@@ -1,5 +1,9 @@
 # 事件（Event）
 
+这一节我们将介绍事件的使用，为什么需要事件，如何定义与触发事件，并且介绍了3个方法获取事件。在最后一个部分，我还结合自己的实践经验，介绍如何善用事件。
+
+
+
 ##  为什么需要事件
 
 事件是以太坊上一个比较特殊的机制，以太坊虚拟机是一个封闭的沙盒环境，我们在EVM内部通过调用外部世界的接口，把信息转递给外部或从外部获得信息，因为以太坊没法对外部的信息达成共识。想象一下，你有一个智能合约，向一个网络API发出API请求，以获得一对资产的最新价格。当节点A处理一个触发这个API调用的交易时，得到响应`42`，并相应地更新合约状态。然后当节点B处理同样的交易时，价格发生了变化，响应是`40`，并相应地合约状态。然后节点C发出请求时，收到一个`404`的HTTP响应。当网络中的每个节点都可能对最新状态有不同的看法时，以太坊世界计算机就无法对最新状态达成共识。
@@ -182,8 +186,6 @@ Logs 是一个数组，当函数触发多个事件时，Logs 就会有多条记�
 
 Web3.js 对应的接口为 [getpastlogs](https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#getpastlogs)， Ethers.js 对应的接口为 [getLogs](https://learnblockchain.cn/ethers_v5/api/providers/provider/#Provider--log-methods)
 
-
-
 ```json
 web3.eth.getPastLogs({
     address: "0xd9145CCE52D386f254917e481eB44e9943F39138",
@@ -194,6 +196,10 @@ web3.eth.getPastLogs({
 
  获取到的日志数据和收据中Logs 字段下的数据一致。
 
+getLogs 的参数就是要制定的过滤条件，可以按需设置如：获取某个区块高度区间里某合约地址的所有事件，获取任意合约来自某个主题事件等。
+
+
+
 
 
 ### 使用过滤器获取实时事件
@@ -203,7 +209,7 @@ web3.eth.getPastLogs({
 Web3.js 示例：
 
 ```javascript
-const web3 = new Web3("ws://localhost:7545");
+const web3 = new Web3("ws://localhost:8545");  
 
 var subscription = web3.eth.subscribe('logs', {
     address: '0x123456..',
@@ -219,6 +225,8 @@ var subscription = web3.eth.subscribe('logs', {
 Ethers.js 示例：
 
 ```javascript
+let provider = new ethers.providers.WebSocketProvider('ws://127.0.0.1:8545/')
+
 filter = {
     address: "0x123456",
     topics: [
@@ -232,20 +240,16 @@ provider.on(filter, (log, event) => {
 
 
 
-
-
-https://web3js.readthedocs.io/en/v1.10.0/web3-eth-contract.html
-
-如果使用 Web3.js ，则监听 Deposit 事件方法如下：
+ JSON-RPC 的包装库也提供更高层的方法来监听事件，使用 Web3.js ，可以用合约 abi 创建合约兑现来监听 Deposit 事件方法如下：
 
 ```javascript
 var abi = /* 编译器生成的abi */;
 var addr = "0x1234...ab67"; /* 合约地址 */
-var CI = new web3.eth.contract(abi, addr);
+var contractInstance = new web3.eth.contract(abi, addr);
 
 
 // 通过传一个回调函数来监听 Deposit
-CI.event.Deposit(function(error, result){
+contractInstance.event.Deposit(function(error, result){
     // result会包含除参数之外的一些其他信息
     if (!error)
         console.log(result);
@@ -253,40 +257,105 @@ CI.event.Deposit(function(error, result){
 
 ```
 
-
-
-
-
-如果在事件中使用indexed修饰，表示对这个字段建立索引，这样就可以进行额外的过滤。
-
-示例代码：
-
-```
-event PersonCreated(uint indexed age, uint indexed height);
-
- // 通过参数触发
-emit PersonCreated(26, 176);
-```
-
-要想过滤出所有26岁的人，方法如下：
+若要过滤 indexed 字段建立索引，给事件提供一个额外的过滤参数即可：
 
 ```javascript
-var createdEvent = myContract.PersonCreated({age: 26});
-createdEvent.watch(function(err, result) {
-        if (err) {
-        console.log(err)
-        return;
-        }
-        console.log("Found ", result);
+contractInstance.events.Deposit({
+    filter: {_from: ["0x.....", "0x..."]}, // 过滤某些地址
+    fromBlock: 0
+}, function(error, event){
+    console.log(event);
 })
 ```
 
 
 
+## 善用事件
+
+我写过不少合约，但其实是在真正完整的开发面向用户的产品之后，才逐步理解事件。除了前面介绍的把链上状态变化通知到外界，以下两个场景我们也应该尽量优先考虑使用事件。
+
+1. **如果合约中没有使用该变量，应该考虑用事件存储数据**
+2. **如果需要完整的交易历史，请使用事件**
 
 
-## 更多事件
+
+### 用事件存储数据
+
+有不少刚转入Web3 的工程师，把智能合约当成数据库使用，习惯把需要用到的数据都保存在智能合约中，但最佳的实践是：**如无必要，勿加存储。**
+
+倘若在合约中，**没有任何函数读取该变量，我们应该使用事件来存储数据**，Gas 成本降低很多。
+
+使用事件版本的`deposit()` 的Gas 消耗是 22750 。
+
+```solidity
+    // gas: 22750
+    function deposit(uint value) public {
+        emit Deposit(msg.sender, value);  // 触发事件
+    }
+```
 
 
 
-廉价的存储
+对比看一下用映射来存储数据的版本：
+
+```solidity
+contract testDeposit {
+
+    mapping(address => uint) public deposits;
+    
+    // Gas: 43577
+    function deposit(uint value) public {
+        deposits[msg.sender] = value;
+    }
+}
+```
+
+`deposit()` 的Gas 消耗是 43577 。
+
+![mapping 与事件](https://img.learnblockchain.cn/pics/20230716183802.png!decert.logo.water)
+
+可以看出两个版本的差别非常大。
+
+如果仅需要在外部展示存款数据（合约中不需要读取数据），使用事件的版本和使用映射的版本可以达到相同的效果，只是前者是通过解析事件获取存款数据，后者是读取变量获取数据。
+
+
+
+### 事件是“只写的数据库“
+
+每次我们在触发事件时，这个事件的日志就会记录在区块链上，每次事件追加一条记录，因此事件实际上就是一个只写的数据库（只添加数据）。我们可以按照自己想要的方式在关系型数据库中重建所有的记录。
+
+当然要实现这一点，**所有的状态变化必须触发事件**才行。
+
+
+
+而存储状态则不同，状态变量是一个可修改的”数据库“， 读取变量获取的是当前值。
+
+**如果需要完整的交易历史，就需要使用事件**。
+
+
+
+## 小结
+
+事件是外部事件获取EVM内部状态变化的一个手段。在合约内触发事件后，在外部就可以获取或监听到该事件。
+
+使用 `event` 关键字定义事件，使用 `emit` 来触发定义的事件。在外部有三种可以获取到合约内部的事件：
+
+1. 通过交易收据获取事件
+2. 使用过滤器获取过去事件
+3. 使用过滤器获取实时事件
+
+
+
+事件是很便宜的存储数据的方式，没有任何函数读取该数据，应该使用选择事件来存储，如何需要交易历史（通常是刚需），也需要使用事件把每一次状态变化记录下来。
+
+
+
+------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+

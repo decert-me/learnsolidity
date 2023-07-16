@@ -14,7 +14,7 @@
 
 `receive` 函数和 `fallback`函数都是在转账时被动调用的，通常称为：回调函数，表示有转账了，告诉我（合约）一下。
 
-![image-20230710174812242](https://img.learnblockchain.cn/pics/20230710174814.png)
+![image-20230710174812242](https://img.learnblockchain.cn/pics/20230710174814.png!decert.logo.water)
 
 ## receive函数（接收函数）
 
@@ -55,7 +55,7 @@ contract testPayable {
 
 
 
-![image-20230702194825312](https://img.learnblockchain.cn/pics/20230702194826.png)
+![image-20230702194825312](https://img.learnblockchain.cn/pics/20230702194826.png!decert.logo.water)
 
 大家可以做一个对比验证，如果`testPayable` 合约没有实现`receive`函数，此时转账交易会抛出异常，合约无法接收ETH。
 
@@ -237,7 +237,7 @@ contract testPayable {
 
 我画了一个图，`receive` 和 `fallback` 函数在什么时候被调用就一目了然了。
 
-![image-20230703223858675](https://img.learnblockchain.cn/pics/20230703223900.png)
+![image-20230703223858675](https://img.learnblockchain.cn/pics/20230703223900.png!decert.logo.water)
 
 \------
 
