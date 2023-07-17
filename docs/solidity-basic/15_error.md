@@ -10,7 +10,7 @@ EVM 处理错误和我们常见的语言（如Java、JavaScript等）不一样�
 
 在以太坊上，每个交易都是原子操作，在数据库里事务（transcation）一样，要么保证状态的修改要么全部成功，要么全部失败。
 
-
+![EVM 的错误处理方式](https://img.learnblockchain.cn/pics/20230717102500.png!decert.logo.water)
 
 ### 程序中错误处理
 
