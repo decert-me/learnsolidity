@@ -22,25 +22,82 @@ EVM 处理错误和我们常见的语言（如Java、JavaScript等）不一样�
 
 
 
-## 定义错误 Error 
+## 如何抛出错误
+
+Solidity 有3个方法来抛出错误：`require()` 、`assert()`、`revert()`， 我们来逐个介绍。
+
+### require()
+
+
+
+`require`函数通常用来在执行逻辑前检查输入或合约状态变量是否满足条件，以及验证外部调用的返回值时候满足条件，在条件不满足时抛出异常。
+
+`require`函数有两个形式：
+
+- `require(bool condition)`：如果条件不满足，则撤销状态更改；
+- `require(bool condition, string memory message)`：如果条件不满足，则撤销状态更改，可以提供一个错误消息。
+
+
+
+以下是`require` 使用例子：
+
+```solidity
+pragma solidity >=0.8.0;
+
+contract testRequire {
+    function vote(uint age) public {
+       // highlight-next-line
+        require(age >= 18, "只有18岁以上才卡一投票");
+				// ...
+    }
+
+    function transferOwnership(address newOwner) public {
+      // highlight-next-line
+    	require(owner() == msg.sender, "调用者不是 Owner");
+    		// ...
+    }
+    
+}
+```
+
+vote() 函数要求 age >= 18,  否则撤销交易。
+
+require  gas 问题
 
 
 
 
 
-## 用 assert() 和 require() 进行错误检查
+### assert()
 
-Solidity提供了两个函数assert()和require()来进行条件检查，并在条件不满足时抛出异常。
+`assert(bool condition))` 函数通常用来检查内部逻辑，assert 总是假定程序满足条件检查（假定`condition`为true），否则说明程序出现了一个未知的bug  ，如果正确使用`assert()`函数，Solidity 分析工具可以帮我们分析出智能合约中的错误。
 
-assert函数通常用来检查（测试）内部错误（发生了这样的错误，说明程序出现了一个bug），而require函数用来检查输入变量或合约状态变量是否满足条件，以及验证调用外部合约的返回值。另外，如果我们正确使用assert函数，那么有一些Solidity分析工具可以帮我们分析出智能合约中的错误。
+以下是`assert` 使用例子：
 
-还有另外一个触发异常的方法：使用revert函数，它可以用来标记错误并恢复当前的调用。
+```solidity
+pragma solidity >=0.8.0 ;
 
-详细说明以下几个函数。
+contract testAsset{
+    bool public inited;
 
-- assert(bool condition)：如果不满足条件，会导致无效的操作码，撤销状态更改，主要用于检查内部错误。
-- require(bool condition)：如果条件不满足，则撤销状态更改，主要用于检查由输入或者外部组件引起的错误。
-- require(bool condition, string memory message)：如果条件不满足，则撤销状态更改，主要用于检查由输入或者外部组件引起的错误，可以同时提供一个错误消息。
+    function checkInitValue() internal  {
+        // inited 应该永远为false
+        assert(!inited);
+        // 其他的逻辑...
+    }
+}
+```
+
+
+
+
+
+
+
+### revert  
+
+
+
 - revert()：终止运行并撤销状态更改。
 - revert(string memory reason)：终止运行并撤销状态更改，可以同时提供一个解释性的字符串。
 
