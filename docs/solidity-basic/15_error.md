@@ -60,11 +60,11 @@ contract testRequire {
 }
 ```
 
-vote() 函数要求 age >= 18,  否则撤销交易。
+`vote()` 函数要求 `age >= 18`（表示在18岁以上才可以投票），否则撤销交易。
 
-require  gas 问题
+`transferOwnership()` 函数要求调用者是`owner()`， 否则撤销交易。
 
-
+当撤销交易时，剩余未使用的 Gas 将返回给交易发起者。
 
 
 
