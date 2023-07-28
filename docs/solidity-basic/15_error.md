@@ -123,7 +123,7 @@ contract testAsset{
 
 
 
-##  require() 还是 assert() ? 
+### require() 还是 assert() ?
 
 以下是一些关于使用 `require` 还是 `assert` 的经验总结。
 
@@ -153,7 +153,7 @@ contract testAsset{
 
 
 
-## revert()
+### revert()
 
 也可以直接调用 `revert()` 来撤销交易，和`require()` 非常类似， revert 有两种形式：
 
