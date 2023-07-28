@@ -198,127 +198,64 @@ require(msg.sender == owner, "调用者不是 Owner");
 
 
 
-##  try/catch
+##  捕获异常 try/catch
 
-Solidity 0.6版本之后，加入try……catch……来捕获外部调用的异常，让我们在编写智能合约时，有更多的灵活性， 例如try/catch结构在以下场景有很有用。
+在合约代码里，和其他的合约进行交互（这个称之为外部调用）是很常见的操作，如果我们不在因外部调用失败而终止我们的交易，这个时候就可以使用  try……catch……来捕获外部调用的异常。
 
-- 如果一个调用回滚（revert）了，我们不想终止交易的执行。
-- 我们想在同一个交易中重试调用、存储错误状态、对失败的调用做出处理等。
 
-在 Solidity 0.6之前，模拟 try/catch仅有的方式是使用低级的调用，如call、delegatecall和staticcall，这是一个简单的示例，在Solidity 0.6之前实现某种try/catch。 
 
-```solidity
-pragma solidity <0.6.0;
-contract OldTryCatch {
-    function execute(uint256 amount) external {
-        // 如果执行失败，低级的call会返回false
-        (bool success, bytes memory returnData) = address(this).call(
-            abi.encodeWithSignature(
-                "onlyEven(uint256)",
-                  amount
-            )
-        );
-        if (success) {
-            // handle success            
-        } else {
-            // handle exception
-        }
-    }
-    function onlyEven(uint256 a) public {
-        // Code that can revert
-        require(a % 2 == 0, "Ups! Reverting");
-        // ...
-    }
-}
-```
-
-当调用execute(uint256 amount)，输入的参数amount会通过低级的call调用传给onlyEven(uint256)函数，call调用会返回布尔值作为第一个参数来指示调用的成功与否，而不会让整个交易失败。不过低级的call调用会绕过一些安全检查，需要谨慎使用。
-
-在最新的编译器中，可以这样写： 
-
-```solidity
-function execute(uint256 amount) external {
-    try this.onlyEven(amount) {
-        ...
-    } catch {
-        ...
-    }
-}
-```
-
-注意，try/catch仅适用于外部调用，因此上面调用this.onlyEven()，另外try大括号内的代码块是不能被catch本身捕获的。 
-
-```solidity
-function callEx() public {
-    try externalContract.someFunction() {
-        // 尽管外部调用成功了，依旧会回退交易，无法被catch
-        revert();
-    } catch {
-       ...
-    }
-}
-```
-
-#### try/catch 获得返回值
-
-对外部调用进行try/catch时，允许获得外部调用的返回值，示例代码： 
+下面是一个`try/catch`使用示例：
 
 ```solidity
 contract CalledContract {    
-    function getTwo() public returns (uint256) {
+    function getTwo() external returns (uint256) {
+        // 一些其他逻辑，也许 revert 
         return 2;
     }
 }
 
-
 contract TryCatcher {
     CalledContract public externalContract;
 
-
-    function execute() public returns (uint256, bool) {
-
-
+    function executeEx() public returns (uint256, bool) {
+        // 外部调用 getTwo()  
+			  // highlight-next-line
         try externalContract.getTwo() returns (uint256 v) {
             uint256 newValue = v + 2;
             return (newValue, true);
         } catch {
-            emit CatchEvent();
         }
-        
-        // ...
+    }
+}
+
+```
+
+在进行try/catch时，允许获得外部调用的返回值。
+
+
+
+ 注意，`try/catch` 仅适用于捕获外部调用的异常，内部代码异常是无法被 catch 的，例如： 
+
+```solidity
+function executeEx() public {
+    try externalContract.getTwo() {
+        // 尽管外部调用成功了，依旧会回退交易，无法被catch
+        revert();
+    } catch {
+       // ...
     }
 }
 ```
+
+
 
 注意本地变量newValue和返回值只在try代码块内有效。类似地，也可以在catch块内声明变量。
 
-在catch语句中也可以使用返回值，外部调用失败时返回的数据将转换为bytes，catch中考虑了各种可能的revert原因，不过如果由于某种原因转码bytes失败，则try/catch也会失败，会回退整个交易。
+### catch 条件子句
 
-catch语句中使用以下语法： 
+在 catch 语句可以捕获异常的错误提示，错误提示转换为`bytes`（如果由于某种原因转码`bytes`失败，则`try/catch`会失败，会回退整个交易）。
 
-```
-contract TryCatcher {
-    
-    event ReturnDataEvent(bytes someData);
-    
-    // ...
-
-
-    function execute() public returns (uint256, bool) {
-
-
-        try externalContract.someFunction() {
-            // ...
-        } catch (bytes memory returnData) {            
-            emit ReturnDataEvent(returnData);
-        }
-    }
-}
-```
-
-#### 指定 catch 条件子句
-
-Solidity的try/catch也可以包括特定的catch条件子句。 例如： 
+catch 也提供了不同的子句来捕获不同类型的异常， 例如：
 
 ```solidity
 contract TryCatcher {
@@ -327,12 +264,8 @@ contract TryCatcher {
     event CatchStringEvent(string someString);
     event SuccessEvent();
     
-    // ...
-
-
     function execute() public {
-
-
+    	  // highlight-next-line
         try externalContract.someFunction() {
             emit SuccessEvent();
         } catch Error(string memory revertReason) {
@@ -344,46 +277,35 @@ contract TryCatcher {
 }
 ```
 
-如果错误是由require(condition，"reason string")或revert("reason string")引起的，则错误与catch Error(string memory revertReason)子句匹配，然后与之匹配代码块被执行（就是紧接的大括号内的代码）。在任何其他情况下（例如 assert失败），都会执行更通用的catch(bytes memory returnData)子句。
-
-注意：catch Error(string memory revertReason)不能捕获除上述两种情况以外的任何错误。 如果我们仅使用它（不使用其他子句），最终将丢失一些错误。通常需要将catch或catch(bytes memory returnData)与catch Error(string memory revertReason)一起使用，以确保我们涵盖了所有可能的revert原因。
-
-在一些特定的情况下，如果catch Error(string memory revertReason)解码返回的字符串失败，catch(bytes memory returnData)（如果存在）将能够捕获它。 
-
-#### 处理 out-of-gas 失败
-
-首先要明确，如果交易没有足够的gas执行，则out of gas错误是不能捕获到的。
-
-在某些情况下，我们可能需要为外部调用指定gas，因此即使交易中有足够的gas，如果外部调用的执行需要的gas比我们设置的多，内部out of gas错误可能会被低级的catch子句捕获。
-
-```solidity
-pragma solidity <0.7.0;
-contract CalledContract {
-    function someFunction() public returns (uint256) {
-        require(true, "This time not reverting");
-    }
-}
 
 
-contract TryCatcher {
-    event ReturnDataEvent(bytes someData);
-    event SuccessEvent();
-    CalledContract public externalContract;
-    constructor() public {
-        externalContract = new CalledContract();
-    }
-    
-    function execute() public {
- // 设置gas为20
-        try externalContract.someFunction.gas(20)() {
-            // ...
-        } catch Error(string memory revertReason) {
-            // ...
-        } catch (bytes memory returnData) {
-            emit ReturnDataEvent(returnData);
-        }
-    }
-} 
-```
+在这段代码中，如果调用 `externalContract.someFunction` 发生 `require` 式异常（如`require(condition，"reason string")`或`revert("reason string")`），则错误与`catch Error(string memory revertReason)`子句匹配。
 
-当gas设置为20时，try 调用的执行将用掉所有的gas，最后一个catch语句将捕获异常：catch (bytes memory returnData)。 如果将gas设置为更大的量（例如2000），执行 try 块将会成功。
+在任何其他情况下， 例如发生 `assert` 式异常，则会执行更通用的`catch(bytes memory returnData)`子句。
+
+
+
+## 小结
+
+本节我们学习了 EVM 处理错误的方式，如果没有不做任何处理， 当 EVM 执行代码发生错误时， 就会回退整个交易。
+
+为了让程序对外部调用者更友好，我们可以使用 `require`  `revert` `asset` 来检查各种可能的错误，并给出相应的错误提示。
+
+通过当我们的程序调用外部函数时，也可以用 `try/catch`  来捕获外部调用可能发生的错误。
+
+
+
+------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+
+
+
+
+
+---
