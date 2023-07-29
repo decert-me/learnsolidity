@@ -141,11 +141,30 @@ Solidity对函数和状态变量提供了4种可见性：`external`、`public`�
 
  `external` 不可以修饰状态变量，声明为 `external` 的函数只能在外部调用，因此称为外部函数。
 
-如何现在合约内部调用外部函数，需要使用`this.func()` （而不是 `func()`）,  前面有合约地址来调用函数，这个方式称为外部调用。
+如何想在合约内部调用外部函数，需要使用`this.func()` （而不是 `func()`）。
+
+下面是一个例子：
+
+```solidity
+contract Counter {
+ 	uint a;
+	function add(uint x) external {
+		a = a+x;
+  }
+  
+  function increase() public {
+    // add(1);   // 错误，无法调用
+    this.add(1);   // 正确
+  } 
+  
+}
+```
 
 :::note
 
-`addr.fun()` 形式为外部调用，`func()`形式为内部调用， 外部调用也称为消息调用，会切换上下文。内部调用则是在当前上下文里跳转。
+前面有合约地址来调用函数， 即 `addr.fun()` 形式，这个方式称为外部调用。而 `func()`形式为内部调用。
+
+外部调用也称为消息调用，会切换上下文。内部调用则是在当前上下文里跳转。
 
 :::
 
@@ -157,7 +176,7 @@ Solidity对函数和状态变量提供了4种可见性：`external`、`public`�
 
 ### internal
 
-声明为 `internal` 函数和状态变量只能在当前合约中调用或者在派生合约（子合约）里访问。
+声明为 `internal` 函数和状态变量只能在当前合约中调用或者在[派生合约（子合约）](./15_is.md)里访问。
 
 
 
@@ -165,13 +184,13 @@ Solidity对函数和状态变量提供了4种可见性：`external`、`public`�
 
 
 
-声明为 `private` 函数和状态变量仅可在当前定义它们的合约中使用，并且不能被派生合约使用。
+声明为 `private` 函数和状态变量仅可在当前定义它们的合约中使用，并且不能被[派生合约](./15_is.md)使用。
 
 这个有一个对比表格：
 
 ![solidity 函数可见性](https://img.learnblockchain.cn/pics/20230610124717.png!decert.logo.water)
 
-
+> 注意：派生的合约继承父合约中`external` 方法，只是无法在派生的合约里内部调用继承的`external` 方法，如需调用，需要使用外部调用方法。
 
 :::note
 
