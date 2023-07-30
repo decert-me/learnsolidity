@@ -67,64 +67,107 @@ contract Counter is ICounter {
 
 ### 利用接口调用合约
 
-软件设计中，有一个很重要的原则：依赖接口，而不是依赖实现。
+软件设计中，有一个很重要的原则：**依赖接口，而不是依赖实现**。
+
+假设我们链上已经部署了一个`Counter`合约， 合约地址为`0xabcd....`， 源代码文件：`Counter.sol` ，代码如下：
 
 ```solidity
 pragma solidity ^0.8.0;
 
-contract Counter {
+contract Counter is ICounter {
     uint public count;
 
-    function increment() external {
+    function increment() external override {
         count += 1;
     }
 }
 
-interface ICounter {
-   function count() external view returns (uint);
-   function increment() external;
-}
+```
+
+如何在我们的合约里调用链上`Counter`合约的`increment()`方法呢？
+
+
+
+```solidity
+import "./ICounter.sol";
 
 contract MyContract {
+    // highlight-next-line
     function incrementCounter(address _counter) external {
         ICounter(_counter).increment();
     }
+}
 
-    function getCount(address _counter) external view returns (uint) {
-        return ICounter(_counter).count();
+```
+
+
+
+高亮代码`ICounter(_counter).increment();`  的含义是：把合约地址 `_counter`  类型转化为接口`ICounter`类型（接口类型与[合约类型](./6_contract.md)一样，也是自定义类型），再调用接口内的`increment()` 方法。
+
+
+
+还有一个方法是**基于具体的实现合约**，例如：
+
+```solidity
+import "./Counter.sol";
+
+contract MyContract {
+    function incrementCounter(address _counter) external {
+        // highlight-next-line
+        Counter(_counter).increment();
     }
 }
-
 ```
 
+代码`Counter(_counter).increment();`  的含义是：把合约地址 `_counter`  类型转化为合约`Counter`类似，再调用合约里的`increment()` 方法。
 
 
 
+依赖接口与依赖实现两个方法在EVM层面没有区别，最终都是通过合约地址找到对应的函数来执行。
 
-除了接口的抽象功能外，接口广泛使用于合约之间的通信，即一个合约调用另一个合约的接口。
+但是用**接口**来进行合约交互时，会更明确得传递一个含义：我在调用该接口，而不管他的实现，可以有任意的合约来进行实现。另外在接口文件里，由于没有实现细节，代码会更清晰，因此我会更推荐是用接口，
 
-例如，有一个SimpleToken合约实现了上面的IToken接口：
 
-```
-contract SimpleToken is IToken {
-function transfer(address recipient, uint256 amount) public override {
-....
+
+### 调用 ERC20 合约进行转账
+
+合约间的交互，使用非常广泛，因此，这里再举一个示例：实现一个奖励合约，给用户发放 ERC20 代币奖励。
+
+ERC20 代币如下：
+
+```solidity
+pragma solidity ^0.8.9;
+
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract MyToken is ERC20 {
+    constructor() ERC20("MyToken", "MTK") {}
 }
 ```
+
+
+
+可以先在脑海里想想如何实现？
+
+
 
 另外一个奖例合约（假设合约名为Award）则通过给SimpleToken合约给用户发送奖金，奖金就是SimpleToken合约表示的代币，这时Award就需要与SimpleToken通信（外部函数调用），代码可以这样写：
 
-```
+```solidity
 contract Award {
-  IToken immutable token;
-  // 部署时传入SimpleToken合约地址
-  constrcutor(IToken t) {
-     token = t;
+  IERC20 immutable token;
+  // 部署时传入 MyToken 合约地址
+  constrcutor(address t) {
+     token = IERC20(t);
   }
-  function sendBonus(address user) public {
+
+  function sendAward(address user) public {
      token.transfer(user, 100);
   }
 }
 ```
 
-sendBonus函数用来发送奖金，通过接口函数调用SimpleToken实现转账。
+`sendAward`函数用来发送奖金，通过接口函数调用`MyToken`实现转账。
+
+
+
