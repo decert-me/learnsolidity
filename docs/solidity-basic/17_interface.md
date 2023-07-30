@@ -2,7 +2,7 @@
 
 
 
-在上一节[继承](./15_is.md)中，我们已经理解了一些抽象的概念：把各个合约都拥有的功能，作为统一接口在父合约里提供，让所有的子合约都可以继承。
+在上一节[继承](./16_is.md)中，我们已经理解了一些抽象的概念：把各个合约都拥有的功能，作为统一接口在父合约里提供，让所有的子合约都可以继承。
 
 接口（Interface）则更进一步，是一种定义了一组**抽象方法的规范**，接口描述了一组兑现应该具有哪些方法，但并不提供这些方法的具体实现。
 
@@ -147,11 +147,11 @@ contract MyToken is ERC20 {
 
 
 
-可以先在脑海里想想如何实现？
+先在脑海里想一想如何实现？
 
+我们可以通过 IERC20 接口调用`MyToken` 的 `transfer`  方法，把奖励合约中的`MyToken`发送给用户。
 
-
-另外一个奖例合约（假设合约名为Award）则通过给SimpleToken合约给用户发送奖金，奖金就是SimpleToken合约表示的代币，这时Award就需要与SimpleToken通信（外部函数调用），代码可以这样写：
+代码可以这样写：
 
 ```solidity
 contract Award {
@@ -167,7 +167,40 @@ contract Award {
 }
 ```
 
-`sendAward`函数用来发送奖金，通过接口函数调用`MyToken`实现转账。
+`sendAward`函数用来发送奖金，当然需要需要在 `Award` 合约创建好之后，向 `Award` 转入一些`MyToken`。
+
+
+
+如果文章不好理解，[区块链技术集训营](https://learnblockchain.cn/course/28) 视频课程可以让大家学的更轻松。
+
+
+
+
+
+## 小结 
+
+本文，我们学习了接口的概念：接口是一组**抽象方法的规范**，在合约间相互调用时，应该**依赖接口，而不是依赖实现**。
+
+接口使用 `interface` 来定义，接口也是一个类型，在合约间相互调用时，我们把地址（合约实例）转化为接口，再调用相应的函数。
+
+
+
+
+
+------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+
+
+
+
+
+
 
 
 
