@@ -76,77 +76,77 @@ contract TestMax {
 
 绝大部分的库都是内嵌的方式在使用。
 
-> 要理解一点，内嵌库在合约的字节码层，是没有复用的，内嵌库的字节码会存在于每一个引入该库的合约字节码中。
+> 注意：内嵌库在合约的字节码层，是没有复用的，内嵌库的字节码会存在于每一个引入该库的合约字节码中。
 
 
 
 ##  链接库
 
-如果库代码内有[公共或外部函数](./2_solidity_layout.md#变量与函数的可见性)，库就可以被单独部署，它在以太坊链上有自己的地址，引用合约在部署合约的时候，需要通过库地址把库“链接”进合约里，合约是通过委托调用的方式来调用库函数的。
+如果库代码内有[公共或外部函数](./2_solidity_layout.md#变量与函数的可见性)，库就可以被单独部署，它在以太坊链上有自己的地址，引用合约在部署合约的时候，需要通过库地址把库“链接”进合约里，合约是通过[委托调用](../solidity-adv/addr_call.md)的方式来调用库函数的。
+
+下图是一个内嵌库和链接库在部署后的对比图：
+
+![Solidity 内联库与链接库](https://img.learnblockchain.cn/pics/20230802174358.png!decert.logo.water)
 
 
 
-前面提到，库没有自己的状态，因为在委托调用的方式下库合约函数是在发起的合约（下文称“主调合约”，即发起调用的合约）的上下文中执行的，因此库合约函数中使用的变量（如果有的话）都来自主调合约的变量，库合约函数使用的this也是主调合约的地址。
+在委托调用的方式下库合约函数是在发起的合约（下文称“主调合约”，即发起调用的合约）的上下文中执行的，因此库合约函数中使用的变量（如果有的话）都来自主调合约的变量（库代码不能声明自己的状态变量），库合约函数使用的`this`也是主调合约的地址。
 
- 
+  
 
-我们也可以从另一个角度来理解为什么库不能有自己的状态，库是单独部署，而它又会被多个合约引用（这也是库最主要的功能：避免在多个合约里重复部署，以节约gas），如果库拥有自己的状态，那它一定会被多个调用合约修改状态，将无法保证调用库函数输出结果的确定性。
-
- 
-
-把前面的SafeMath库的add函数修改为外部函数，就可以通过链接库的方式来使用，示例代码如下。
+把前面的Math库的add函数修改为外部函数，就可以通过链接库的方式来使用，示例代码如下：
 
 ```solidity
-pragma solidity >=0.5.0;
-library SafeMath {
-  function add(uint a, uint b) external pure returns (uint) {
-     uint c = a + b;
-     require(c >= a, "SafeMath: addition overflow");
-     return c;
-  }
+pragma solidity ^0.8.19;
+
+// highlight-next-line
+library Math {
+    function max(uint256 a, uint256 b) external pure returns (uint256) {
+        return a > b ? a : b;
+    }
+
 }
 ```
 
-AddTest代码不用作任何的更改，因为SafeMath库是独立部署的，AddTest合约要调用SafeMath库就必须先知道后者的地址，这相当于AddTest合约会依赖于SafeMath库，因此部署AddTest合约会有一点不同，需要一个AddTest合约与SafeMath库建立连接的步骤。
+`TestMax`代码不用作任何的更改，不过因为`Math`库是独立部署的， `TestMax`合约要调用`Math`库就必须先知道后者的地址，这相当于`TestMax`合约会依赖于`Math`库，因此部署`TestMax`合约会有一点不同，需要让 `TestMax`合约与`Math`库建立链接， Solidity 开发框架会帮助我们进行链接，以[Hardhat](../tools/4_hardhat.md) 为例，部署脚本这样写就好：
 
- 
 
-先来回顾一下合约的部署过程：第一步是由编译器生成合约的字节码，第二步把字节码作为交易的附加数据提交交易。
 
-编译器在编译引用了SafeMath库的AddTest时，编译出来的字节码会留一个空，部署AddTest时，需要用SafeMath库地址把这个空给填上（这就是链接过程）。
+```javascript
+  const ExLib = await hre.ethers.getContractFactory("Math");
+  const lib = await ExLib.deploy();
+  await lib.deployed();
 
-> 感兴趣的读者可以用命令行编译器solc操作一下，使用命令： `solc --optimize --bin AddTest.sol`可以生成AddTest合约的字节码，其中有一段用双下划线留出的空，类似这样：__$239d231e517799327d948ebf93f0befb5c98$__，这个空就需要用SafeMath库地址替换，该占位符是完整的库名称的keccak256哈希的十六进制编码的34个字符的前缀。
-
- 
-
-大部分时候库的部署、链接并不需要手动进行，而是可以依赖开发工具来完成，例如使用Truffle（在本书第7章会作进一步介绍）来进行部署，这时仅需要下面 3 行部署语句：
+  await hre.ethers.getContractFactory("TestMax", {
+    libraries: {
+      Library: lib.address,
+    },
+  });
 
 ```
-  deployer.deploy(SafeMath);
-  deployer.link(SafeMath, AddTest);
-  deployer.deploy(AddTest)；
-```
 
-如果不理解，可以在阅读完第7章之后，再回头看这3行部署语句。
+
 
 ## **Using for**
 
-在上一节中，我们是通过`SafeMath.add(x, y)`这种方式来调用库函数，还有一个方式是使用`using LibA for B`，它表示把所有LibA的库函数关联到类型B。这样就可以在B类型直接调用库的函数，代码示例如下：
+上面，我们通过`Math.max(x, y)`语法来调用库函数，还有一个语法糖是使用`using LibA for B`，它表示把所有LibA的库函数关联到类型B。这样就可以在B类型直接调用库的函数，代码示例如下：
 
-```
+```solidity
 contract testLib {
-    using SafeMath for uint;
-    function add (uint x, uint y) public pure returns (uint) {
-       return x.add(y);
+    using Math for uint;
+    
+    function callMax(uint x, uint y) public pure returns (uint) {
+       return x.max(y);
     }
+
 }
 ```
 
-使用`using SafeMath for uint;`后，就可以直接在uint类型的x上调用`x.add(y)`，代码明显更加简洁了。
 
-`using LibA for *`则表示LibA中的函数可以关联到任意的类型上。使用using...for...看上去就像扩展了类型的能力。比如，我们可以给数组添加一个indexOf函数，查看一个元素在数组中的位置，示例代码如下。
 
-```
+使用`using...for...`看上去就像扩展了类型的能力。比如，我们可以给数组添加一个indexOf函数，查看一个元素在数组中的位置，示例代码如下:
+
+```solidity
 pragma solidity >=0.4.16;
 
 
@@ -184,18 +184,30 @@ contract C {
 }
 ```
 
-这段代码中indexOf的第一个参数存储变量self，实际上对应着合约C的data变量。
+这段代码中`indexOf`的第一个参数存储变量self，实际上对应着合约 C 的`data`变量。
+
+
+
+路上使用`using LibA for B`语法糖，大部分时候，可以让我们的代码更简洁。
+
+例如：有一个库函数：`isContract(address addr) ` ， 可以使用 `addr.isContract()`  来调用库函数，代码就更简洁了。
+
+
+
+若使用 `using LibA for *`  可以把 LibA 中的函数关联到任意的类型上。
 
 
 
 ## 小结
 
-- 与合约类似（一个特殊合约），是函数的封装，用于代码复用。
+本文，我们学习了库的的概念， 总结要点：
+
+* 库是函数的封装， 主要用于代码复用
+* 库是没有状态的，也不能给库发送 Ether
+
 - 如果库函数都是 internal 的，库代码会嵌入到合约。 
-- 如果库函数有external或 public ，库需要单独部署，并在部署合约时进行链接，使用委托调用
-- 没有状态变量
-- 不能给库发送 Ether
-- 给类型扩展功能：Using lib for type; 如： using SafeMath for uint;
+- 如果库函数有external或 public ，库需要单独部署，并在部署合约时进行链接，EVM 中使用委托调用库方法。
+- 给类型扩展功能：`Using lib for type`; 如： using Math for uint;
 
 
 
