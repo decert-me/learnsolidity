@@ -111,7 +111,7 @@ contract modifysample {
         a = 1;
     }
 
-    function get_a() public constant returns (uint)   {
+    function get_a() public view returns (uint)   {
         return a;
     }
 }
