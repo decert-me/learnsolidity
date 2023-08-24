@@ -18,9 +18,96 @@ EVM 是以太坊虚拟机，和其他的机器一样，他们无法执行人类�
 
 ## ABI 接口描述
 
-在 Solidity 中，我们编译代码以后，会得到两个“artifact”：bytecode 和 ABI。
+在 Solidity 中，我们编译代码以后，会得到两个重要东西（称为`artifact`）：bytecode（字节码） 和 ABI 接口描述。
 
- JSON 文件
+> 参考 Remix IDE 一文，合约的[编译与部署](https://decert.me/tutorial/solidity/tools/remix#%E5%90%88%E7%BA%A6%E7%BC%96%E8%AF%91)。
+
+ABI 接口描述是 JSON 格式的文件，定义了智能合约中外部可以进行交互的**方法**、**事件**和可解释的**错误**。
+
+例如，下面的 Counter ：
+
+```solidity
+contract Counter {
+  uint public counter;
+  address private owner;
+
+  error NotOwner();
+  event Set(uint _value);  // 定义事件
+
+  constructor() {
+    owner = msg.sender;
+  }
+
+  function set(uint x) public {
+      if(owner != msg.sender)  revert NotOwner();
+      counter = x;
+      emit Set(x);
+
+  }
+}
+```
+
+
+
+编译之后生成的 ABI 为：
+
+```json
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "NotOwner",
+		"type": "error"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "_value",
+				"type": "uint256"
+			}
+		],
+		"name": "Set",
+		"type": "event"
+	},
+	{
+		"inputs": [],
+		"name": "counter",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "x",
+				"type": "uint256"
+			}
+		],
+		"name": "set",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+]
+```
+
+
+
+
 
 
 
