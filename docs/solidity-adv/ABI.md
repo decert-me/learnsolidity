@@ -209,20 +209,46 @@ ABI 解码一个重要的使用场景是，解析交易中的[事件日志](../s
 
 ![solidity 日志主题](https://img.learnblockchain.cn/pics/20230825191226.png!decert.logo.water)
 
-通过匹配，我们就可以知道 EVM 产生的该条日志是由 `Set(uint256)`  事件生成， 从而根据事件的参数列表解析日志数据。Solidity / web3.js / ethers.js 库都提供了解码函数， 如：
+通过匹配，我们就可以知道 EVM 产生的该条日志是由 `Set(uint256)`  事件生成， 从而根据事件的参数列表解析日志数据。Solidity / web3.js / ethers.js 库都提供了解码函数， 例如：
 
 ```solidity
 // solidity decode
-function decode(bytes calldata data) external pure returns (uint x) {
-        (x) = abi.decode(data, (uint));
-    }
+(x) = abi.decode(data, (uint));
+
+// ethers.js
+const SetEvent = new ethers.utils.Interface(["event Set(uint256 value)"]);
+let decodedData = SetEvent.parseLog(event);
 ```
 
 
 
+## ABI 编解码可视化工具
+
+ChainToolDAO 开发了几个可视化工具，帮助我们来编解码。
+
+1. 函数选择器的查询及反查 ：https://chaintool.tech/querySelector
+2. 事件签名的 Topic 查询：https://chaintool.tech/topicID
+3. Hash 工具提供Keccak-256 及 Base64：https://chaintool.tech/hashTool 
+4. 交易数据（calldata）的编码与解码： https://chaintool.tech/calldata
+
+![EVM- 交易数据（calldata）的编码与解码](https://img.learnblockchain.cn/pics/20230825205705.png!decert.logo.water)
 
 
-## ABI 可视化工具
+
+## 小结 
+
+本文，我们学习了 ABI 的概念，ABI 是一个编解码的规范，是人类可读信息与以太坊虚拟机执行二进制数据的桥梁。
+
+在理解 ABI 之上，分别介绍了 ABI 接口描述，ABI 编码与ABI 解码。
 
 
+
+------
+
+来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+
+
+DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
+
+本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
 
