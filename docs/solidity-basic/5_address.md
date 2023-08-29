@@ -90,15 +90,13 @@ address payable ap = payable(addr);
 
 ## 对地址转账及获取地址余额
 
-地址类型还有一些成员函数属性及函数，因此在在表现上还类似面向对象语言的中的类（内置类）， 先介绍获取余额与转账：
+地址类型还有一些成员函数属性及函数，因此地址类型在表现上还类似面向对象语言的中的类（内置类）， 最常使用的是余额属性与转账函数：
 
+1. `addr.balance` 属性 :  返回地址的余额， 余额以wei为单位 (uint256)。
 
+2. `addr_payable.transfer(uint256 amount)` :  用来向地址发送`amount`数量以太币(wei)，transfer 函数只使用固定的 2300 gas ,  发送失败时抛出异常。
 
-`<address>.balance` 属性 :  返回地址的余额， 余额以wei为单位 (uint256)。
-
-`<address payable>.transfer(uint256 amount)` :  用来向地址发送`amount`数量以太币(wei)，transfer 函数只使用固定的 2300 gas ,  发送失败时抛出异常。
-
-`<address payable>.send(uint256 amount) returns (bool)`:  `send` 功能上和`transfer` 函数一样，同样使用固定的 2300 gas ,  但是在发送失败时不抛出异常，而是返回`false`。
+3. `addr_payable.send(uint256 amount) returns (bool)`:  `send` 功能上和`transfer` 函数一样，同样使用固定的 2300 gas ,  但是在发送失败时不抛出异常，而是返回`false`。
 
 :::note
 你也许发现了 `addr.transfer(y)`与`require(addr.send(y))` 是等价的， 对的。
@@ -145,7 +143,9 @@ function safeTransferETH(address to, uint256 value) internal {
 }
 ```
 
-`safeTransferETH` 函数涉及两个新的知识点：[合约接收以太币](./12_receive.md)和地址类型上[成员函数 call 的用法](../solidity-adv/addr_call.md)，本节不展开，大家通过链接前往阅读。
+`safeTransferETH` 函数涉及两个新的知识点：[合约接收以太币](./12_receive.md)和地址类型上[成员函数 call 的用法](../solidity-adv/addr_call.md)，本节不展开。
+
+地址还有3个底层方法，将在[地址底层调用](../solidity-adv/addr_call.md)  一节中介绍一下。
 
 
 
