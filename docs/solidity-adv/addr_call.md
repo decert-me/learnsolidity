@@ -2,7 +2,7 @@
 
 ## 理解底层调用
 
-在我们知道一个合约的接口后， 就我们的合约中调用其函数， 例如下调用ERC20 的transfer 方法来发送奖励：
+在我们知道一个合约的接口后， 就我们的合约中调用其函数， 例如下调用`ERC20` 的`transfer` 方法来发送奖励：
 
 ```solidity
 contract Award {
@@ -14,9 +14,9 @@ contract Award {
 
 
 
-然后这里也有一个前提：需要在编写我们的合约（这里为`Award`）前，先知道目标合约的接口。
+然后这里也有一个前提：需要在编写我们的合约（这里为`Award`）前，先知道目标合约的接口（这里为 `transfer` ）。
 
-但有时我们在编写合约时，还不知道目标合约的接口，甚至是目标合约还没有创建。一个典型的例子是智能合约钱包，该智能合约会代表我们的身份调用任何可能的合约。显然我们无法在编写智能合约钱包时，预知未来要交互的合约接口。
+但有时我们在编写合约时，还不知道目标合约的接口，甚至是目标合约还没有创建。一个典型的例子是智能合约钱包，智能合约钱包会代表我们的身份调用任何可能的合约。显然我们无法在编写智能合约钱包时，预知未来要交互的合约接口。
 
 这个问题该如何解决呢？
 
@@ -26,15 +26,13 @@ contract Award {
 
 
 
-在这一篇里，就来介绍一下，地址的底层调用功能。
+在这一篇里就来介绍一下，地址的底层调用功能。
 
 
 
 ## 底层调用
 
- 
-
-地址类型还有3个底层的成员函数：
+ 地址类型还有3个底层的成员函数：
 
 - `targetAddr.call(bytes memory abiEncodeData) returns (bool, bytes memory)`
 
@@ -52,7 +50,7 @@ contract Award {
 
 
 
-在
+在 [接口与函数调用](./17_interface.md) 一节中，我们介绍过通过 `ICounter(_counter).set(10);`  调用以下`set`方法：
 
 ```solidity
 contract Counter {
@@ -66,11 +64,17 @@ contract Counter {
 
 
 
-```
-abi.encodeWithSignature("set(uint256)", 10)
+在 [ABI 一节](ABI.md) 我们知道调用 `set()`函数，实际上发送的是 ABI 编码数据`0x60fe47b1000000000000000000000000000000000000000000000000000000000000000a`
+
+通过`call` 就可以直接使用编码数据发起调用：
+
+```solidity
+bytes memory payload = abi.encodeWithSignature("set(uint256)", 10);
+(bool success, bytes memory returnData) = address(_counter).call(payload);
+require(success);
 ```
 
-
+这段代码在功能上和  `ICounter(_counter).set(10);` 等价，但可以动态构造`payload`数据进行调用.
 
 
 
