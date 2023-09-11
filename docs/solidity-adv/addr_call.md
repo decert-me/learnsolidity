@@ -1,4 +1,4 @@
-# 地址底层调用: call 与delegatecall
+# 地址底层调用: call 与 delegatecall
 
 ## 理解底层调用
 
@@ -74,23 +74,19 @@ bytes memory payload = abi.encodeWithSignature("set(uint256)", 10);
 require(success);
 ```
 
-这段代码在功能上和  `ICounter(_counter).set(10);` 等价，但可以动态构造`payload`数据进行调用.
+这段代码在功能上和  `ICounter(_counter).set(10);` 等价，但 `call`的方式可以动态构造 `payload` 编码数据对函数进行调用，从而实现对任意函数、任何类型及任意数量的参数的调用。
+
+示例中的编码数据是通过 `encodeWithSignature` 构造，Solidity 提供了多个[编码函数](./ABI.md#Solidity 编码函数)来构造编码数据，还可以通过工具和 Web3.js 等库在链下构造编码数据。
 
 
 
+使用底层方法调用合约函数时， 当被调用的函数发生错误时，是不是冒泡异常的， 而是返回错误 false。因此在使用所有这些低级函数时，一定要记得检查返回值。
 
 
-这3个函数用直接控制的编码[给定有效载荷（payload）作为参数]与合约交互，返回成功状态及数据，默认发送所有可用gas。它是向另一个合约发送原始数据，支持任何类型、任意数量的参数。
 
-每个参数会按规则（接口定义ABI协议）打包成32字节并拼接到一起。Solidity提供了全局的函数abi.encode、abi.encodePacked、abi.encodeWithSelector和abi.encodeWithSignature用于编码结构化数据。
+## call 与 delegatecall
 
-例如，下面的代码是用底层方法call调用合约register方法 。
 
-```
-bytes memory payload = abi.encodeWithSignature("register(string)", "MyName");
-(bool success, bytes memory returnData) = address(nameReg).call(payload);
-require(success);
-```
 
 **注意**：所有这些函数都是低级函数，应谨慎使用。因为我们在调用一个合约的同时就将控制权交给了被调合约，当我们对一个未知的合约进行这样的调用时，这个合约可能是恶意的，并且被调合约又可以回调我们的合约，这可能发生重入攻击。与其他合约交互的常规方法是在合约对象上调用函数（x.f()）。
 
@@ -115,10 +111,6 @@ address(nameReg).call{gas: 1000000, value: 1 ether}(abi.encodeWithSignature("reg
 ```
 
 使用函数delegatecall()也是类似的方式，delegatecall被称为“委托调用”，顾名思义，是把一个功能委托到另一个合约，它使用当前合约（发起调用的合约）的上下文环境（如存储状态，余额 等），同时使用另一个合约的函数。 delegatecall()多用于调用库代码以及合约升级。
-
-
-
-
 
 
 

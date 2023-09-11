@@ -165,9 +165,9 @@ ABI JSON 的详细的规范可参考 [Solidity 文档](https://learnblockchain.c
 
 
 
-`0x60fe47b1` 是函数选择器， 它是ABI 描述中函数的签名：`set(uint256)` 进行 keccak256 哈希运算之后，取前4个字节：
+`0x60fe47b1` 是函数选择器， 它是 ABI 描述中函数的签名：`set(uint256)` 进行 keccak256 哈希运算之后，取前4个字节：
 
-```
+```solidity
   bytes4(keccak256("set(uint256)")) == 0x60fe47b1
 ```
 
@@ -192,6 +192,10 @@ abi.encode(a);   // 0x0000000000000000000000000000000000000000000000000000000000
 ### Solidity 编码函数
 
 Solidity 中有 5 个函数：`abi.encode`, `abi.encodePacked`, `abi.encodeWithSignature`, `abi.encodeWithSelector` 及`abi.encodeCall` 用于编码。
+
+> 我们可以在 [Chisel](https://learnblockchain.cn/article/6408) 里演练这几个编码函数，Chisel 是Foundry 提供的 Solidity 交互式命令工具
+
+
 
 ###  abi.encode
 
@@ -231,7 +235,7 @@ abi.encode(addr, a, b, array) // 0x000000000000000000000000e74c813e3f545122e88a7
 
 
 
-## abi.encodePacked
+### abi.encodePacked
 
 `encodePacked` 称为紧密编码，和  `encode()` 方法不同，参数在编码拼接时不会填充`0`， 而是使用实际占用的空间然后把各参数拼在一起，如果编码结果不是32字节整数倍数时，再末尾依旧会填充`0`）。例如在使用[EIP712](https://learnblockchain.cn/2019/04/24/token-EIP712) 时，需要对一些数据编码，就需要使用到 `encodePacked` 。
 
@@ -255,13 +259,51 @@ abi.encodePacked(addr, s, b);  // 0xe74c813e3f545122e88a72fb1df94052f93b808f0201
 
 
 
+### abi.encodeWithSignature
+
+对函数签名及参数进行编码，第一个参数是函数签名，后面按EVM标准规则对参数进行编码，这样就可以直接获得 调用函数所需的 ABI 编码数据。
+
+```solidity
+abi.encodeWithSignature("set(uint256)", 10) // 0x60fe47b1000000000000000000000000000000000000000000000000000000000000000a
+
+// 参考上方 addr, s, b 的定义
+abi.encodeWithSignature("addUser(address,uint8,bool)", addr, s, b) // 0x63f67eb5000000000000000000000000e74c813e3f545122e88a72fb1df94052f93b808f00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001
+```
 
 
- 
+
+### abi.encodeWithSelector
+
+它与`abi.encodeWithSignature`功能类似，只不过第一个参数为4个字节的`函数选择器`，例如：
+
+```solidity
+abi.encodeWithSelector(0x60fe47b1, 10);
+// 等价于
+abi.encodeWithSelector(bytes4(keccak256("set(uint256)")), 10); // 0x60fe47b1000000000000000000000000000000000000000000000000000000000000000a
+
+
+abi.encodeWithSelector(0x63f67eb5, addr, s, b);
+// 等价于
+abi.encodeWithSelector(bytes4(keccak256(""addUser(address,uint8,bool)")), addr, s, b) // 0x63f67eb5000000000000000000000000e74c813e3f545122e88a72fb1df94052f93b808f00000000000000000000000000000000000000000000000000000000000000020000000000000000000000000000000000000000000000000000000000000001
+```
 
 
 
+### abi.encodeCall
 
+`encodeCall` 可以通过函数指针，来对函数及参数编码，在执行编码时，执行完整的类型检查, 确保类型匹配函数签名。例如：
+
+```solidity
+interface IERC20 {
+    function transfer(address recipient, uint amount) external returns (bool);
+}
+
+contract EncodeCall {
+    function encodeCallData(address _to, uint _value) public pure returns (bytes memory) {
+        return abi.encodeCall(IERC20.transfer, (_to, _value));
+    }
+}
+```
 
 
 
