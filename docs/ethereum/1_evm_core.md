@@ -8,11 +8,11 @@
 
 传统的互联网客户端/服务端架构（C/S架构）通常如下所示：
 
-![C/S架构](https://raw.githubusercontent.com/anglee0323/Picbed/main/web2-20230911173550043.webp)
+![C/S架构](https://img.learnblockchain.cn/pics/20230914175606.webp!/scale/70)
 
 而去中心化应用（DApp）则有所不同，其后端由一组多个节点计算机（矿工）组成的网络支持，如下图所示：
 
-![DApp架构](https://raw.githubusercontent.com/anglee0323/Picbed/main/web3-20230911173550715.webp)
+![DApp架构](https://img.learnblockchain.cn/pics/20230914175612.webp!/scale/70)
 
 通常情况下，我们使用的应用程序的内容由后端服务器提供，并将请求发送到后端服务器进行处理。例如，支付宝、京东等应用程序中的所有数据都由公司拥有。
 
@@ -65,7 +65,7 @@ contract Counter {
 
 它们之间还有一个不可忽视的区别：**只有外部用户账户可以发起交易（主动行为），而合约账户只能被动地响应操作，并且所有的手续费（Gas）必须由外部账户支付**。
 
-![](https://raw.githubusercontent.com/anglee0323/Picbed/main/50-20230911174122492-20230911174128215.png)
+![](https://img.learnblockchain.cn/pics/20230914175624.png)
 
 > 绿色箭头表示发起交易，灰色箭头表示消息调用
 
@@ -85,15 +85,15 @@ contract Counter {
 
 下面通过一个合约账户的可视化示例来总结上述内容：
 
-![账户状态示例](https://raw.githubusercontent.com/anglee2002/Picbed/main/20230302184507.webp)
+![账户状态示例](https://img.learnblockchain.cn/pics/20230914175631.webp)
 
 以太坊的全局共享状态由所有账户状态组成，这些状态以账户地址和账户状态之间的映射形式存储在区块的状态树中，如下图所示：
 
-![image-20230302185955720](https://img.learnblockchain.cn/pics/20230302185957.png)
+![EVM 账户树](https://img.learnblockchain.cn/pics/20230302185957.png)
 
 上述内容总结如下：
 
-![核心概念总结](https://raw.githubusercontent.com/anglee2002/Picbed/main/CleanShot%202023-09-11%20at%2016.45.35%402x.png)
+![核心概念总结](https://img.learnblockchain.cn/pics/20230914175643.png)
 
 ## 5.以太币
 
@@ -135,7 +135,7 @@ EVM执行智能合约时，会将智能合约的字节码加载到内存中，�
 
 以太坊虚拟机（EVM）是以太坊节点客户端的核心组件，它执行智能合约的代码，并处理交易。EVM与节点客户端紧密结合，使得以太坊网络能够运行智能合约并处理交易。它是以太坊的计算引擎，负责执行智能合约代码并维护全网的状态。
 
-![image-20230306145536384](https://img.learnblockchain.cn/pics/20230306145537.png)
+![节点、EVM 智能合约](https://img.learnblockchain.cn/pics/20230306145537.png)
 
 所有用户都通过节点与区块链网络进行交互，一般用户无需设置节点，因为运行节点需要大量资源。目前，有许多专业的节点服务提供商，例如 [Infura](https://www.infura.io/zh) 和 [Alchemy](https://www.alchemy.com/)，它们提供了便捷的方式来连接到区块链网络。
 
@@ -149,7 +149,7 @@ MetaMask 是一个浏览器插件，支持多种主流浏览器，如 Chrome、F
 
 您可以在 [MetaMask 官方网站](https://metamask.io) 上找到相应的插件，并按照指南进行安装。安装完成后，您可以导入现有账户或创建新账户，并在 MetaMask 的界面中查看账户信息，如您所示的截图所示。这将为您提供一个方便的方式来管理您的以太坊账户和进行区块链操作。
 
-![CleanShot 2023-09-11 at 17.47.57@2x](https://raw.githubusercontent.com/anglee0323/Picbed/main/CleanShot%202023-09-11%20at%2017.47.57%402x.png)
+![MetaMask 钱包](https://img.learnblockchain.cn/pics/20230914175653.png)
 
 ## 9.Gas机制
 

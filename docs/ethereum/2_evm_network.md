@@ -21,7 +21,9 @@ EVM兼容链是那些设计和实现与以太坊虚拟机（EVM）兼容的区�
 
 每个链都有自己的chainId和相应的节点RPC，您可以在MetaMask等钱包中通过添加自定义网络RPC来添加它们，如下图所示：
 
-<img src="https://raw.githubusercontent.com/anglee2002/Picbed/main/CleanShot%202023-09-12%20at%2010.03.11%402x.png" alt="CleanShot 2023-09-12 at 10.03.11@2x" style="zoom:50%;" />
+![Metamask 钱包 - 网络](https://img.learnblockchain.cn/pics/20230914182942.png)
+
+
 
 [Chainlist](https://chainlist.org/)列出了大多数EVM兼容链，您可以在那里找到chainID和节点RPC地址，并可以轻松地将它们添加到MetaMask等钱包中。
 

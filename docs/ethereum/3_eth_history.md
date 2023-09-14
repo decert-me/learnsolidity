@@ -107,7 +107,7 @@
 
 Vitalik 在 2022年 11 月 5 日，发表了[以太坊的最新发展路线图](https://twitter.com/VitalikButerin/status/1466411377107558402)：
 
-![img](https://img.learnblockchain.cn/pics/20230306182836.jpeg)
+![以太坊发展路线图](https://img.learnblockchain.cn/pics/20230306182836.jpeg)
 
 新的路线图，包含：The Merge、The Surge、The Scourge、The Verge、The Purge、The Splurge 六大阶段， 六个阶段在同时推进。
 
