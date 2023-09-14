@@ -2,11 +2,11 @@
 
 
 
-本章的最后一节，来回顾下以太坊的发展历史，我们现在的看到的以太坊是经过一次次的分叉升级发展而来。以太坊的发展大概有以下几个阶段，每个阶段都命名了一个代号。
+在这一节中，让我们回顾一下以太坊的发展历程，我们现在的看到的以太坊是经过一次次的分叉升级发展而来。以太坊的发展大概有以下几个阶段，每个阶段都伴随着特定的升级和改进。
 
 ## 奥林匹克（Olympic） 
 
-以太坊区块链在2015年5月开始向用户（主要是开发者）开放使用。版本称为“奥林匹克”，这是一个测试版本。主要供开发人员提前探索以太坊区块链开放以后的运作方式，比如测试交易活动、虚拟机使用、挖矿方式和惩罚机制，同时尝试使网络过载，并对网络状态进行极限测试，了解协议如何处理流量巨大的情况。
+以太坊区块链在2015年5月开始向用户（主要是开发者）开放使用。版本称为“奥林匹克”，这是一个测试版本。主要供开发人员提前探索以太坊区块链开放以后的运作方式，比如测试交易活动、虚拟机使用、挖矿方式和惩罚机制，同时尝试使网络过载，并对网络状态进行极限测试，以了解协议如何处理大量流量。
 
 ##  边疆（Frontier）
 
@@ -18,7 +18,7 @@
 
 （2）Gas机制：通过gas来限制交易和智能合约的工作量。
 
-（3）引入了合约。
+（3）引入了合约概念。
 
 ##  家园（Homestead）
 
@@ -28,15 +28,13 @@
 
 （2）上线Mist钱包，使用户能够通过UI界面持有或交易ETH，编写或部署智能合约。
 
- 
-
 家园升级是第一个通过以太坊改进提案（EIP）实施的分叉升级。
 
 > EIP（Ethereum Improvement Proposal）即以太坊改进提案，是以太坊去中心化治理的一部分，所有人都可以提出治理的改进方案，当社区讨论通过后，就会囊括在网络升级版本中。
 
-家园升级主要包括三个EIP提案：EIP2、EIP7、EIP8。这些提案具体包含的内容可以通过 EIP 文档查看：https://eips.ethereum.org/。
+家园升级主要包括三个EIP提案：EIP2、EIP7、EIP8。这些提案具体包含的内容可以通过 [EIP 文档](https://eips.ethereum.org/)查看。
 
-> 作者翻译一些 EIP 文档，英文不好的同学可前往https://learnblockchain.cn/docs/eips/阅读。
+> 作者翻译一些 EIP 文档，英文不好的同学可以参考https://learnblockchain.cn/docs/eips/
 
 ##  DAO分叉
 
@@ -52,7 +50,7 @@
 
 > “难度炸弹”（Difficulty Bomb）是这样一种机制：一旦被激活，将增加挖掘新区块所耗费的成本（即“难度”），直到难度系数变为不可能或者没有新区块等待挖掘。这在以太坊中称为进入冰河时代，“难度炸弹”机制在2015年9月就被引入以太坊网络。它的目的是促使以太坊最终从工作量证明（PoW）转向权益证明（PoS）。因为从理论上来说，未来在PoS机制下，矿工仍然可以选择在旧的PoW链上作业，而这种行为将导致社区分裂，从而形成两条独立的链。为了预防这种情况的发生，通过“难度炸弹”增加难度，将最终淘汰PoW挖矿，促使网络完全过渡到PoS机制。
 
-这次分叉包括9个EIP：EIP100 、EIP658、EIP649、EIP140、EIP196、EIP197、EIP198、EIP211、EIP214 , 详细的变更可以参考这个链接：https://github.com/ethereum/wiki/wiki/Byzantium-Hard-Fork-changes。
+这次分叉包括9个EIP：EIP100 、EIP658、EIP649、EIP140、EIP196、EIP197、EIP198、EIP211、EIP214 , 详细的变更可以参考[github](https://github.com/ethereum/wiki/wiki/Byzantium-Hard-Fork-changes)。
 
 ##  君士坦丁堡（Constantinople）
 
@@ -69,21 +67,15 @@
 3. 增加了 chainid 操作码，让智能合约可以识别自己在主链还是分叉链或二层网络扩容链上（EIP-1344）； 
 4. 添加 BLAKE2 预编译函数，让以太坊可以和专注隐私功能的 Zcash 链交互，提高以太坊的隐私能力。
 
- 
-
-其中 1 2 3 点 对以太坊的二层网络扩容方案是重大利好，因为很多二层网络方案会把很多交易打包在一起传递给（通过 calldata 参数）智能合约验证（通过alt_bn128函数验证）。
+其中 1 2 3 点对以太坊的二层网络扩容方案是重大利好，因为很多二层网络方案会把很多交易打包在一起传递给智能合约验证（通过alt_bn128函数验证）。
 
 伊斯坦布尔分叉另外还有两个重新调整 gas 费用的改进：[EIP-1884](https://learnblockchain.cn/docs/eips/eip-1884.html)   [EIP-2200](https://learnblockchain.cn/docs/eips/eip-2200.html) ， 这里不详细介绍，有兴趣可以通过链接阅读。
-
-
 
 ## 信标链创世块
 
 2020 年 12 月 1 日，信标链正式启动，是以太坊迈向 POS 共识的重要一步。
 
 信标链启动后，以太坊有两条独立的链，但此时的信标链仅可以进行共识，无法进行任何交易。
-
-
 
 ## 柏林（Berlin）
 
@@ -95,23 +87,15 @@
 - [EIP-2930](https://eips.ethereum.org/EIPS/eip-2930) – 添加可选访问列表
 
 
-
-
-
-
 ## 伦敦（London）
 
 伦敦升级在 [12965000](https://etherscan.io/block/12965000) 进行（2021/08/05 日）。引入了 [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559)，对交易费进行了修改，同时还对交易费用的退款处理进行了修改，修改有：
 
 - [EIP-1559](https://eips.ethereum.org/EIPS/eip-1559) - 改善交易费市场
-- [EIP-3198](https://eips.ethereum.org/EIPS/eip-3198) - 从区块返回“BASEFEE”
+- [EIP-3198](https://eips.ethereum.org/EIPS/eip-3198) - 从区块返回 BASEFEE
 - [EIP-3529](https://eips.ethereum.org/EIPS/eip-3529) - 减少以太坊虚拟机操作的Gas退款
 - [EIP-3541](https://eips.ethereum.org/EIPS/eip-3541) - 防止部署以“0xEF”开头的合约
 - [EIP-3554](https://eips.ethereum.org/EIPS/eip-3554) - 将冰河世纪推迟到 2021 年 12 月
-
-
-
-
 
 ## TheMerge 合并
 
@@ -119,13 +103,7 @@
 
 执行层负责交易执行（EVM），共识层负责共识出块。
 
-
-
-
-
 ## 未来：以 rollup 为中心的开发路线
-
-
 
 Vitalik 在 2022年 11 月 5 日，发表了[以太坊的最新发展路线图](https://twitter.com/VitalikButerin/status/1466411377107558402)：
 
@@ -133,12 +111,12 @@ Vitalik 在 2022年 11 月 5 日，发表了[以太坊的最新发展路线图](
 
 新的路线图，包含：The Merge、The Surge、The Scourge、The Verge、The Purge、The Splurge 六大阶段， 六个阶段在同时推进。
 
-**The Merge 阶段**已经大部分完成，预计 4 月份进行上海升级，激活取款功能。
+**The Merge 阶段**：已经大部分完成，预计 4 月份进行上海升级，激活取款功能。
 
-**The Surge阶段**是推动以 Rollup 为中心的扩容，包含EIP4844 引入一种新的交易类型，将使得 rollup 的开销降低 10-100 倍。
+**The Surge阶段**：推动以 Rollup 为中心的扩容，将使得 rollup 的开销降低。
 
-**The Verge阶段**引入 Verkle 树，优化数据存储及验证。
+**The Verge阶段**：引入 Verkle 树，优化数据存储及验证。
 
-**The Purge阶段**清理数据、简化存储，降低验证者硬盘空间性能要求。
+**The Purge阶段**：清理数据、简化存储，降低验证者硬盘空间性能要求。
 
-**The Splurge阶段** 进行EVM 改进及全面引入零知识证明
+**The Splurge阶段**：进行EVM 改进及全面引入零知识证明
