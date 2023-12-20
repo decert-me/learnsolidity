@@ -1,9 +1,9 @@
 # Hardhat 开发框架
 
-> 如果你已经熟练使用 Hardhat ，可以直接跳到[Hardhat 挑战](https://decert.me/quests/10003) ，完成调整领取技能认证 NFT。
+> 如果你已经熟练使用 Hardhat ，可以直接跳到[Hardhat 挑战](https://decert.me/quests/10003) ，完成挑战领取技能认证 NFT。
 
 
-Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、测试和部署智能合约。Hardhat 使用 Node 进行包管理，如果你熟悉 Node 及 Javascript， Hardhat 将非常简单上手。
+Hardhat 提供了一个灵活且易于使用的开发环境，可以轻松地编写、测试和部署智能合约。Hardhat 使用 Node 进行包管理，如果你熟悉 Node 及 Javascript， Hardhat 将非常容易上手。
 
 
 
@@ -18,7 +18,7 @@ Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、
 1. 创建及配置Hardhat项目
 2. 编写智能合约
 3. Hardhat 编译合约
-4. 使用 [Ethers.js](https://learnblockchain.cn/ethers_v5/) 和为合约编写自动化测试
+4. 使用 [Ethers.js](https://learnblockchain.cn/ethers_v5/) 来为合约编写自动化测试
 5. 使用 `console.log()`调试 Solidity
 6. 使用 Hardhat 部署合约
 7. 使用 Hardhat Etherscan 进行开源验证。
@@ -35,7 +35,7 @@ Hardhat 提供了一个灵活且易于使用的环境，可以轻松地编写、
 
 
 
-Hardhat 构建在Node.js之上， 使用 Hardhat 要求我们在电脑先安装好Node.js (>= 16.0)， 环境准备可以参考[这里](https://learnblockchain.cn/docs/hardhat/tutorial/setting-up-the-environment.html)。
+Hardhat 构建在 Node.js 之上， 使用 Hardhat 要求我们在电脑先安装好Node.js (>= 16.0)， 环境准备可以参考[这里](https://learnblockchain.cn/docs/hardhat/tutorial/setting-up-the-environment.html)。
 
 先创建项目目录：
 
@@ -98,7 +98,7 @@ $ npx hardhat
 
 
 
-创建好的Hardhat工程包含文件有：
+创建好的 Hardhat 工程包含文件有：
 
 - `contracts`：智能合约目录
 - `scripts` ：部署脚本文件
@@ -136,7 +136,7 @@ contract Counter {
 
 ### 使用OpenZepplin 等第三方库
 
-在编写合约时，尽量不要重复造轮子，基于优质开源的第三方库，不仅可以提交效率，还可以让我们的合约代码更安全，例如要开发一个 Token，可以用npm 安装OpenZepplin 库：
+在编写合约时，尽量不要重复造轮子，基于优质开源的第三方库，不仅可以提高效率，还可以让我们的合约代码更安全，例如要开发一个 Token，可以用npm 安装OpenZepplin 库：
 
 ```bash
 npm install @openzeppelin/contracts --save-dev
@@ -195,7 +195,7 @@ Compilation finished successfully
 
 智能合约的 **ABI（Application Binary Interface）**信息，其中包括了合约的函数、事件等接口信息。这个文件通常会在与其他合约交互时使用，因为它可以被其他合约和 DApp 使用。
 
-`Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。:::
+`Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。
 
 :::
 
@@ -267,7 +267,7 @@ counter:0x5FbDB2315678afecb367f032d93F642f64180aa3
 
 
 
-这意味着测试通过了。 现在我们解释主要代码：
+这意味着测试通过了。 现在我们解释下主要代码：
 
 
 
@@ -382,12 +382,11 @@ main();
 
 
 
-运行 `npx hardhat run scripts/deploy.js` 时， 可以合约会部署到Hardhat 内置网络上。
+运行 `npx hardhat run scripts/deploy.js` 时，合约会部署到 Hardhat 内置网络上。
 
 ```
 > npx hardhat run scripts/deploy.js
 Counter address: 0x5FbDB2315678afecb367f032d93F642f64180aa3
-
 ```
 
 
@@ -455,7 +454,7 @@ const [owner, otherAccount] = await ethers.getSigners();
 
 
 
-另外要注意， 在 Goerli 上进行部署，需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费或一些测试币，这是Goerli的一个水龙头:
+另外要注意， 在 Goerli 上进行部署，需要将Goerli-ETH发送到将要进行部署的地址中。 可以从水龙头免费获取一些测试币，这是Goerli的一个水龙头:
 
 - [Alchemy Goerli Faucet](https://goerlifaucet.com/)
 
@@ -489,7 +488,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 
 
-相比在区块链浏览器上上传代码验证， hardhat-etherscan 有很多优点，否则会自动使用 hardhat config 值设置的编译器选项，并且当代码中引用的第三方库或合约， hardhat-etherscan 能自动探测并处理。
+相比在区块链浏览器上上传代码验证， hardhat-etherscan 有很多优点，它会自动使用 hardhat.config.js 中设置的编译器选项，并且当代码中引用了第三方库或合约， hardhat-etherscan 能自动探测并处理。
 
 
 
