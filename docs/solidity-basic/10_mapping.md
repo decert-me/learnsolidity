@@ -13,7 +13,7 @@ mapping(address => uint) public userLevel;
 
 ```
 
-映射的定义为`mapping(KeyType => ValueType)`， `KeyType` 表示键的类型，`ValueType` 表示键的类型。
+映射的定义为`mapping(KeyType => ValueType)`， `KeyType` 表示键的类型，`ValueType` 表示值的类型。
 
 我们可以通过键来获取到对应的值，例如：`balances[userAddr]`  用来获取某个地址的余额，访问形式很类似于通过下标来获取某个数组元素的值。 
 
