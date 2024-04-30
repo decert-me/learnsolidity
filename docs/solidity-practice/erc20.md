@@ -6,11 +6,11 @@
 该标准定义了一组 API（应用程序编程接口），涉及到代币在智能合约中的转移方式，如何获取数据（比如各账户的代币余额），以及如何接收、记录和使用这些代币。
 
 
-### ERC20 的关键方法与属性
+### ERC20 核心方法和事件
 
-ERC20 标准主要定义了以下几个函数和两个事件：
+ERC20 标准主要定义了以下几个方法和两个事件：
 
-函数：
+方法：
 - `name() public view returns (string)`：可选；返回一个字符串值，表示代币的名称
 - `symbol() public view returns (string)`：可选；返回一个字符串值，表示代币的简写或缩写。
 - `decimals() public view returns (uint8)`：可选；返回一个 uint8 类型的值，表示代币可以分割到的小数位数。许多代币选择`18`为其小数值，因为这是 Ether(ETH) 使用的小数位数
@@ -23,7 +23,7 @@ ERC20 标准主要定义了以下几个函数和两个事件：
 
 事件：
 - `Transfer(address indexed _from, address indexed _to, uint256 _value)`：在代币被转移时触发。
-- `Approval(address indexed _owner, address indexed _spender, uint256 _value)`：在调用 approve 函数时触发。
+- `Approval(address indexed _owner, address indexed _spender, uint256 _value)`：在调用 approve 方法时触发。
 
 ## 编写一个简单的 ERC20 代币合约
 
@@ -98,7 +98,7 @@ contract BaseERC20 {
 
 ## 使用 OpenZeppelin 创建 ERC20 代币
 
-OpenZeppelin 是一个开源的区块链开发框架，旨在帮助开发者构建安全、稳健的智能合约。
+[OpenZeppelin](https://docs.openzeppelin.com/contracts/5.x/) 是一个开源的区块链开发框架，它提供了安全的合约模板来简化开发过程。
 
 对于想要创建 ERC20 代币的开发者来说，使用 OpenZeppelin 可以极大地简化开发过程，因为它内置了遵守 ERC20 标准的可复用合约，这些合约经过严格审计，能够减少潜在的安全风险。
 
@@ -176,4 +176,4 @@ function burn(uint256 amount) public virtual {
 
 ## 总结
 
-此章节的目的是向你展示如何从零开始创建一个遵循 ERC20 标准的代币合约，理解其方法的实际应用，并且知道如何使用 OpenZeppelin 合约来简化开发过程。
+此章节的目的是向你展示如何从零开始创建一个遵循 ERC20 标准的代币合约，理解其方法的实际应用，以及如何利用 OpenZeppelin 合约来简化开发过程。
