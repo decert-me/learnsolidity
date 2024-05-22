@@ -21,111 +21,148 @@
 ## 基本原理及组件
 
 1. 代理合约:
-	• 用户实际上是在与代理合约进行交互。
-	• 代理合约管理自身的状态变量，并通过这些变量指向逻辑合约。
-	• 通常，代理合约会包含一个状态变量，即逻辑合约的地址。
+	- 用户实际上是在与代理合约进行交互
+	- 代理合约管理自身的状态变量
+	- 代理合约通常包含一个指向逻辑合约的地址变量
 2. 逻辑合约:
-	• 实现业务逻辑。
-	• 可以升级而不影响由代理合约维护的数据存储。例如，可以更新计算公式或增加新的功能，而不改变用户的数据结构
-
+	- 负责业务逻辑的实现
+	- 可以升级而不影响由代理合约维护的数据。例如，可以更新计算公式或增加新的功能，而不改变用户的数据结构
 
 ## 实现步骤
 
 1. 创建逻辑合约
 
-首先，开发者需要编写一个包含实际业务逻辑的合约：
+    首先，开发者需要编写一个包含实际业务逻辑的合约，比如：
 
-```
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+    ```
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.0;
 
-contract Logic{
-    address public not_used;
-    uint public count;
+    contract Logic{
+        address public not_used;
+        uint public count;
 
-    function incrementCounter() public {
-        count += 1;
+        function incrementCounter() public {
+            count += 1;
+        }
+
+        function getCount() public view returns (uint) {
+            return count;
+        }
     }
-
-    function getCount() public view returns (uint) {
-        return count;
-    }
-}
-```
-
+    ```
+    注意合约中的存储变量`not_used`，是为了避免与`Proxy`合约存储冲突，下面会介绍。
 2. 编写代理合约
-在代理合约中，任何非直接调用的函数都会通过 `fallback` 函数被重定向并使用 `delegatecall` 在逻辑合约上执行。这种机制允许代理合约借用逻辑合约的代码进行操作，但是在自己的存储上下文中执行。
 
-代码示例如下
-```
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+    在代理合约中，任何非直接调用的函数都会通过 `fallback` 函数被重定向并使用 `delegatecall` 在逻辑合约上执行。这种机制允许代理合约借用逻辑合约的代码进行操作，但是在自己的存储上下文中执行。
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+    代码示例如下
+    ```
+    // SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.0;
 
-contract Proxy {
-    address public logicAddress;
-    uint public count;
+    import "@openzeppelin/contracts/access/Ownable.sol";
 
-    constructor(address _logic) {
-        logicAddress = _logic;
-    }
+    contract Proxy {
+        address public logicAddress;
+        uint public count;
 
-    // should be restricted to admin
-    function upgradeLogic(address _newLogic) public {
-        logicAddress = _newLogic;
-    }
+        constructor(address _logic) {
+            logicAddress = _logic;
+        }
 
-    fallback() external payable {
-        _fallback(logicAddress);
-    }
+        // should be restricted to admin
+        function upgradeLogic(address _newLogic) public {
+            logicAddress = _newLogic;
+        }
 
-    receive() external payable {
-        _fallback(logicAddress);
-    }
+        fallback() external payable {
+            _fallback(logicAddress);
+        }
 
-    function _fallback(address logic) internal {
-        // 通过 delegatecall 待用逻辑合约的函数，并返回数据
-        assembly {
-            // Copy msg.data. We take full control of memory in this inline assembly
-            // block because it will not return to Solidity code. We overwrite the
-            // Solidity scratch pad at memory position 0.
-            calldatacopy(0, 0, calldatasize())
+        receive() external payable {
+            _fallback(logicAddress);
+        }
 
-            // Call the implementation.
-            // out and outsize are 0 because we don't know the size yet.
-            let result := delegatecall(gas(), logic, 0, calldatasize(), 0, 0)
+        function _fallback(address logic) internal {
+            // 通过 delegatecall 调用逻辑合约的函数，并返回数据
+            assembly {
+                // Copy msg.data. We take full control of memory in this inline assembly
+                // block because it will not return to Solidity code. We overwrite the
+                // Solidity scratch pad at memory position 0.
+                calldatacopy(0, 0, calldatasize())
 
-            // Copy the returned data.
-            returndatacopy(0, 0, returndatasize())
+                // Call the implementation.
+                // out and outsize are 0 because we don't know the size yet.
+                let result := delegatecall(gas(), logic, 0, calldatasize(), 0, 0)
 
-            switch result
-            // delegatecall returns 0 on error.
-            case 0 {
-                revert(0, returndatasize())
-            }
-            default {
-                return(0, returndatasize())
+                // Copy the returned data.
+                returndatacopy(0, 0, returndatasize())
+
+                switch result
+                // delegatecall returns 0 on error.
+                case 0 {
+                    revert(0, returndatasize())
+                }
+                default {
+                    return(0, returndatasize())
+                }
             }
         }
     }
-}
-```
+    ```
 
 3. 合约部署与使用:
-	- 部署逻辑合约，并记下其地址。
-	- 使用逻辑合约的地址作为参数，部署代理合约。
+	- 部署逻辑合约，并记下其地址
+	- 使用逻辑合约的地址作为参数，部署代理合约
 	- 通过代理合约地址调用逻辑合约的功能
 
 当需要升级合约时，只需部署新的逻辑合约并更新代理合约中的逻辑合约地址。这允许合约升级而不丢失任何现有数据。
 
-## 安全考虑
+安全考虑
 
 - 权限控制：确保只有可信的地址（如合约的拥有者或管理员）可以更新逻辑合约地址
 - 数据和代码分离：正确处理存储布局和逻辑实现的分离，防止存储冲突
 
 
-代理合约中常见的存储冲突以及升级模式将在下一章节介绍。
+## Delegate Call 和 存储冲突 
+
+在 Solidity 中，`delegatecall` 是一种特殊的函数调用，使得一个合约（比如代理合约）能够调用另一个合约（比如逻辑合约）的函数，并在代理合约的存储环境中执行这些函数。尽管执行的代码来自于逻辑合约，状态变量的更新和存储操作却完全在代理合约的存储结构中进行。
+
+然而，这也带来了存储冲突的风险。存储冲突主要发生在逻辑合约和代理合约的存储布局不匹配的情况下。为了理解这种冲突，下面详细描述两种可能的场景：
+
+场景1：存储布局不一致
+
+在示例中，代理合约 Proxy 和逻辑合约 `Logic` 都有自己的状态变量。 但是，这两个合约的状态变量必须严格按照相同的顺序和类型声明，以确保每一个状态变量都映射到相同的存储位置。
+
+假设逻辑合约 `Logic` 中先声明的是 `uint public count;`，而代理合约 Proxy 中先声明的是 `address public logicAddress;`。这种情况下，当 `Proxy` 使用 `delegatecall` 调用 `Logic` 中的 `incrementCounter()` 方法时，它本意是修改 `count` 的值，但由于存储布局的不匹配，实际上它会错误地改变代理合约 `logicAddress` 的存储位置的内容。如下所示：
+
+
+| Proxy                  | Logic                 |                     |
+|  ----                  | ----                  | ----                |
+| address logicAddress   | uint256 count         | <=== 存储冲突        |
+| uint256 count          | address not_used      |                     |
+
+
+场景2：升级导致的冲突
+
+即使最初的存储布局是匹配的，合约升级也可能引入新的存储冲突。
+
+假设 `Logic` 合约在某次升级中添加了新的状态变量或者改变了变量的顺序。如果新的逻辑合约被代理合约引用，而没有相应调整代理合约的存储布局，那么执行 `delegatecall` 时就会出现预期之外的存储修改。
+
+比如，`Logic V2`中，调整了变量`foo`和`bar`的位置，会导致存储冲突：
+| Proxy                  | Logic V1               | Logic V2             |                    |
+|  ----                  |  ----                  | ----                 | ----               |
+| address logicAddress   | address not_used       | address not_used     |                    |
+| uint256 count          | uint256 count          | uint256 count        |                    |
+| address foo            | address foo            | address bar          | <=== 存储冲突，V2 bar 变量对应 Proxy 中的 foo |
+| address bar            | address bar            | address foo          | <=== 存储冲突，V2 foo 变量对应 Proxy 中的 bar |
+
+
+`delegatecall` 是一个非常强大的功能，它允许合约逻辑的重用和灵活的升级。然而，它也带来了存储冲突的风险，这要求开发者在设计和实施时必须极其谨慎。
+
+在实际的区块链开发工作中，为了确保代理合约的安全和升级的灵活性，通常采用成熟的开源库，如 OpenZeppelin。OpenZeppelin 提供了一些模块来处理代理合约的升级和存储布局问题，还提供了常见的几种代理合约升级模式。代理合约升级模式将在下一章节介绍。
+
 
 ## 总结
 
