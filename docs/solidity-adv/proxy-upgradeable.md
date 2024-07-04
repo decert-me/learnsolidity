@@ -9,7 +9,7 @@
 
 ## 代理合约升级模式
 
-常见的两种升级模式：透明代理模式、UUPS 模式，每种模式有其特点和使用场景，接下来将逐一介绍。
+常见的升级模式：透明代理模式、UUPS（Universal Upgradeable Proxy Standard，通用升级代理标准）模式，每种模式有其特点和使用场景，接下来将逐一介绍。
 
 ### 透明代理模式
 
@@ -151,7 +151,7 @@ contract UUPSProxy {
 }
 ```
 
-与透明代理模式不同，升级函数（upgrade()）位于实现合约中，而代理合约中不存在升级的逻辑。另外，`fallback()`函数不需要检查调用者是否是管理员，可以节省gas。
+与透明代理模式不同，升级函数（`upgrade()`）位于实现合约中，而代理合约中不存在升级的逻辑。另外，`fallback()`函数不需要检查调用者是否是管理员，可以节省gas。
 
 
 ## EIP-1967
@@ -181,12 +181,10 @@ EIP-1967 提出了一种标准化的方法来存储关键信息，如实现合�
 
 这种方法的优点在于提供了一个既定且一致的位置来存储和查找这些关键数据，从而降低了错误配置和潜在安全风险，比如存储冲突。
 
-## 总结
-
 
 ## 参考
-- [EIP-1967](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1967.md)
-- [EIP-1822](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1822.md)
+- [EIP-1967 代理存储槽](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1967.md)
+- [EIP-1822 UUPS](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1822.md)
 - [编写可升级合约](https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable)
 
 
