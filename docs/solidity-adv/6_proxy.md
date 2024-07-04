@@ -116,7 +116,6 @@
 
 当需要升级合约时，只需部署新的逻辑合约并更新（调用`upgradeLogic()`方法）代理合约中的逻辑合约地址。这允许合约升级而不丢失任何现有数据。
 
-[图]()
 
 安全考虑
 
@@ -136,7 +135,6 @@
 
 假设逻辑合约`Logic`中先声明的是`uint public count;`，而代理合约 Proxy 中先声明的是`address public logicAddress;`。这种情况下，当`Proxy`使用`delegatecall`调用`Logic`中的`incrementCounter()`方法时，它本意是修改`count`的值，但由于存储布局的不匹配，实际上它会错误地改变代理合约`logicAddress`的存储位置的内容。如下所示：
 
-
 | Proxy                  | Logic                 |                     |
 |  ----                  | ----                  | ----                |
 | address logicAddress   | uint256 count         | <=== 存储冲突        |
@@ -150,6 +148,7 @@
 假设`Logic`合约在某次升级中添加了新的状态变量或者改变了变量的顺序。如果新的逻辑合约被代理合约引用，而没有相应调整代理合约的存储布局，那么执行`delegatecall`时就会出现预期之外的存储修改。
 
 比如，`Logic V2`中，调整了变量`foo`和`bar`的位置，会导致存储冲突：
+
 | Proxy                  | Logic V1               | Logic V2             |                    |
 |  ----                  |  ----                  | ----                 | ----               |
 | address logicAddress   | address not_used       | address not_used     |                    |
