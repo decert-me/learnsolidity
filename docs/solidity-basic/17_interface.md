@@ -155,7 +155,7 @@ contract MyToken is ERC20 {
 contract Award {
   IERC20 immutable token;
   // 部署时传入 MyToken 合约地址
-  constrcutor(address t) {
+  constructor(address t) {
      token = IERC20(t);
   }
 
