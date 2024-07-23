@@ -351,9 +351,8 @@ contract testDeposit {
 
 
 ------
-
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
+前往挑战 [Solidity 101：事件](https://decert.me/quests/99f33f9d-8544-48bf-ad71-4ed92b78b675)，完成挑战并获得技能认证 NFT。
 
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
 

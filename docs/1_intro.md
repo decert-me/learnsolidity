@@ -2,7 +2,7 @@
 
 [《Solidity 开发教程》](https://decert.me/tutorial/solidity/intro) 是一个旨在系统深入介绍 Solidity 开发的教程。
 
-这是一套交互式教程，你可以实时修改教程中的合约代码并运行。完成学习后，你可以前往[挑战](https://decert.me/challenges)页面，完成挑战并获得技能认证 NFT。
+这是一套交互式教程，你可以实时修改教程中的合约代码并运行。完成学习后，你可以前往挑战：[Solidity 101](https://decert.me/collection/9)，完成挑战并获得技能认证 NFT。
 
 Solidity 是专为以太坊平台设计的编程语言，是区块链开发者必备的技能之一。
 

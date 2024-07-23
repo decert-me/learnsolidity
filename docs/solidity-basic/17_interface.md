@@ -188,6 +188,7 @@ contract Award {
 ------
 
 来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+前往挑战 [Solidity 101：接口](https://decert.me/quests/0528e227-6949-4ec3-9a44-ea075fd519ce)，完成挑战并获得技能认证 NFT。
 
 
 DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。

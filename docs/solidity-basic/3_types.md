@@ -80,5 +80,8 @@ contract Tiny {
 
 映射类型和Java的Map、Python的Dict在功能上差不多，它是一种键值对的映射关系存储结构，定义方式为mapping(KT => KV)。
 
+---
+前往挑战 [Solidity 101：数据结构](https://decert.me/quests/c3e4fda2-d6b9-4c49-ba12-c1d56bc4a0ea)，完成挑战并获得技能认证 NFT。
+
 
 
