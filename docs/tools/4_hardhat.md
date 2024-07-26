@@ -68,7 +68,7 @@ npx hardhat
 
 
 
-使用键盘选择"创建一个新的hardhat.config.js（`Create a JavaScript project`）" ，然后回车。
+使用键盘选择"创建一个 JavaScript 工程（`Create a JavaScript project`）" ，然后回车。
 
 
 
@@ -98,7 +98,7 @@ $ npx hardhat
 
 
 
-创建好的 Hardhat 工程包含文件有：
+创建好的 Hardhat 工程包含下列文件：
 
 - `contracts`：智能合约目录
 - `scripts` ：部署脚本文件
@@ -296,7 +296,7 @@ await tx.wait();
 
 注意，默认情况下， `ContractFactory`和`Contract`实例连接到第一个[签名者（Singer）](https://learnblockchain.cn/ethers_v5/)。
 
-若需要使用其他的签名这， 可以使用[合约实例connect 到另一个签名者](https://learnblockchain.cn/ethers_v5/api/contract/example/#example-erc-20-contract--methods)， 如 `counter.connect(otherAccount)`
+若需要使用其他的签名者， 可以使用[合约实例connect 到另一个签名者](https://learnblockchain.cn/ethers_v5/api/contract/example/#example-erc-20-contract--methods)， 如 `counter.connect(otherAccount)`
 
 ```js
 expect(await counter.get()).to.equal(0);
@@ -336,7 +336,7 @@ contract Counter {
 
 
 
-就像在JavaScript中使用一样, 将一些`console.log`添加函数中，运行测试时，将输出日志记录：
+就像在JavaScript中使用一样, 将一些`console.log`添加到函数中，运行测试时，将输出日志记录：
 
 ```
 > npx hardhat test
@@ -370,11 +370,11 @@ const { ethers } = require("hardhat");
 
 async function main() {
 
-	 const Counter = await ethers.getContractFactory("Counter");
-   const counter = await Counter.deploy();
-   await counter.deployed();
+    const Counter = await ethers.getContractFactory("Counter");
+    const counter = await Counter.deploy();
+    await counter.deployed();
 
-  console.log("Counter address:", counter.address);
+    console.log("Counter address:", counter.address);
 }
 
 main();
@@ -524,7 +524,7 @@ npx hardhat run scripts/deploy.js --network goerli
     <br/>
     3. 点击页面左侧的「API-KEYs」标签页。
     <br/>
-4. 在页面上方的「Create New API KEY」部分，输入 API 密钥的名称和描述，然后选择需要访问的 API 权限。
+    4. 在页面上方的「Create New API KEY」部分，输入 API 密钥的名称和描述，然后选择需要访问的 API 权限。
     <br/>
     5. 点击「Generate」按钮来生成 API 密钥。
   </div>
@@ -559,7 +559,7 @@ npx hardhat run scripts/deploy.js --network goerli
 
 
 
-示例非常简单， 更多使用方法，可参考文档：
+示例非常简单，更多使用方法，可参考文档：
 
 - Hardhat 官方文档：https://hardhat.org/getting-started/
 
