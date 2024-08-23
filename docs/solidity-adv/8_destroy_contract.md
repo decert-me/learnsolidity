@@ -82,3 +82,7 @@ contract SimpleContract {
 ## 总结
 
 `selfdestruct` 是 Solidity 中一个功能强大的函数，用于安全有效地销毁合约并返还剩余资金。正确地使用 `selfdestruct` 可以有效地管理智能合约的生命周期，但错误的使用也可能导致不可预见的风险。在使用该函数时，务必做好周全的设计和测试工作，以确保合约的安全性和可靠性。
+
+
+---
+前往挑战 [Solidity 102：销毁合约](https://decert.me/claim/e961e877-ece3-4020-908e-f03df73fd417)，完成挑战并获得技能认证 NFT。

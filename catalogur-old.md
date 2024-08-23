@@ -1,0 +1,33 @@
+- 开始学习 Solidity
+- 认识以太坊
+    - 以太坊核心概念
+    - EVM 兼容链及网络
+    - 以太坊历史与展望
+- 合约开发工具
+    -MetaMask 钱包
+    -Remix IDE
+    -Truffle 开发框架
+    -Hardhat 开发框架
+    -Foundry 开发框架
+- Solidity 基础
+    - 开始编写合约
+    - 数据类型
+    - 使用整型
+    - 使用地址类型
+    - 合约类型
+    - 数组类型
+    - 结构体
+    - 映射（mapping）
+    - 合约如何接收 ETH
+    - 函数修改器（modifier）
+    - 事件（Event）
+    - 错误处理
+    - 继承
+    - 接口及合约交互
+    - 库
+- Solidity 进阶
+    - ABI 应用二进制接口
+    - 地址底层调用: call 与 delegatecall
+    - 合约创建
+    - 事件日志
+
