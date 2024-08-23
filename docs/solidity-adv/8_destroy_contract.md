@@ -37,13 +37,13 @@ contract SimpleContract {
 ```
 
 在这个示例中，`SimpleContract` 合约有一个 `deposit` 函数可以接收以太币存款。合约的拥有者可以调用 `destroy` 函数来销毁合约。
-`destroy` 函数使用了 `selfdestruct(payable(owner));` 把合约剩余的以太币发送回拥有者地址，并销毁合约。
+`destroy` 函数使用了 `selfdestruct(payable(owner))` 把合约剩余的以太币发送回拥有者地址，并销毁合约。
 
 ## 应用场景
 
-1. 清理有缺陷的合约
+1. 紧急情况处理
 
-    在一些情况下，需要永久停止一个智能合约的功能。通过 `selfdestruct`，可以销毁合约并确保它无法再被调用。
+    在发现严重漏洞或遭受攻击时，可以通过 `selfdestruct` 快速销毁合约并确保它无法再被调用，防止进一步损失。
 
 2. 资金返还
 
@@ -67,7 +67,7 @@ contract SimpleContract {
 
 当 `selfdestruct` 被调用时，合约的代码和存储会被删除，合约地址上的所有剩余以太币会发送到指定地址。这种操作不仅能收回部分 gas（与删除的数据量有关），还会在结算时，根据当前的 gas 消耗返还一定比例的已消耗 gas 给执行者。
 
-“gas 返还”是一种激励机制，旨在鼓励开发者清理不再需要的存储数据，从而优化区块链的整体存储.
+“gas 返还”是一种激励机制，旨在鼓励开发者清理不再需要的存储数据，从而优化区块链的整体存储。
 
 不过，在伦敦升级后（[EIP-3529](https://eips.ethereum.org/EIPS/eip-3529)），`selfdestruct` 操作不会再返还 gas。
 
@@ -77,7 +77,7 @@ contract SimpleContract {
 
 ### 坎昆升级
 
-坎昆升级后（[EIP-6780]()，solidity v0.8.24），`selfdestruct` 只发送剩余的以太币，不会清除合约的代码和存储。除非在同一个交易中部署和销毁合约。
+坎昆升级后（[EIP-6780](https://eips.ethereum.org/EIPS/eip-6780)，solidity v0.8.24），`selfdestruct` 只发送剩余的以太币，不会清除合约的代码和存储。除非在同一个交易中部署和销毁合约。
 
 ## 总结
 
