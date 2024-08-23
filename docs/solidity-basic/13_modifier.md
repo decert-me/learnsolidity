@@ -4,8 +4,6 @@
 
 函数修改器可以用来改变一个函数的行为，比如用于在函数执行前检查某种前置条件。
 
-
-
 函数修改器使用关键字 `modifier` , 以下代码定义了一个 `onlyOwner` 函数修改器， 然后使用修改器 `onlyOwner` 修饰 `transferOwner()` 函数：
 
 ```solidity
@@ -125,17 +123,16 @@ contract modifysample {
 
 ```
 uint c = b;
-        uint c = a;
-            a = 12;
-            return ;
-            _;
-            a = 13;
+uint c = a;
+    a = 12;
+    return ;
+    _;
+    a = 13;
 c = a;
 a = 11;
 ```
 
 这个时候就一目了然了，最后a为11。
-
 
 
 ## 修改器可继承
@@ -144,8 +141,6 @@ a = 11;
 
 ```solidity
 contract mortal is owned {
-
-
     // 只有在合约里保存的owner调用close函数，才会生效
     function close() public onlyOwner {
         selfdestruct(owner);
@@ -156,16 +151,11 @@ contract mortal is owned {
 `mortal`合约从上面的`owned`继承了`onlyOwner`修饰符，并将其应用于close函数。
 
 
-
-
-
 ## 小结
 
 函数修改器是一个语法糖，同来给修饰的函数添加一些额外的功能或检查。
 
 常用于如：检查输入条件、权限控制、重入控制、防止重复初始化等场景。
-
-
 
 ------
 
