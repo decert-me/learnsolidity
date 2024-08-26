@@ -94,7 +94,7 @@ contract TestMax {
 
   
 
-把前面的Math库的add函数修改为外部函数，就可以通过链接库的方式来使用，示例代码如下：
+把前面的Math库的 `max` 函数修改为外部函数，就可以通过链接库的方式来使用，示例代码如下：
 
 ```solidity
 pragma solidity ^0.8.19;
