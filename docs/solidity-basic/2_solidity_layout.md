@@ -281,6 +281,12 @@ contract Example {
 
 还记得么，合约由**状态变量（合约数据）**和**合约函数**组成，刚才介绍了定义变量，现在来看看定义函数：
 
+:::tip
+
+本节介绍函数的基础知识。关于函数的更深入讲解，包括内部调用、外部调用、函数选择器等进阶内容，请参考[函数详解章节](./11_function.md)。
+
+:::
+
 ```solidity
     function count() public {
         counter = counter + 1;
@@ -339,26 +345,6 @@ function addAB(uint a, uint b) public returns (uint) {
 ```
 
 
-
-Solidity 支持函数有多个返回值，例如：
-
-```solidity
-pragma solidity >0.5.0;
-contract C {
-		// highlight-next-line
-    function f() public pure returns (uint, bool, uint) {
-        return (7, true, 2);
-    }
-     function g() public {
-        // 获取返回值
-        // highlight-next-line
-        (uint x, bool b, uint y) = f();
-     }    
-}
-```
-
-
-
 ### 状态可变性（mutability）
 
 有些函数还还会有一个关键字来描述该函数，会怎样修改区块链状态，形容函数的可变性有 3 个关键字：
@@ -397,9 +383,6 @@ contract C {
 此时 set 函数 的 gas 包含了 `cal`函数的 gas。
 
 我们可以这样理解：外部调用试图函数时 Gas 价格为0， 而在修改状态的函数中，Gas 价格随交易设定。
-
-
-
 
 
 如果在声明为`view`的函数中修改了状态，则编译器会报错误，除直接修改状态变量外，其他如：触发事件，发送代币等都会视为修改状态。详细可参考[Solidity文档](https://learnblockchain.cn/docs/solidity/contracts.html#state-mutability)。
@@ -444,7 +427,11 @@ contract C {
 }
 ```
 
+:::note
 
+以上介绍了函数的基础概念。要深入了解函数的可见性、内部调用与外部调用、函数重载、函数选择器等进阶知识，请阅读[函数详解章节](./11_function.md)。
+
+:::
 
 ## 练一练
 
