@@ -191,13 +191,11 @@ Compilation finished successfully
 
 
 
-:::tip
-
-智能合约的 **ABI（Application Binary Interface）**信息，其中包括了合约的函数、事件等接口信息。这个文件通常会在与其他合约交互时使用，因为它可以被其他合约和 DApp 使用。
-
-`Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。
-
-:::
+> **说明：**
+>
+> 智能合约的 **ABI（Application Binary Interface）**信息，其中包括了合约的函数、事件等接口信息。这个文件通常会在与其他合约交互时使用，因为它可以被其他合约和 DApp 使用。
+>
+> `Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。
 
 
 
@@ -446,11 +444,7 @@ const [owner, otherAccount] = await ethers.getSigners();
 
 一个私钥对应一个Singer，助记词则对应无数个 Singer ， 为每个项目生成一个独立的账号是比较推荐的做法，使用 [ChainTool 开源工具](https://chaintool.tech/generateWallet) 可以生成账号。
 
-:::tip
-
-助记词可以推导出无数了私钥，可参考：[BIP39](https://learnblockchain.cn/2018/09/28/hdwallet)
-
-:::
+> **提示：** 助记词可以推导出无数了私钥，可参考：[BIP39](https://learnblockchain.cn/2018/09/28/hdwallet)
 
 
 

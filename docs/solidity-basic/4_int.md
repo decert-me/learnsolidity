@@ -26,22 +26,16 @@ contract Counter {
 
 
 
-:::tip
-
-在 Solidity 0.8版本之前， 如果整数运算结果不在取值范围内，则会被溢出截断。 
-
-从 0.8.0 开始，算术运算有两个计算模式：一个是 unchecked（不检查）模式，一个是”checked” （检查）模式。 
-
-默认情况下，算术运算在 “checked” 模式下，即都会进行溢出检查，如果结果落在取值范围之外，调用会通过 [失败异常](https://learnblockchain.cn/docs/solidity/control-structures.html#assert-and-require) 回退。 你也可以通过 `unchecked { ... }` 切换到 “unchecked”模式，更多可参考文档 [unchecked](https://learnblockchain.cn/docs/solidity/control-structures.html#unchecked) 。
-
-:::
+> **提示：**
+>
+> 在 Solidity 0.8版本之前， 如果整数运算结果不在取值范围内，则会被溢出截断。
+>
+> 从 0.8.0 开始，算术运算有两个计算模式：一个是 unchecked（不检查）模式，一个是"checked" （检查）模式。
+>
+> 默认情况下，算术运算在 "checked" 模式下，即都会进行溢出检查，如果结果落在取值范围之外，调用会通过 [失败异常](https://learnblockchain.cn/docs/solidity/control-structures.html#assert-and-require) 回退。 你也可以通过 `unchecked { ... }` 切换到 "unchecked"模式，更多可参考文档 [unchecked](https://learnblockchain.cn/docs/solidity/control-structures.html#unchecked) 。
 
 
-:::info
-
-当我们确定一个运算不会发生溢出时，使用 `unchecked` 模式，有更高的 GAS 效率。
-
-:::
+> **Gas 优化：** 当我们确定一个运算不会发生溢出时，使用 `unchecked` 模式，有更高的 GAS 效率。
 
 
 ## 整型运算符

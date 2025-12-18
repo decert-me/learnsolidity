@@ -79,11 +79,7 @@ contract VisibilityExample {
 }
 ```
 
-:::tip
-
-`public` 状态变量会自动生成一个同名的 getter 函数。例如，`uint public value` 会自动生成 `function value() public view returns (uint)`。
-
-:::
+> **提示：** `public` 状态变量会自动生成一个同名的 getter 函数。例如，`uint public value` 会自动生成 `function value() public view returns (uint)`。
 
 ### 可见性对比表
 
@@ -94,11 +90,7 @@ contract VisibilityExample {
 | `internal` | ✅ | ✅ | ❌ | 中等 | 合约内部和继承使用的辅助函数 |
 | `private` | ✅ | ❌ | ❌ | 中等 | 当前合约私有的实现细节 |
 
-:::info Gas 优化提示
-
-`external` 函数在处理大量数据（如数组）时比 `public` 更省 Gas，因为 `external` 函数的参数直接从 calldata 读取，不会复制到内存。
-
-:::
+> **Gas 优化提示：** `external` 函数在处理大量数据（如数组）时比 `public` 更省 Gas，因为 `external` 函数的参数直接从 calldata 读取，不会复制到内存。
 
 ## 内部调用与外部调用
 
@@ -320,17 +312,15 @@ contract PriceConsumer {
 }
 ```
 
-:::warning 安全提示
-
-外部调用时务必注意：
-1. **重入攻击**：外部调用可能再次调用回当前合约
-2. **Gas 限制**：确保外部调用有足够的 Gas
-3. **失败处理**：检查外部调用的返回值
-4. **信任问题**：不要无条件信任外部合约
-
-详见[重入攻击防御章节](../solidity-adv/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)。
-
-:::
+> **安全提示：**
+>
+> 外部调用时务必注意：
+> 1. **重入攻击**：外部调用可能再次调用回当前合约
+> 2. **Gas 限制**：确保外部调用有足够的 Gas
+> 3. **失败处理**：检查外部调用的返回值
+> 4. **信任问题**：不要无条件信任外部合约
+>
+> 详见[重入攻击防御章节](../solidity-adv/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)。
 
 ## 函数状态可变性
 
@@ -368,14 +358,12 @@ contract StateMutability {
 }
 ```
 
-:::tip 最佳实践
-
-1. 不修改状态的函数应该标记为 `view` 或 `pure`
-2. 这样可以节省 Gas（外部调用时免费）
-3. 编译器会检查是否违反了承诺
-4. 提高代码可读性和安全性
-
-:::
+> **最佳实践：**
+>
+> 1. 不修改状态的函数应该标记为 `view` 或 `pure`
+> 2. 这样可以节省 Gas（外部调用时免费）
+> 3. 编译器会检查是否违反了承诺
+> 4. 提高代码可读性和安全性
 
 ## 函数参数和返回值
 
@@ -416,13 +404,11 @@ contract DataLocation {
 }
 ```
 
-:::info 数据位置对比
-
-- `memory`：函数参数和局部变量的默认位置，可读写
-- `calldata`：只读，最省 Gas，只能用于外部函数参数
-- `storage`：永久存储，最贵，用于引用状态变量
-
-:::
+> **数据位置对比：**
+>
+> - `memory`：函数参数和局部变量的默认位置，可读写
+> - `calldata`：只读，最省 Gas，只能用于外部函数参数
+> - `storage`：永久存储，最贵，用于引用状态变量
 
 ### 多返回值和解构赋值
 
@@ -498,14 +484,12 @@ contract Overloading {
 }
 ```
 
-:::warning 重载限制
-
-1. 仅通过返回值类型不同无法重载
-2. `view`/`pure` 修饰符不影响重载识别
-3. 参数的数据位置（`memory`/`calldata`）不影响重载
-4. 调用时必须能够明确区分要调用哪个函数
-
-:::
+> **重载限制：**
+>
+> 1. 仅通过返回值类型不同无法重载
+> 2. `view`/`pure` 修饰符不影响重载识别
+> 3. 参数的数据位置（`memory`/`calldata`）不影响重载
+> 4. 调用时必须能够明确区分要调用哪个函数
 
 ## 构造函数
 

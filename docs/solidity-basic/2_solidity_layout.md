@@ -1,4 +1,3 @@
-# 开始编写合约
 
 在[上一节](https://learnblockchain.cn/article/22528)中，你已经通过 Remix 实践了 Counter 合约的完整流程——从编写、编译、部署到调用。你可能已经成功让计数器加1了，但你是否真正理解了代码的每一行是什么含义呢？
 
@@ -33,7 +32,7 @@ contract Counter {
 
 合约是可部署到区块链的最小单元， 一个合约通常由**状态变量（合约数据）**和**合约函数**组成。
 
-> 在学习智能合约时，通常以 Counter 计数器作为入门合约，而不是通常打印 HelloWorld， 这个因为合约主要是用来处理状态的转换，另外，合约程序实际上是在节点上运行，因此是看不到打印输出的。
+> 在学习智能合约时，通常以 Counter 计数器作为入门合约，而不是通常打印 HelloWorld， 这个因为合约主要是用来处理状态的转换，另外，合约程序真实运行时是在节点EVM上运行，不支持打印输出的。
 
 
 
@@ -266,11 +265,7 @@ contract Example {
 
 还记得么，合约由**状态变量（合约数据）**和**合约函数**组成，刚才介绍了定义变量，现在来看看定义函数：
 
-:::tip
-
-本节介绍函数的基础知识。关于函数的更深入讲解，包括内部调用、外部调用、函数选择器等进阶内容，请参考[函数详解章节](./11_function.md)。
-
-:::
+> **提示：** 本节介绍函数的基础知识。关于函数的更深入讲解，包括内部调用、外部调用、函数选择器等进阶内容，请参考[函数详解章节](./11_function.md)。
 
 ```solidity
     function count() public {
@@ -452,13 +447,3 @@ contract Counter {
 
 学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)
 
-
-
-\------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。

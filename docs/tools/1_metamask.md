@@ -98,11 +98,7 @@ MetaMask 导入账号需要填入私钥，如果你之前的备份的是助记�
 
 
 
-:::tip
-
-ChainTool 是由一些爱好者组成的[开源组织](https://github.com/ChainToolDao)开发的一系列开源工具，ChainTool 所有工具均开源，提供开发者值得信赖的工具。
-
-:::
+> **提示：** ChainTool 是由一些爱好者组成的[开源组织](https://github.com/ChainToolDao)开发的一系列开源工具，ChainTool 所有工具均开源，提供开发者值得信赖的工具。
 
 
 
