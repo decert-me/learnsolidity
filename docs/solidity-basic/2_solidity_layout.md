@@ -1,12 +1,10 @@
 # 开始编写合约
 
-前面介绍 [MetaMask](https://decert.me/tutorial/solidity/tools/metamask/) 和 [Remix](https://decert.me/tutorial/solidity/tools/remix) 使用时，我们了解了如何编译部署 Solidity智能合约。
+在[上一节](https://learnblockchain.cn/article/22528)中，你已经通过 Remix 实践了 Counter 合约的完整流程——从编写、编译、部署到调用。你可能已经成功让计数器加1了，但你是否真正理解了代码的每一行是什么含义呢？
 
-现在我们开始进入从代码逐步学习Solidity。 
+现在，让我们**从代码层面**深入学习 Solidity。我们将重新审视 Counter 合约，逐行解析它的结构和语法，帮助你真正掌握智能合约开发的基础知识。
 
-先来看看我们的第一个合约。
-
-## 第一个合约：Counter 
+## 理解 Counter 合约 
 
 ```solidity
 //SPDX-License-Identifier: MIT

@@ -1,5 +1,19 @@
 # Remix IDE
 
+如果你是第一次接触智能合约开发，可能会有些紧张：我需要配置复杂的开发环境吗？我需要安装很多工具吗？别担心，这正是我们从 Remix 开始的原因。
+
+Remix 是一个运行在浏览器中的集成开发环境（IDE），这意味着你**不需要安装任何软件**，只需要打开浏览器，就可以立即开始编写你的第一个智能合约。对于初学者来说，Remix 是开发智能合约的最佳选择，它让你可以专注于学习 Solidity 语言本身，而不用被复杂的环境配置所困扰。
+
+在这一节中，你将学会：
+- 使用 Remix 编写你的第一个智能合约
+- 编译合约代码
+- 将合约部署到模拟环境和真实的测试网络
+- 与部署的合约进行交互
+
+让我们开始吧！
+
+## Remix 简介
+
 Remix 对初学者来说，是开发智能合约的最佳开发集成环境（IDE），它无需安装，可以直接快速上手。
 Remix 是在以太坊上构建的最简单的开发工具，并且拥有大量插件来扩展其体验。
 
@@ -31,22 +45,18 @@ Remix 开箱即用，你可以打开 Remix 网站：https://remix.ethereum.org/ 
 4. `控制台/日志区`：显示与合约交互的结果，也可以输入命令。
 
 
-
 Solidity 是一门编译型高级语言，需要经过编译、部署才能运行。
 
-下面我们使用 Remix 从无到有探索新建合约、合约代码编写、编译、部署，调用合约的完整过程。
+下面我们使用 Remix 探索新建合约、合约代码编写、编译、部署，调用合约的完整过程。
+
+## 创建合约
+
+在文件浏览器界面有一个“Create”，按钮，如下操作：
 
 
+![remix - 创建文件](https://img.learnblockchain.cn/attachments/2025/12/GsvFHuNd6943c00e77da8.png)
 
-## 新建合约
-
-新建合约文件可以按如下界面所示操作：
-
-![image-20230311160725855](https://img.learnblockchain.cn/pics/20230311160727.png)
-
-既可以新建文件、也可以从本机或 GitHub 加载文件，这里我们新建一个 `counter.sol`  合约。
-
-
+我们创建一个新的合约“Create new file” ，并在随后将合约命令为 `counter.sol`  。
 
 
 
@@ -104,19 +114,10 @@ contract Counter {
 ![image-20230311163240128](https://img.learnblockchain.cn/pics/20230311163242.png)
 
 
-
 我们也可以勾选上自动编译，这样代码编辑时，会自动编译，合约编译成功后，会输出两个重要的内容： ABI （`合约接口描述`） 和 `Bytecode `字节码。
 
 
-
-:::tip
-
-知识点补充：
-
-` ABI`  是  Application Binary Interface，即应用程序二进制接口，ABI 用来描述当前合约的所有接口，当我们与合约交互时，就需要使用 ABI。
-
-`Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。
-:::
+> ` ABI`  是  Application Binary Interface，即应用程序二进制接口，ABI 用来描述当前合约的所有接口，当我们与合约交互时，就需要使用 ABI。 `Bytecode ` 是部署合约所需的字节码（也称为创建时字节码），部署合约时，就是把该字节码作为交易的输入数据发送链上。
 
 
 
@@ -130,25 +131,30 @@ contract Counter {
 
 
 
- Remix 提供模拟网络环境， 也可以通过 Metamask 连接到真实的区块链网络进行部署，可以通过如下图方式选择不同的环境：
+ Remix 提供多种部署环境：
 
-![image-20230311164659166](https://img.learnblockchain.cn/pics/20230311164703.png)
+![部署环境](https://img.learnblockchain.cn/pics/20251218170053.png)
 
+**Remix VM**  是 Remix 提供的模拟网络环境：
+**Browser extension** :  也可以通过钱包插件（如 Metamask ）连接到区块链网络进行部署
+**DEV**： 可以连接到本地开发环境模拟的节点网络。
 
 
 在这里，我们也先部署到模拟环境，然后部署到测试网络。
 
-### 部署到 VM
+### 部署到 Remix 模拟环境 
 
-环境（ENVIRONMENT）一栏选择 `Remix VM(Merge)` ，它与当前以太坊主网（以太坊合并之后）运行的虚拟机功能一样，然后点击“Deploy” 部署：
+环境（ENVIRONMENT）一栏选择 `Remix VM(Osaka)` ，Remix VM 表示Remix 在浏览器提供的一个模拟环境，Osaka 是以太坊主网的一个版本号，然后点击“Deploy” 部署：
 
-![image-20230311165330108](https://img.learnblockchain.cn/pics/20230311165331.png)
-
+![Remix - deploy](https://img.learnblockchain.cn/pics/20251218173011.png)
 
 
 在部署功能操作区，还有一些设置：如选择使用账号、设置交易 [GasLimit](https://decert.me/tutorial/solidity/ethereum/evm_core#gas)、选择发送到合约金额、选择要部署的合约（默认选择当前编辑的合约文件）。
 
-通常这些都有默认值，初学者使用默认值即可。
+> Remix VM  会为我们提供 10 个账号，每个账号有 100 ETH 。
+
+
+通常这些都有默认值，刚开始学时时我们使用默认值即可。
 
 
 
@@ -158,39 +164,31 @@ contract Counter {
 
 
 
-由于这个部署交易是在模拟环境下进行的，因此这个交易是即时完成的，同时使用的账号和消耗的 Gas 均是模拟的，下面我们部署到以太坊测试网 Goerli 
+由于这个部署交易是在模拟环境下进行的，因此这个交易是即时完成的，同时使用的账号和消耗的 Gas 均是模拟的，下面我们部署到以太坊测试网 Sepolia 
 
 
 
 ### 部署到真实网络
 
-
-
 部署到真实网络，不管是测试网还是主网，在 Remix 的环境里选择`Injected Provider - MetaMask`， 如下图：
 
-![Injected Provider](https://img.learnblockchain.cn/pics/20230307115511.png)
+![image-20251218173821995](https://img.learnblockchain.cn/pics/20251218173823.png)
 
 
 
-Remix 会加载我们在 MetaMask 中选择的网络，如上图显示的是Goerli， 是因为当前 MetaMask 选择的是 Goerli 网络：
+Remix 会加载我们在 MetaMask 中选择的网络，如上图显示的是 Sepolia， 是因为当前 MetaMask 选择的是 Sepolia 网络，下图是 MetaMask 的钱包界面：
+
+![image-20251218173545922](https://img.learnblockchain.cn/pics/20251218173926.png)
 
 
+在部署到真实的网络时，需要一个有余额的账号， 因为我们需要为部署交易支付手续费。 如果是测试网络，则可以通过水龙头获取测试币。若是主网，就需要购买代币了。可参考[ Metamask 介绍](1_metamask.md)。 
 
-![image-20230311213309148](https://img.learnblockchain.cn/pics/20230311213316.png)
-
-
-
-在部署到真实的网络时，需要一个有余额的账号，否则就没办法发起交易。 如果是测试网络，则可以通过水龙头获取测试币。若是主网，就需要购买代币了。可参考[ Metamask 介绍](1_metamask.md)。 
-
-再次点击“Deploy” 部署合约，这次把合约部署到 Goerli 测试网络上， MetaMask 会弹出一个交易确认对话框，如下图：
+再次点击“Deploy” 部署合约，这次把合约部署到 Sepolia 测试网络上， MetaMask 会弹出一个交易确认对话框，如下图：
 
 
+![image-20251218174650981](https://img.learnblockchain.cn/pics/20251218174652.png)
 
-
-
-![image-20230311213526744](https://img.learnblockchain.cn/pics/20230311213528.png)
-
-让我们确认交易费用，点击“确认”时，同时会对这笔交易签名，并发送到 Goerli 网络中。
+让我们确认交易费用，点击“确认”时，同时会对这笔交易签名，并发送到 Sepolia 网络中。
 
 待交易完成后，同样会在功能操作区域的下方列出合约地址及对应的函数。
 
@@ -216,32 +214,7 @@ Remix里用橙色按钮来这个动作会修改区块链的状态，蓝色按钮
 
 
 
-
-
-## 补充： Remix 插件
-
-Remix 还提供了很多插件，作为 Remix 功能的补充：
-
-![image-20230311214805152](https://img.learnblockchain.cn/pics/20230311214806.png)
-
-
-
-例如：ETHERSCAN  插件，可以用来做代码开源验证。
-
-
-
-REMIXD 是一个很实用的插件，可以用来加载本地文件，使用REMIXD时， 本地电脑上也需要安装:
-
-`npm install -g @remix-project/remixd`
-
-然后使用命令`remixd -s shared-folder -u https://remix.ethereum.org/` 共享本地目录给 remix 网站。
-
-之后，回到remix网站上，启动REMIXD插件，就可以看到remix 加载了本地的合约文件。
-
-
-
 ## 小结
-
 
 
 在这一节，我们介绍了如何使用`Remix`编译，部署到模拟网络及正式网络，调用智能合约。
@@ -249,19 +222,5 @@ REMIXD 是一个很实用的插件，可以用来加载本地文件，使用REMI
 Remix 对初学者非常友好，非常适合开发小合约及验证性代码。
 
 
-
-对于大一点的的项目，在本地开发结合 GitHub 管理代码是更理想的选择，就很适合使用 [Hardhat](./4_hardhat.md) 或 [Foundry](./5_foundry.md) 开发框架。
-
-
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
-
-
-
-
+如果是更大的的项目，使用 [Foundry](./5_foundry.md) 或 [Hardhat](./4_hardhat.md) 开发框架合适更合适的选择。
 

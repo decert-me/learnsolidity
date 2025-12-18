@@ -18,9 +18,9 @@ EVM 是以太坊虚拟机，和其他的机器一样，他们无法执行人类�
 
 ## ABI 接口描述
 
-在 Solidity 中，我们编译代码以后，会得到两个重要东西（称为`artifact`）：bytecode（字节码） 和 ABI 接口描述。
+在 Solidity 中，我们编译代码以后，会得到两个重要东西：bytecode（字节码） 和 ABI 接口描述。
 
-> 参考 Remix IDE 一文，合约的[编译与部署](https://decert.me/tutorial/solidity/tools/remix#%E5%90%88%E7%BA%A6%E7%BC%96%E8%AF%91)。
+> 参考 Remix IDE 一文，[合约编译](https://learnblockchain.cn/article/22528#%E5%90%88%E7%BA%A6%E7%BC%96%E8%AF%91)。
 
 ABI 接口描述是 JSON 格式的文件，定义了智能合约中外部可以进行交互的**方法**、**事件**和可解释的**错误**。
 

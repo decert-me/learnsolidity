@@ -122,7 +122,7 @@ contract testEvent {
 
 在交易收据中，会记录交易完整的日志，如果我们知道交易的Hash，就可以通过交易收据获取事件。
 
- JSON-RPC  提供[eth_gettransactionreceipt](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionreceipt)  获取交易收集，也可以直接使用 JSON-RPC的包装库如 [Web3.js](https://learnblockchain.cn/docs/web3.js/) 、 [ethers.js](https://learnblockchain.cn/ethers_v5/)  等库，Remix 已经嵌入了 [Web3.js](https://learnblockchain.cn/docs/web3.js/) 和 [ethers.js](https://learnblockchain.cn/ethers_v5/) 库， 因此可以直接在[Remix 控制台](../tools/2_remix.md)通过输入 `web3.eth.getTransactionReceipt(hash)` 获取收据，如下图：
+ JSON-RPC  提供[eth_gettransactionreceipt](https://ethereum.org/en/developers/docs/apis/json-rpc/#eth_gettransactionreceipt)  获取交易收集，也可以直接使用 JSON-RPC的包装库如 [Web3.js](https://learnblockchain.cn/docs/web3.js/) 、 [ethers.js](https://learnblockchain.cn/ethers_v5/)  等库，Remix 已经嵌入了 [Web3.js](https://learnblockchain.cn/docs/web3.js/) 和 [ethers.js](https://learnblockchain.cn/ethers_v5/) 库， 因此可以直接在[Remix 控制台](https://learnblockchain.cn/article/22528)通过输入 `web3.eth.getTransactionReceipt(hash)` 获取收据，如下图：
 
 ![image-20230715122126495](https://img.learnblockchain.cn/pics/20230715122129.png!decert.logo.water)
 
