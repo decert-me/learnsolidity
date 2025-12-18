@@ -88,13 +88,9 @@ function safeTransferETH(address to, uint256 value) internal {
 
 
 
-:::note
-
-合约需要定义 receive 函数才能接收以太币，是在通常我们处理的转账情况。
-
-有一些例外，即便合约没有定义 receive 函数， 验证者的出块和交易奖励依旧可以打入到该合约。另外在销毁合约时（selfdestruct）被销毁合约的ETH需要转到另一个地址，或后者是合约，也不要求定义 receive 函数。
-
-:::
+> 合约需要定义 receive 函数才能接收以太币，是在通常我们处理的转账情况。
+>
+> 有一些例外，即便合约没有定义 receive 函数， 验证者的出块和交易奖励依旧可以打入到该合约。另外在销毁合约时（selfdestruct）被销毁合约的ETH需要转到另一个地址，或后者是合约，也不要求定义 receive 函数。
 
 
 

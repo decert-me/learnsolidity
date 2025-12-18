@@ -25,15 +25,11 @@ contract testAddr {
 
   
 
-:::note
-
-那为什么要使用 `address`  和 `address payable` 两种类型呢？
-
-如果不做区分，当我们把 ETH 转到一个地址上时，恰巧如果后者是一个合约地址（即[合约账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)）又没有处理ETH的逻辑，那么 ETH 将永远锁死在该合约地址上，任何人都无法提取和使用它。
-
-因此，需要做此区分，显示的表达，一个地址可以接受ETH， 表示其有处理ETH的逻辑(EOA 账户本身可转账ETH)。
-
-:::
+> 那为什么要使用 `address`  和 `address payable` 两种类型呢？
+>
+> 如果不做区分，当我们把 ETH 转到一个地址上时，恰巧如果后者是一个合约地址（即[合约账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)）又没有处理ETH的逻辑，那么 ETH 将永远锁死在该合约地址上，任何人都无法提取和使用它。
+>
+> 因此，需要做此区分，显示的表达，一个地址可以接受ETH， 表示其有处理ETH的逻辑(EOA 账户本身可转账ETH)。
 
 
 
@@ -47,11 +43,7 @@ contract testAddr {
 address payable ap = payable(addr);
 ```
 
-:::note
-
-上面的转换方法是在 Solidity 0.6 加入，如果使用的 Solidity 0.5 版本的编译器，则使用 `address payable ap = address(uint160(addr))；`
-
-:::
+> 上面的转换方法是在 Solidity 0.6 加入，如果使用的 Solidity 0.5 版本的编译器，则使用 `address payable ap = address(uint160(addr))；`
 
 
 
@@ -98,12 +90,9 @@ address payable ap = payable(addr);
 
 3. `addr_payable.send(uint256 amount) returns (bool)`:  `send` 功能上和`transfer` 函数一样，同样使用固定的 2300 gas ,  但是在发送失败时不抛出异常，而是返回`false`。
 
-:::note
-你也许发现了 `addr.transfer(y)`与`require(addr.send(y))` 是等价的， 对的。
-
-send是transfer的低级版本。如果执行失败，当前的合约不会因为异常而终止， 而在使用 send 的时候，如果不检查返回值，就会有额外风险， 编写智能合约风险真是无处不在呀。
-
-:::
+> 你也许发现了 `addr.transfer(y)`与`require(addr.send(y))` 是等价的， 对的。
+>
+> send是transfer的低级版本。如果执行失败，当前的合约不会因为异常而终止， 而在使用 send 的时候，如果不检查返回值，就会有额外风险， 编写智能合约风险真是无处不在呀。
 
 
 
