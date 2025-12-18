@@ -4,11 +4,11 @@
 
 Solidity 是一门**静态类型语言**，这意味着每个变量（状态变量或局部变量）的类型都必须在编译时确定。这与 C、C++、Java 等语言类似，需要在编码时为每个变量显式指定类型。
 
-Solidity 提供了丰富的基本类型，你也可以使用基本类型组合出新的复杂类型，如结构体。理解类型系统是编写安全、高效智能合约的基础。
+Solidity 提供了丰富的基本类型，你也可以使用基本类型组合出新的复杂类型，如结构体。理解类型系统是编写安全、高效[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的基础。
 
 ## 类型分类
 
-Solidity 类型分：
+[Solidity](https://learnblockchain.cn/tags/Solidity?map=EVM) 类型分：
 
 * 值类型（Value Types） 
 * 引用类型（Reference Types）
@@ -155,7 +155,7 @@ mapping(KeyType => ValueType) mappingName;
 
 ## 小结
 
-本节我们对 Solidity 的类型有一个基础了解：**类型分3类**：
+本节我们对 [Solidity](https://learnblockchain.cn/tags/Solidity?map=EVM) 的类型有一个基础了解：**类型分3类**：
 - **值类型**：赋值和传参时进行拷贝，包括整型、布尔、地址等
 - **引用类型**：可以通过引用方式共享数据，包括数组、结构体、字符串等
 - **映射类型**：键值对存储结构，只能用于状态变量

@@ -1,158 +1,171 @@
 # 使用地址类型
 
-在前面的[开发工具 -  MetaMask 钱包](../tools/1_metamask.md) 一节中，我们创建了自己的钱包[账号](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)。
+在[以太坊基础](https://learnblockchain.cn/article/22542)一节中，我们了解了[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的两种账户类型。现在让我们学习如何在 Solidity 合约中使用地址类型来表示这些[账户](https://learnblockchain.cn/tags/账户?map=EVM)。
 
-## 账户与地址
+## 地址类型基础
 
-Solidity 合约程序里，使用**地址类型**来表示我们的账号，如下在合约中，获取了用户地址，保存在地址类型（address）中：
+### 什么是地址类型？
 
-```solidity
-contract testAddr { 
-  address public user;
-	function getUserAddress() public {
-		user = msg.sender;
-	}
-}
-```
-
-
-
-地址类型有两种：
-
-- `address`：保存一个20字节的值（以太坊地址的大小）。 
-
-- `address payable`：表示可支付地址（可接受以太币的地址），在地址格式上，其实与`address` 完全相同，也是20字节。
-
-  
-
-> 那为什么要使用 `address`  和 `address payable` 两种类型呢？
->
-> 如果不做区分，当我们把 ETH 转到一个地址上时，恰巧如果后者是一个合约地址（即[合约账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)）又没有处理ETH的逻辑，那么 ETH 将永远锁死在该合约地址上，任何人都无法提取和使用它。
->
-> 因此，需要做此区分，显示的表达，一个地址可以接受ETH， 表示其有处理ETH的逻辑(EOA 账户本身可转账ETH)。
-
-
-
-`address`  和 `address payable` 两种类型尽管格式一样，但`address payable`拥有的两个成员函数`transfer`和`send` （`address`  没有这两个方法），`transfer`和`send`  的作用是向该地址转账，下文会进一步介绍。
-
-
-
-在编写合约时，大部分时候，使用`address`就好，当需要向地址转账时，可以使用以下代码把`address` 转换为`address payable` ：
-
-```
-address payable ap = payable(addr);
-```
-
-> 上面的转换方法是在 Solidity 0.6 加入，如果使用的 Solidity 0.5 版本的编译器，则使用 `address payable ap = address(uint160(addr))；`
-
-
-
-若被转换的地址是一个是合约地址时，则合约需要实现了接收（`receive`）函数或`payable`回退函数（参考[合约如何接收 ETH](./12_receive.md)）。
-
-如果转换的合约地址上没有接收或 payable 回退函数，可以使用这个魔法`payable(address(addr))` ， 即先转为普通地址类型，在转换为`address payable`类型 。
-
-
-
-## 地址类型上支持哪些操作
-
-## 地址比较
-
-地址类型支持的类似整型的比较运算：`==`（两个地址相同）、`!=`（两个地址不相同）， 例如：
-
-```solidity
-    function _onlyOwner() internal view {
-        // highlight-next-line
-        require(owner() == msg.sender, "调用者不是 Owner");
-        _;
-    }
-
-    function transferOwnership(address newOwner) public onlyOwner {
-        // highlight-next-line
-        require(newOwner != address(0), "新的 Owner 不可以是 零地址");
-	      /// ....
-    }
-
-```
-
-
-
-地址类型还支持其他介个运算： <=、<、>= 以及 > 。
-
-
-
-## 对地址转账及获取地址余额
-
-地址类型还有一些成员函数属性及函数，因此地址类型在表现上还类似面向对象语言的中的类（内置类）， 最常使用的是余额属性与转账函数：
-
-1. `addr.balance` 属性 :  返回地址的余额， 余额以wei为单位 (uint256)。
-
-2. `addr_payable.transfer(uint256 amount)` :  用来向地址发送`amount`数量以太币(wei)，transfer 函数只使用固定的 2300 gas ,  发送失败时抛出异常。
-
-3. `addr_payable.send(uint256 amount) returns (bool)`:  `send` 功能上和`transfer` 函数一样，同样使用固定的 2300 gas ,  但是在发送失败时不抛出异常，而是返回`false`。
-
-> 你也许发现了 `addr.transfer(y)`与`require(addr.send(y))` 是等价的， 对的。
->
-> send是transfer的低级版本。如果执行失败，当前的合约不会因为异常而终止， 而在使用 send 的时候，如果不检查返回值，就会有额外风险， 编写智能合约风险真是无处不在呀。
-
-
-
-### 使用示例
+Solidity 合约程序里，使用**地址类型**来表示账户，如下在合约中获取用户地址：
 
 ```solidity
 pragma solidity ^0.8.0;
 
 contract testAddr {
-   
-   // 如果合约的余额大于等于10，而x小于10,则给x转10 wei
-	function testTrasfer(address payable x) public {
-	   address myAddress = address(this);
-	   // highlight-start
-	   if (x.balance < 10 && myAddress.balance >= 10) {
-	       x.transfer(10);
-	   }
-	   // highlight-end
-	}
+    address public user;
+
+    function getUserAddress() public {
+        user = msg.sender;
+    }
 }
 ```
 
+### 两种地址类型
 
+地址类型有两种：
 
-上面代码的 `address myAddress = address(this);` 就是把合约转换为地址类型，然后用`.balance`获取余额， 再使用 `.transfer` 向 x 转账。 
+- **`address`**：普通地址类型，保存一个 20 字节的值（以太坊地址的大小）
+- **`address payable`**：可支付地址，可以接收以太币
 
->  在[账户](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)中，在 EVM 层面是，外部用户账户和合约账户是一样的，因此可以把合约类似转换为地址类型。
+> **为什么要区分？**
+>
+> 如果不做区分，当我们把 ETH 转到一个合约地址上，而该合约没有处理 ETH 的逻辑，那么 ETH 将永远锁死，任何人都无法提取。
+>
+> 因此 Solidity 要求：能接收 ETH 的地址必须显式声明为 `address payable`。
 
+**类型转换**：
 
-
-`send` 和`transfer` 函数只使用 2300 gas，在对合约地址转账时，会调用合约上的函数，很容易因 gas 不足而失败，一个推荐的转账方法是：
+需要时，可以将 `address` 转换为 `address payable`：
 
 ```solidity
-function safeTransferETH(address to, uint256 value) internal {
-    (bool success, ) = to.call{value: value}(new bytes(0));
-    require(success, 'TransferHelper::safeTransferETH: ETH transfer failed');
+address addr = 0x1234567890123456789012345678901234567890;
+address payable ap = payable(addr);
+```
+
+> **提示**：如果转换的是合约地址，该合约需要实现 `receive` 或 `payable fallback` 函数才能接收 ETH。详见[合约如何接收 ETH](./12_receive.md)。
+
+## 地址类型的常用操作
+
+### 1. 地址比较
+
+地址类型支持相等性比较：`==`（相等）、`!=`（不相等）
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract Ownable {
+    address private _owner;
+
+    constructor() {
+        _owner = msg.sender;
+    }
+
+    function isOwner() public view returns (bool) {
+        return msg.sender == _owner;
+    }
 }
 ```
 
-`safeTransferETH` 函数涉及两个新的知识点：[合约接收以太币](./12_receive.md)和地址类型上[成员函数 call 的用法](../solidity-adv/addr_call.md)，本节不展开。
+> **零地址**：`address(0)` 表示零地址（0x0000...0000），通常用于表示"无地址"或初始化未设置的地址变量。
 
-地址还有3个底层方法，将在[地址底层调用](../solidity-adv/addr_call.md)  一节中介绍一下。
+### 2. 查询地址余额
+
+使用 `.balance` 属性可以查询任何地址的以太币余额（单位：wei）：
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract BalanceChecker {
+    function getBalance(address addr) public view returns (uint256) {
+        return addr.balance;
+    }
+
+    function getMyBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+}
+```
+
+> **单位说明**：wei 是[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的最小单位，1 ETH = 10^18 wei。[Solidity](https://learnblockchain.cn/course/93) 提供单位关键字：`wei`、`gwei`、`ether`。
+
+### 3. 向地址转账
+
+**推荐方式：使用 `call`** ✅
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract Transfer {
+    function sendETH(address payable to) public payable {
+        (bool success, ) = to.call{value: msg.value}("");
+        require(success, "Transfer failed");
+    }
+}
+```
+
+**为什么不用 transfer/send？**
+
+早期的 `transfer` 和 `send` 方法有 2300 gas 限制，容易在某些情况下失败。现代 Solidity 推荐使用 `call` 方法， 在进阶部分的 [底层调用](../solidity-adv/3_addr_call.md) 中，我们会进一步介绍 call 的使用。 
 
 
+## 实践示例
+
+让我们综合运用地址类型的知识，实现一个简单的存钱罐合约：
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract PiggyBank {
+    address public owner;
+
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // 接收 ETH
+    receive() external payable {}
+
+    // 查询余额
+    function getBalance() public view returns (uint256) {
+        return address(this).balance;
+    }
+
+    // 提取 ETH（只有 owner 可以）
+    function withdraw() public {
+        require(msg.sender == owner, "Only owner can withdraw");
+        (bool success, ) = payable(owner).call{value: address(this).balance}("");
+        require(success, "Withdraw failed");
+    }
+}
+```
+
+这个合约演示了：
+- 地址比较（验证 owner）
+- 查询余额（`.balance`）
+- 转账（`call`）
+- 接收 ETH（`receive` 函数）
 
 ## 小结
 
-提炼本节的重点：Solidity 合约程序里，使用**地址类型`address`**来表示的账号， 合约和普通地址，都可以用`address` 类型表示。
+本节我们学习了 Solidity 中的地址类型基础：
 
-在地址类型上用`.balance`获取该地址的余额， 使用 `.transfer` / `.send`向该地址转账。
+✅ **两种地址类型**：
+- `address`：普通地址
+- `address payable`：可接收 ETH 的地址
 
+✅ **常用操作**：
+- 地址比较：`==`、`!=`
+- 查询余额：`.balance`
+- 转账：使用 `call` 方法
 
+✅ **重要提示**：
+- 检查零地址：`require(addr != address(0))`
+- 转账使用 `call` 而不是 `transfer`/`send`
+- 注意防范重入攻击
 
-学习 Solidity 不要忘了翻看 [Solidity 文档手册](https://learnblockchain.cn/docs/solidity/)。
+### 进阶学习
 
-\------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+如果你想深入了解地址类型的高级用法，可以参考：
+- [地址底层调用（call/delegatecall/staticcall）](../solidity-adv/3_addr_call.md) - 动态调用合约、代理模式、转账方式对比
+- [合约如何接收 ETH（receive/fallback）](./12_receive.md)
+- [重入攻击防御](../security/9_reentrancy.md) - 防止转账重入攻击

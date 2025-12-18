@@ -62,7 +62,7 @@ Solidity 是一门编译型高级语言，需要经过编译、部署才能运�
 
 ## 合约代码编写
 
-当处于文件编辑功能时，功能操作区域显示的是文件浏览器，我们选中 `counter.sol` 文件，在右侧`文件编辑`区域输入在上一节[认识以太坊](../ethereum/1_evm_core.md) 的 `Counter` 合约代码
+当处于文件编辑功能时，功能操作区域显示的是文件浏览器，我们选中 `counter.sol` 文件，在右侧`文件编辑`区域输入在上一节[认识以太坊](https://learnblockchain.cn/article/22542) 的 `Counter` 合约代码
 
 ```js title="counter.sol"
 //SPDX-License-Identifier: MIT
@@ -123,7 +123,7 @@ contract Counter {
 
 ## 合约部署
 
-接下来，就可以把合约部署到链上了，编译之后， 如果代码没有错误，就可以部署到区块链网络上，之前在 [区块链网络](../ethereum/2_evm_network.md) 介绍过不同的网络。 一个正式的产品推荐的部署流程是：
+接下来，就可以把合约部署到链上了。一个正式的产品推荐的部署流程是：
 
 1. 在本地的开发者网络（模拟网络）进行部署，测试及验证代码逻辑的正确性
 2. 在测试网络进行灰度发布
@@ -149,7 +149,7 @@ contract Counter {
 ![Remix - deploy](https://img.learnblockchain.cn/pics/20251218173011.png)
 
 
-在部署功能操作区，还有一些设置：如选择使用账号、设置交易 [GasLimit](https://decert.me/tutorial/solidity/ethereum/evm_core#gas)、选择发送到合约金额、选择要部署的合约（默认选择当前编辑的合约文件）。
+在部署功能操作区，还有一些设置：如选择使用账号、设置交易 [GasLimit](https://learnblockchain.cn/article/22542#Gas%20-%3E%20%E7%87%83%E6%96%99)、选择发送到合约金额、选择要部署的合约（默认选择当前编辑的合约文件）。
 
 > Remix VM  会为我们提供 10 个账号，每个账号有 100 ETH 。
 
@@ -158,7 +158,7 @@ contract Counter {
 
 
 
-点击部署时，会发起一笔 [创建合约交易](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B0%83%E7%94%A8%E5%90%88%E7%BA%A6%E6%96%B9%E6%B3%95)， 交易完成后，会在链上生成一个[合约地址](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)， 同时在右下方`控制台/日志区`看到交易详情。
+点击部署时，会发起一笔 [创建合约交易](https://learnblockchain.cn/article/22542#2.%20%E9%83%A8%E7%BD%B2%E5%90%88%E7%BA%A6)， 交易完成后，会在链上生成一个[合约地址](https://learnblockchain.cn/article/22542#2.%20%E5%90%88%E7%BA%A6%E8%B4%A6%E6%88%B7%EF%BC%88Contract%20Account%EF%BC%89)， 同时在右下方`控制台/日志区`看到交易详情。
 
 ![image-20230311171242184](https://img.learnblockchain.cn/pics/20230311171244.png)
 
@@ -168,29 +168,55 @@ contract Counter {
 
 
 
-### 部署到真实网络
+### 部署到真实网络（Sepolia 测试网）
 
-部署到真实网络，不管是测试网还是主网，在 Remix 的环境里选择`Injected Provider - MetaMask`， 如下图：
+> 如果我们暂时只想学习 Solidity 语法，可以跳过这一节，继续使用 Remix VM 进行学习。等熟悉合约开发后，再回来尝试部署到真实网络。
 
-![image-20251218173821995](https://img.learnblockchain.cn/pics/20251218173823.png)
+要将合约部署到真实的区块链网络，你需要一个钱包来管理账户和支付 Gas 费用。
 
+**MetaMask 安装与设置**
 
+1. **安装钱包**：访问 [metamask.io](https://metamask.io/) 下载浏览器插件
+2. **创建账户**：按提示设置密码并**备份助记词**（⚠️ 助记词务必妥善保管）
+3. **获取测试币**：访问 [Sepolia 水龙头](https://sepoliafaucet.com/)，粘贴你的钱包地址，领取免费测试币
 
-Remix 会加载我们在 MetaMask 中选择的网络，如上图显示的是 Sepolia， 是因为当前 MetaMask 选择的是 Sepolia 网络，下图是 MetaMask 的钱包界面：
+完成上述设置后，就可以开始部署了。
+
+**步骤 1：连接 MetaMask**
+
+在 Remix 的环境选项中，选择 `Injected Provider - MetaMask`：
+
+![连接 MetaMask](https://img.learnblockchain.cn/pics/20251218173823.png)
+
+Remix 会自动加载 MetaMask 当前选择的网络。上图显示的是 Sepolia，因为 MetaMask 当前连接的是 Sepolia 测试网。
+
+下图是 MetaMask 的钱包界面：
 
 ![image-20251218173545922](https://img.learnblockchain.cn/pics/20251218173926.png)
 
+**步骤 2：部署合约**
 
-在部署到真实的网络时，需要一个有余额的账号， 因为我们需要为部署交易支付手续费。 如果是测试网络，则可以通过水龙头获取测试币。若是主网，就需要购买代币了。可参考[ Metamask 介绍](1_metamask.md)。 
+点击"Deploy"按钮，MetaMask 会弹出交易确认对话框：
 
-再次点击“Deploy” 部署合约，这次把合约部署到 Sepolia 测试网络上， MetaMask 会弹出一个交易确认对话框，如下图：
+![确认交易](https://img.learnblockchain.cn/pics/20251218174652.png)
 
+这个对话框显示：
+- **Gas 费用**：部署合约需要支付的手续费
+- **合约地址**：部署成功后合约的地址
+- **交易详情**：可以查看更多交易信息
 
-![image-20251218174650981](https://img.learnblockchain.cn/pics/20251218174652.png)
+点击"确认"后，MetaMask 会对这笔交易进行签名并发送到 Sepolia 网络。
 
-让我们确认交易费用，点击“确认”时，同时会对这笔交易签名，并发送到 Sepolia 网络中。
+**步骤 3：等待交易确认**
 
-待交易完成后，同样会在功能操作区域的下方列出合约地址及对应的函数。
+与模拟环境不同，真实网络上的交易需要矿工打包确认：
+- Sepolia 测试网通常需要 12 秒+
+- 交易确认后，Remix 会在控制台显示交易详情
+- 部署的合约地址会显示在功能操作区域的下方
+
+![部署成功](https://img.learnblockchain.cn/pics/20230311171244.png)
+
+✅ 恭喜！你已经成功将合约部署到真实的区块链网络上了！
 
 
 
@@ -212,15 +238,23 @@ Remix里用橙色按钮来这个动作会修改区块链的状态，蓝色按钮
 
 点击get可以获得当前计数器的值。用户可以自己验证一下。
 
-
-
 ## 小结
 
+在这一节中，我们学习了智能合约开发的完整流程：
 
-在这一节，我们介绍了如何使用`Remix`编译，部署到模拟网络及正式网络，调用智能合约。
+✅ **Remix IDE**：浏览器中的开发环境，无需安装任何软件
+✅ **合约开发流程**：编写 → 编译 → 部署 → 调用
+✅ **两种部署方式**：
+   - **Remix VM**（推荐入门）：模拟环境，即时反馈，适合学习语法
+   - **真实网络**（可选）：需要 MetaMask 钱包，体验真实区块链
 
-Remix 对初学者非常友好，非常适合开发小合约及验证性代码。
+**推荐的学习路径**：
+1. 📚 **现阶段**：使用 Remix VM 学习 Solidity 语法和合约开发
+2. 🎯 **掌握基础后**：尝试部署到 Sepolia 测试网，体验真实区块链
+3. 🚀 **项目开发**：使用 [Foundry](./5_foundry.md) 或 [Hardhat](./4_hardhat.md) 框架
 
+**扩展阅读**：
+- 需要连接多个网络或本地开发环境？查看 [MetaMask 进阶使用](../appendix/metamask_advanced.md)
 
-如果是更大的的项目，使用 [Foundry](./5_foundry.md) 或 [Hardhat](./4_hardhat.md) 开发框架合适更合适的选择。
+现在你已经掌握了开发环境的使用，可以开始学习 Solidity 语法了！下一节我们将深入了解合约的代码结构。
 

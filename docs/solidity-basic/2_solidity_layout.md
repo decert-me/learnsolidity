@@ -69,7 +69,7 @@ contract Counter {
 
 合约和其他语言的类（`class`）很类似。在Solidity中，合约本身也是一个数据类型， 称为合约类型。
 
-合约部署到链上后，使用[地址](https://decert.me/tutorial/solidity/ethereum/evm_core#%E8%B4%A6%E6%88%B7)来表示一个合约。
+合约部署到链上后，使用[地址](https://learnblockchain.cn/article/22542#%E8%B4%A6%E6%88%B7%E5%92%8C%E5%9C%B0%E5%9D%80)来表示一个合约。
 
 > 合约还可以定义事件、自定义类型等，留在以后讨论。
 
@@ -365,7 +365,7 @@ function addAB(uint a, uint b) public returns (uint) {
 
 前面提到 `public` 类型的状态变量，编译器会自动创建一个同名的外部视图函数（称为[访问器](https://learnblockchain.cn/docs/solidity/contracts.html#getter-functions)），来获取状态变量的值。
 
-如果状态变量的类型是[值类型](./3_types.md)，自动的访问器没有参数，直接返回状态变量的值， 例如：
+如果状态变量的类型是[值类型](https://learnblockchain.cn/article/22531) ，自动的访问器没有参数，直接返回状态变量的值， 例如：
 
 ```solidity
 pragma solidity >=0.8.0;
