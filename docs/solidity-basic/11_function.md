@@ -1,6 +1,6 @@
 # 函数详解
 
-函数是 Solidity 合约中最核心的组成部分，它定义了合约的行为和功能。在[合约结构章节](./2_solidity_layout.md)中，我们已经对函数有了初步了解，本节将深入讲解 Solidity 函数的各个方面。
+函数是 Solidity 合约中最核心的组成部分，它定义了合约的行为和功能。在[合约结构章节](https://learnblockchain.cn/article/22529)中，我们已经对函数有了初步了解，本节将深入讲解 Solidity 函数的各个方面。
 
 ## 函数的基本语法
 
@@ -26,9 +26,9 @@ contract Calculator {
 
 ## 函数可见性
 
-函数的可见性决定了函数可以从哪里被调用。Solidity 提供了四种可见性级别：`public`、`external`、`internal`、`private`。
+函数的可见性决定了函数可以从哪里被调用。Solidity 提供了[四种可见性](https://learnblockchain.cn/article/22529)级别：`public`、`external`、`internal`、`private`。
 
-关于可见性的基础知识，请参考[合约结构 - 可见性章节](./2_solidity_layout.md#变量与函数的可见性)。这里我们重点介绍可见性对函数调用方式的影响。
+这里我们重点介绍可见性对函数调用方式的影响。
 
 ### 可见性与调用方式
 
@@ -91,6 +91,115 @@ contract VisibilityExample {
 | `private` | ✅ | ❌ | ❌ | 中等 | 当前合约私有的实现细节 |
 
 > **Gas 优化提示：** `external` 函数在处理大量数据（如数组）时比 `public` 更省 Gas，因为 `external` 函数的参数直接从 calldata 读取，不会复制到内存。
+
+### 如何选择可见性？
+
+在实际开发中，选择正确的可见性非常重要。以下是一些实用的决策指南：
+
+**函数可见性的选择原则**：
+
+1. **优先使用最严格的可见性**
+   - 从 `private` 开始，只在必要时放宽到 `internal`、`external` 或 `public`
+   - 这样可以减少攻击面，提高合约安全性
+
+2. **根据调用方式选择**
+   - 只需内部调用 → `internal` 或 `private`
+   - 只需外部调用 → `external`
+   - 内外部都需要 → `public`
+
+3. **根据继承需求选择**
+   - 子合约需要访问 → `internal` 或 `public`
+   - 子合约不需要访问 → `private`
+
+4. **考虑 Gas 效率**
+   - 处理大数组/结构体的外部接口 → 优先 `external`
+   - 频繁内部调用的函数 → `internal` 或 `private`
+
+**常见错误示例**：
+
+```solidity
+pragma solidity ^0.8.0;
+
+// ❌ 错误 1：不必要地使用 public
+contract BadExample1 {
+    // 这个函数只在内部使用，不应该是 public
+    function _calculateFee(uint amount) public pure returns (uint) {
+        return amount * 3 / 100;
+    }
+
+    function process(uint amount) public pure returns (uint) {
+        uint fee = _calculateFee(amount);
+        return amount - fee;
+    }
+}
+
+// ✅ 正确：使用 internal
+contract GoodExample1 {
+    function _calculateFee(uint amount) internal pure returns (uint) {
+        return amount * 3 / 100;
+    }
+
+    function process(uint amount) public pure returns (uint) {
+        uint fee = _calculateFee(amount);
+        return amount - fee;
+    }
+}
+
+// ❌ 错误 2：外部接口使用 public 而不是 external
+contract BadExample2 {
+    // 这个函数只被外部调用，使用 public 会浪费 gas
+    function submitData(uint[] memory data) public {
+        // 处理数据
+    }
+}
+
+// ✅ 正确：使用 external
+contract GoodExample2 {
+    function submitData(uint[] calldata data) external {
+        // 处理数据（从 calldata 直接读取，更省 gas）
+    }
+}
+
+// ❌ 错误 3：辅助函数没有保护
+contract BadExample3 {
+    uint public balance;
+
+    // 这个函数应该是 internal 或 private
+    function unsafeUpdate(uint newBalance) public {
+        balance = newBalance;
+    }
+}
+
+// ✅ 正确：辅助函数使用严格的可见性
+contract GoodExample3 {
+    uint public balance;
+
+    function unsafeUpdate(uint newBalance) private {
+        balance = newBalance;
+    }
+
+    // 提供安全的公共接口
+    function deposit(uint amount) public {
+        unsafeUpdate(balance + amount);
+    }
+}
+```
+
+**快速决策树**：
+
+```
+需要外部调用吗？
+├─ 是
+│  ├─ 也需要内部调用吗？
+│  │  ├─ 是 → public
+│  │  └─ 否 → external（推荐，更省 Gas）
+│  └─
+└─ 否
+   ├─ 子合约需要访问吗？
+   │  ├─ 是 → internal
+   │  └─ 否 → private
+   └─
+```
 
 ## 内部调用与外部调用
 
@@ -324,9 +433,15 @@ contract PriceConsumer {
 
 ## 函数状态可变性
 
-状态可变性修饰符描述了函数对区块链状态的影响。关于 `view`、`pure`、`payable` 的详细说明，请参考[合约结构 - 状态可变性章节](./2_solidity_layout.md#状态可变性mutability)。
+[Solidity 合约长什么样？](https://learnblockchain.cn/article/22529) 我们介绍过状态可变性，可变性修饰符描述了函数对区块链状态的影响。我们复习一下，形容函数的可变性有 3 个关键字：
+
+**view**：用 view 修饰的函数，称为视图函数，它只能读取状态，而不能修改状态。
+**pure**：用 pure 修饰的函数，称为纯函数，它既不能读取也不能修改状态。
+**payable**：用 payable 修饰的函数表示可以接受以太币，如果未指定，该函数将自动拒绝所有发送给它的以太币。
+
 
 这里我们补充一些实用的技巧：
+
 
 ### 状态可变性的选择建议
 
@@ -493,9 +608,7 @@ contract Overloading {
 
 ## 构造函数
 
-关于构造函数的基础知识，请参考[合约结构 - 构造函数章节](./2_solidity_layout.md#合约构造函数)。
-
-这里补充一些高级用法：
+在[Solidity 合约长什么样？](https://learnblockchain.cn/article/22529#合约构造函数) 一文中, 介绍了构造函数的基础知识，这里补充一些高级用法：
 
 ### 带参数的构造函数
 
