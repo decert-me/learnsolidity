@@ -134,6 +134,172 @@ ABI JSON 的详细的规范可参考 [Solidity 文档](https://learnblockchain.c
 
 
 
+## 函数选择器详解
+
+在深入了解 ABI 编码之前，我们需要先理解函数选择器（Function Selector）的概念。
+
+### 什么是函数选择器
+
+**函数选择器**是函数的唯一标识符，它是函数签名的 `keccak256` 哈希的前 4 个字节。每个公开的函数都有一个唯一的选择器。
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract FunctionSelector {
+    // 函数签名格式：functionName(paramType1,paramType2,...)
+    // 注意：不包含参数名，不包含空格，不包含返回值类型
+
+    function transfer(address to, uint256 amount) public returns (bool) {
+        // transfer 的选择器是 0xa9059cbb
+        // 计算方式：bytes4(keccak256("transfer(address,uint256)"))
+        return true;
+    }
+}
+```
+
+### 计算函数选择器
+
+有两种方式可以获取函数选择器：
+
+**方法1：手动计算**
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract SelectorExample {
+    // 手动计算函数选择器
+    function getTransferSelector() public pure returns (bytes4) {
+        return bytes4(keccak256("transfer(address,uint256)"));
+        // 返回: 0xa9059cbb
+    }
+
+    function getSetSelector() public pure returns (bytes4) {
+        return bytes4(keccak256("set(uint256)"));
+        // 返回: 0x60fe47b1
+    }
+}
+```
+
+**方法2：使用 `.selector` 属性**
+
+Solidity 提供了更简洁的方式来获取函数选择器：
+
+```solidity
+pragma solidity ^0.8.0;
+
+contract SelectorProperty {
+    function transfer(address to, uint256 amount) public returns (bool) {
+        return true;
+    }
+
+    function getSelector() public pure returns (bytes4) {
+        // 使用 .selector 属性直接获取
+        return this.transfer.selector;
+        // 返回: 0xa9059cbb
+    }
+}
+```
+
+### 使用选择器进行底层调用
+
+函数选择器在底层调用时非常有用，特别是配合 `call` 使用：
+
+```solidity
+pragma solidity ^0.8.0;
+
+interface IERC20 {
+    function transfer(address to, uint256 amount) external returns (bool);
+}
+
+contract LowLevelCall {
+    // 方法1：使用 encodeWithSignature
+    function callTransfer1(address token, address to, uint256 amount) public {
+        bytes memory data = abi.encodeWithSignature(
+            "transfer(address,uint256)",
+            to,
+            amount
+        );
+
+        (bool success, ) = token.call(data);
+        require(success, "Transfer failed");
+    }
+
+    // 方法2：使用 encodeWithSelector
+    function callTransfer2(address token, address to, uint256 amount) public {
+        bytes memory data = abi.encodeWithSelector(
+            bytes4(keccak256("transfer(address,uint256)")),
+            to,
+            amount
+        );
+
+        (bool success, ) = token.call(data);
+        require(success, "Transfer failed");
+    }
+
+    // 方法3：使用接口的 selector 属性
+    function callTransfer3(address token, address to, uint256 amount) public {
+        bytes memory data = abi.encodeWithSelector(
+            IERC20.transfer.selector,
+            to,
+            amount
+        );
+
+        (bool success, ) = token.call(data);
+        require(success, "Transfer failed");
+    }
+}
+```
+
+### 函数选择器的应用场景
+
+函数选择器在以下场景中非常重要：
+
+1. **底层调用时构造 calldata**
+   - 使用 `call`、`delegatecall`、`staticcall` 时需要构造正确的调用数据
+   - 函数选择器是 calldata 的前 4 个字节
+
+2. **实现代理合约的函数路由**
+   - 代理合约通过 `fallback` 函数捕获调用
+   - 根据函数选择器将调用转发到实现合约
+
+3. **跨合约调用的编码**
+   - 动态调用其他合约的函数
+   - 根据业务逻辑选择要调用的函数
+
+4. **分析交易的函数调用**
+   - 区块链浏览器通过函数选择器识别交易调用的函数
+   - 可以查询和反查函数选择器
+
+### 函数签名的注意事项
+
+在计算函数选择器时，函数签名必须遵循严格的格式：
+
+```solidity
+✅ 正确的函数签名：
+"transfer(address,uint256)"
+"balanceOf(address)"
+"approve(address,uint256)"
+
+❌ 错误的函数签名：
+"transfer(address to, uint256 amount)"  // 不能包含参数名
+"transfer(address, uint256)"            // 不能有空格
+"transfer(address,uint256) returns (bool)" // 不能包含返回值
+```
+
+**示例：常见函数选择器**
+
+```solidity
+// ERC20 标准函数选择器
+transfer(address,uint256)        → 0xa9059cbb
+approve(address,uint256)         → 0x095ea7b3
+transferFrom(address,address,uint256) → 0x23b872dd
+balanceOf(address)               → 0x70a08231
+
+// ERC721 标准函数选择器
+safeTransferFrom(address,address,uint256) → 0x42842e0e
+ownerOf(uint256)                 → 0x6352211e
+```
+
 ## ABI 编码
 
 我们以调用 `set()` 函数为例，看看 ABI 是如何进行的，合约部署在 sepolia 网络，调用 `set(10)`:
@@ -160,16 +326,16 @@ ABI JSON 的详细的规范可参考 [Solidity 文档](https://learnblockchain.c
 
 它包含两个部分：
 
-1. 函数选择器(前 4 个字节)
-2. 参数编码
-
-
+1. **函数选择器**(前 4 个字节)
+2. **参数编码**
 
 `0x60fe47b1` 是函数选择器， 它是 ABI 描述中函数的签名：`set(uint256)` 进行 keccak256 哈希运算之后，取前4个字节：
 
 ```solidity
   bytes4(keccak256("set(uint256)")) == 0x60fe47b1
 ```
+
+> 关于函数选择器的详细说明，请参考前面的[函数选择器详解](#函数选择器详解)章节。
 
 
 
@@ -280,7 +446,11 @@ abi.encodeWithSignature("addUser(address,uint8,bool)", addr, s, b) // 0x63f67eb5
 
 ### abi.encodeWithSelector
 
-它与`abi.encodeWithSignature`功能类似，只不过第一个参数为4个字节的`函数选择器`，例如：
+它与`abi.encodeWithSignature`功能类似，只不过第一个参数为4个字节的`函数选择器`。
+
+> 关于如何计算和使用函数选择器，请参考[函数选择器详解](#函数选择器详解)章节。
+
+例如：
 
 ```solidity
 abi.encodeWithSelector(0x60fe47b1, 10);

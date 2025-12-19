@@ -83,14 +83,12 @@ contract VisibilityExample {
 
 ### 可见性对比表
 
-| 可见性 | 当前合约 | 子合约 | 外部调用 | Gas 效率 | 推荐使用场景 |
-|--------|---------|--------|---------|---------|-------------|
-| `public` | ✅ | ✅ | ✅ | 较低 | 需要内外部都能调用的函数 |
-| `external` | ⚠️（通过this） | ⚠️（通过this） | ✅ | 较高 | 只需外部调用且参数较大的函数 |
-| `internal` | ✅ | ✅ | ❌ | 中等 | 合约内部和继承使用的辅助函数 |
-| `private` | ✅ | ❌ | ❌ | 中等 | 当前合约私有的实现细节 |
-
-> **Gas 优化提示：** `external` 函数在处理大量数据（如数组）时比 `public` 更省 Gas，因为 `external` 函数的参数直接从 calldata 读取，不会复制到内存。
+| 可见性 | 当前合约 | 子合约 | 外部调用 | 推荐使用场景 |
+|--------|---------|--------|---------|-------------|
+| `public` | ✅ | ✅ | ✅ | 需要内外部都能调用的函数 |
+| `external` | ⚠️（通过this） | ⚠️（通过this） | ✅ | 只需外部调用的函数 |
+| `internal` | ✅ | ✅ | ❌ | 合约内部和继承使用的辅助函数 |
+| `private` | ✅ | ❌ | ❌ | 当前合约私有的实现细节 |
 
 ### 如何选择可见性？
 
@@ -111,17 +109,13 @@ contract VisibilityExample {
    - 子合约需要访问 → `internal` 或 `public`
    - 子合约不需要访问 → `private`
 
-4. **考虑 Gas 效率**
-   - 处理大数组/结构体的外部接口 → 优先 `external`
-   - 频繁内部调用的函数 → `internal` 或 `private`
-
 **常见错误示例**：
 
 ```solidity
 pragma solidity ^0.8.0;
 
-// ❌ 错误 1：不必要地使用 public
-contract BadExample1 {
+// ❌ 错误：不必要地使用 public
+contract BadExample {
     // 这个函数只在内部使用，不应该是 public
     function _calculateFee(uint amount) public pure returns (uint) {
         return amount * 3 / 100;
@@ -134,7 +128,7 @@ contract BadExample1 {
 }
 
 // ✅ 正确：使用 internal
-contract GoodExample1 {
+contract GoodExample {
     function _calculateFee(uint amount) internal pure returns (uint) {
         return amount * 3 / 100;
     }
@@ -142,45 +136,6 @@ contract GoodExample1 {
     function process(uint amount) public pure returns (uint) {
         uint fee = _calculateFee(amount);
         return amount - fee;
-    }
-}
-
-// ❌ 错误 2：外部接口使用 public 而不是 external
-contract BadExample2 {
-    // 这个函数只被外部调用，使用 public 会浪费 gas
-    function submitData(uint[] memory data) public {
-        // 处理数据
-    }
-}
-
-// ✅ 正确：使用 external
-contract GoodExample2 {
-    function submitData(uint[] calldata data) external {
-        // 处理数据（从 calldata 直接读取，更省 gas）
-    }
-}
-
-// ❌ 错误 3：辅助函数没有保护
-contract BadExample3 {
-    uint public balance;
-
-    // 这个函数应该是 internal 或 private
-    function unsafeUpdate(uint newBalance) public {
-        balance = newBalance;
-    }
-}
-
-// ✅ 正确：辅助函数使用严格的可见性
-contract GoodExample3 {
-    uint public balance;
-
-    function unsafeUpdate(uint newBalance) private {
-        balance = newBalance;
-    }
-
-    // 提供安全的公共接口
-    function deposit(uint amount) public {
-        unsafeUpdate(balance + amount);
     }
 }
 ```
@@ -192,7 +147,7 @@ contract GoodExample3 {
 ├─ 是
 │  ├─ 也需要内部调用吗？
 │  │  ├─ 是 → public
-│  │  └─ 否 → external（推荐，更省 Gas）
+│  │  └─ 否 → external
 │  └─
 └─ 否
    ├─ 子合约需要访问吗？
@@ -201,235 +156,47 @@ contract GoodExample3 {
    └─
 ```
 
-## 内部调用与外部调用
+## 函数调用方式
 
-Solidity 中有两种函数调用方式：**内部调用**和**外部调用**。它们在执行上下文、Gas 消耗和安全性上有重要区别。
+Solidity 中主要有两种函数调用方式：
 
-### 内部调用（Internal Call）
+1. **内部调用**：直接使用函数名调用，如 `functionName()`
+   - 在同一执行上下文中运行
+   - `msg.sender` 和 `msg.value` 保持不变
+   - Gas 消耗较低
 
-内部调用是在当前合约的上下文中直接跳转到函数代码。
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract InternalCallExample {
-    uint public value = 10;
-
-    function internalFunc() internal returns (uint) {
-        value = 20;  // 修改状态
-        return value;
-    }
-
-    function publicFunc() public returns (uint) {
-        // 内部调用 - 直接函数名调用
-        return internalFunc();
-    }
-
-    function testInternalCall() public returns (uint) {
-        // 内部调用 public 函数
-        uint result = publicFunc();
-
-        // 内部调用 internal 函数
-        result += internalFunc();
-
-        return result;
-    }
-}
-```
-
-**内部调用的特点**：
-- ✅ 在同一个执行上下文中运行
-- ✅ `msg.sender` 和 `msg.value` 保持不变
-- ✅ 可以访问当前合约的 `internal` 和 `private` 函数
-- ✅ Gas 消耗较低（简单的跳转指令）
-- ✅ 共享相同的内存和存储空间
-
-**内部调用语法**：
-```solidity
-functionName(arguments);          // 调用当前合约的函数
-super.functionName(arguments);    // 调用父合约的函数
-```
-
-### 外部调用（External Call）
-
-外部调用会创建一个新的调用上下文（消息调用），这是一个完整的 EVM 调用。
+2. **外部调用**：通过合约实例或 `this` 调用，如 `this.functionName()`
+   - 创建新的调用上下文
+   - `msg.sender` 可能变化
+   - Gas 消耗较高
 
 ```solidity
 pragma solidity ^0.8.0;
 
-contract ExternalCallTarget {
-    uint public value;
-
-    function setValue(uint _value) external returns (uint) {
-        value = _value;
-        return value;
-    }
-}
-
-contract ExternalCallExample {
-    ExternalCallTarget public target;
-
-    constructor(address _target) {
-        target = ExternalCallTarget(_target);
-    }
-
-    function testExternalCall() public returns (uint) {
-        // 外部调用其他合约 - 使用合约实例
-        uint result = target.setValue(100);
-
-        // 外部调用自己的 external 函数 - 使用 this
-        result += this.externalFunc();
-
-        return result;
-    }
-
-    function externalFunc() external pure returns (uint) {
-        return 42;
-    }
-}
-```
-
-**外部调用的特点**：
-- ✅ 创建新的执行上下文（切换上下文）
-- ✅ `msg.sender` 变为调用者的地址
-- ✅ `msg.value` 可以随调用传递
-- ✅ 可以指定 Gas 限制和以太币数量
-- ⚠️ Gas 消耗较高（需要完整的调用开销）
-- ⚠️ 目标合约可能执行恶意代码（需要防范重入攻击）
-- ⚠️ 如果目标合约抛出异常，调用会失败
-
-**外部调用语法**：
-```solidity
-// 标准外部调用
-contractInstance.functionName(arguments);
-
-// 通过 this 调用自己的 external 函数
-this.functionName(arguments);
-
-// 带 Gas 和以太币的调用
-contractInstance.functionName{value: 1 ether, gas: 100000}(arguments);
-
-// 底层调用（低级调用）
-(bool success, bytes memory data) = address(target).call(
-    abi.encodeWithSignature("functionName(uint256)", arg)
-);
-```
-
-### 内部调用 vs 外部调用对比
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract CallComparison {
+contract CallExample {
     uint public counter = 0;
-    event LogSender(address sender, string callType);
 
-    // 测试内部调用
-    function internalCallTest() public {
-        emit LogSender(msg.sender, "internalCallTest");
-        internalHelper();  // 内部调用
-    }
-
-    function internalHelper() internal {
+    function increment() public {
         counter++;
-        emit LogSender(msg.sender, "internalHelper");
-        // msg.sender 与 internalCallTest 中的相同
     }
 
-    // 测试外部调用
-    function externalCallTest() public {
-        emit LogSender(msg.sender, "externalCallTest");
-        this.externalHelper();  // 外部调用
+    function testInternalCall() public {
+        // 内部调用 - 直接函数名
+        increment();
     }
 
-    function externalHelper() external {
-        counter++;
-        emit LogSender(msg.sender, "externalHelper");
-        // msg.sender 变为当前合约地址
+    function testExternalCall() public {
+        // 外部调用 - 通过 this
+        this.increment();
     }
 }
 ```
 
-**对比表**：
-
-| 特性 | 内部调用 | 外部调用 |
-|-----|---------|---------|
-| 执行上下文 | 当前合约上下文 | 新的调用上下文 |
-| `msg.sender` | 保持不变 | 变为调用者地址 |
-| `msg.value` | 保持不变 | 可以传递新的 value |
-| Gas 消耗 | 低（跳转指令） | 高（完整调用） |
-| 可调用的函数 | `public`、`internal`、`private` | `public`、`external` |
-| 安全风险 | 低 | 高（重入攻击风险） |
-| 调用方式 | `functionName()` | `this.functionName()` 或 `contract.functionName()` |
-
-### 实际应用
-
-#### 合约自身应该尽量使用内部调用，更少的 gas
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract GasOptimization {
-    function publicFunc(uint x) public pure returns (uint) {
-        return x * 2;
-    }
-
-    function testPublic() public pure returns (uint) {
-        uint result = 0;
-        for (uint i = 0; i < 10; i++) {
-            result += publicFunc(i);  // 内部调用，Gas 较低
-        }
-        return result;
-    }
-
-    function testExternal() public view returns (uint) {
-        uint result = 0;
-        for (uint i = 0; i < 10; i++) {
-            result += this.externalFunc(i);  // 外部调用，Gas 较高
-        }
-        return result;
-    }
-
-    function externalFunc(uint x) external pure returns (uint) {
-        return x * 2;
-    }
-}
-```
-
-#### 调用其他合约 - 外部调用
-
-```solidity
-pragma solidity ^0.8.0;
-
-interface IOracle {
-    function getPrice() external view returns (uint);
-}
-
-contract PriceConsumer {
-    IOracle public oracle;
-
-    constructor(address _oracle) {
-        oracle = IOracle(_oracle);
-    }
-
-    function updatePrice() public returns (uint) {
-        // 外部调用获取价格
-        uint price = oracle.getPrice();
-        // 处理价格...
-        return price;
-    }
-}
-```
-
-> **安全提示：**
+> **重要提示：**
 >
-> 外部调用时务必注意：
-> 1. **重入攻击**：外部调用可能再次调用回当前合约
-> 2. **Gas 限制**：确保外部调用有足够的 Gas
-> 3. **失败处理**：检查外部调用的返回值
-> 4. **信任问题**：不要无条件信任外部合约
->
-> 详见[重入攻击防御章节](../solidity-adv/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)。
+> - 优先使用内部调用，Gas 消耗更低
+> - 外部调用其他合约时要注意安全风险（重入攻击等）
+> - 详见[重入攻击防御章节](../security/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)
 
 ## 函数状态可变性
 
@@ -439,9 +206,7 @@ contract PriceConsumer {
 **pure**：用 pure 修饰的函数，称为纯函数，它既不能读取也不能修改状态。
 **payable**：用 payable 修饰的函数表示可以接受以太币，如果未指定，该函数将自动拒绝所有发送给它的以太币。
 
-
 这里我们补充一些实用的技巧：
-
 
 ### 状态可变性的选择建议
 
@@ -502,7 +267,7 @@ contract DataLocation {
         users.push(User(name, age));
     }
 
-    // calldata: 只读的外部数据，最省 Gas
+    // calldata: 只读的外部数据，最省 Gas（仅用于 external 函数）
     function processData(uint[] calldata data) external pure returns (uint) {
         uint sum = 0;
         for (uint i = 0; i < data.length; i++) {
@@ -571,30 +336,19 @@ Solidity 支持函数重载，即同一个合约中可以有多个同名但参�
 pragma solidity ^0.8.0;
 
 contract Overloading {
-    event FunctionCalled(string funcType);
-
     // 无参数版本
-    function process() public returns (uint) {
-        emit FunctionCalled("no params");
+    function process() public pure returns (uint) {
         return 0;
     }
 
     // 单参数版本
-    function process(uint x) public returns (uint) {
-        emit FunctionCalled("one uint param");
+    function process(uint x) public pure returns (uint) {
         return x * 2;
     }
 
     // 不同类型参数
-    function process(string memory text) public returns (uint) {
-        emit FunctionCalled("string param");
+    function process(string memory text) public pure returns (uint) {
         return bytes(text).length;
-    }
-
-    // 多参数版本
-    function process(uint x, uint y) public returns (uint) {
-        emit FunctionCalled("two uint params");
-        return x + y;
     }
 }
 ```
@@ -602,13 +356,12 @@ contract Overloading {
 > **重载限制：**
 >
 > 1. 仅通过返回值类型不同无法重载
-> 2. `view`/`pure` 修饰符不影响重载识别
-> 3. 参数的数据位置（`memory`/`calldata`）不影响重载
-> 4. 调用时必须能够明确区分要调用哪个函数
+> 2. 参数的数据位置（`memory`/`calldata`）不影响重载
+> 3. 调用时必须能够明确区分要调用哪个函数
 
 ## 构造函数
 
-在[Solidity 合约长什么样？](https://learnblockchain.cn/article/22529#合约构造函数) 一文中, 介绍了构造函数的基础知识，这里补充一些高级用法：
+在[Solidity 合约长什么样？](https://learnblockchain.cn/article/22529#合约构造函数) 一文中, 介绍了构造函数的基础知识，这里补充一些用法：
 
 ### 带参数的构造函数
 
@@ -618,19 +371,17 @@ pragma solidity ^0.8.0;
 contract Token {
     string public name;
     string public symbol;
-    uint8 public decimals;
     address public owner;
 
-    constructor(string memory _name, string memory _symbol, uint8 _decimals) {
+    constructor(string memory _name, string memory _symbol) {
         name = _name;
         symbol = _symbol;
-        decimals = _decimals;
         owner = msg.sender;
     }
 }
 
 // 部署时需要传入参数：
-// new Token("My Token", "MTK", 18)
+// new Token("My Token", "MTK")
 ```
 
 ### payable 构造函数
@@ -659,36 +410,16 @@ contract CrowdFunding {
 
 这里做一个简要总结：
 
-### receive 函数
-
 ```solidity
+// 接收纯转账时调用
 receive() external payable {
-    // 接收纯转账时调用
+    // 处理接收的 ETH
 }
-```
 
-### fallback 函数
-
-```solidity
+// 调用不存在的函数或带数据的转账时调用
 fallback() external payable {
-    // 调用不存在的函数或带数据的转账时调用
+    // 处理未知调用
 }
-```
-
-### 调用流程
-
-```
-接收调用
-    ↓
-msg.data为空？
-   ↙    ↘
-  是      否
-  ↓       ↓
-有receive? fallback
- ↙   ↘
-是    否
-↓     ↓
-receive fallback
 ```
 
 ## 函数修改器
@@ -696,57 +427,6 @@ receive fallback
 函数修改器（Modifier）用于在函数执行前后添加额外的逻辑，常用于权限检查、状态验证等。
 
 关于修改器的详细说明，请参考[函数修改器章节](./13_modifier.md)。
-
-## 函数选择器
-
-每个函数都有一个唯一的 4 字节选择器，它是函数签名的 `keccak256` 哈希的前 4 个字节。
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract FunctionSelector {
-    // 函数签名格式：functionName(paramType1,paramType2,...)
-    // 注意：不包含参数名，不包含空格
-
-    function getTransferSelector() public pure returns (bytes4) {
-        // 手动计算
-        return bytes4(keccak256("transfer(address,uint256)"));
-    }
-
-    function getSelector() public pure returns (bytes4) {
-        // 使用 .selector 属性
-        return this.transfer.selector;
-    }
-
-    function transfer(address to, uint256 amount) public returns (bool) {
-        // transfer 的选择器是 0xa9059cbb
-        return true;
-    }
-
-    // 使用选择器进行底层调用
-    function callTransfer(address target, address to, uint256 amount) public {
-        bytes memory data = abi.encodeWithSelector(
-            bytes4(keccak256("transfer(address,uint256)")),
-            to,
-            amount
-        );
-
-        (bool success, ) = target.call(data);
-        require(success, "Call failed");
-    }
-}
-```
-
-:::info 函数选择器的应用
-
-- 底层调用时构造 calldata
-- 实现代理合约的函数路由
-- 跨合约调用的编码
-- 分析交易的函数调用
-
-详见[底层调用章节](../solidity-adv/3_addr_call.md)和[ABI 章节](../solidity-adv/2_ABI.md)。
-
-:::
 
 ## 实用技巧和最佳实践
 
@@ -759,7 +439,7 @@ function doSomething(uint x) public returns (uint) {
 }
 
 // ✅ 好：函数名和参数名清晰明了
-function calculateDoubleValue(uint originalValue) public pure returns (uint doubledValue) {
+function calculateDoubleValue(uint originalValue) public pure returns (uint) {
     return originalValue * 2;
 }
 ```
@@ -799,10 +479,9 @@ contract GoodExample {
 }
 ```
 
-
 ## 操练
 
-### 练习1：实现一个多功能计算器
+### 练习：实现一个多功能计算器
 
 ```SolidityEditor
 pragma solidity ^0.8.0;
@@ -832,57 +511,25 @@ contract Calculator {
 }
 ```
 
-### 练习2：理解内部调用和外部调用
-
-```SolidityEditor
-pragma solidity ^0.8.0;
-
-contract CallTypesDemo {
-    uint public counter;
-    event CallerInfo(address caller, uint gasUsed);
-
-    // TODO: 实现一个内部调用的函数
-    function internalIncrement() internal {
-        counter++;
-    }
-
-    // TODO: 实现一个 public 函数，测试内部调用
-    function testInternalCall() public {
-        uint gasBefore = gasleft();
-        // 调用 internalIncrement
-        uint gasUsed = gasBefore - gasleft();
-        emit CallerInfo(msg.sender, gasUsed);
-    }
-
-    // TODO: 实现一个 external 函数
-    function externalIncrement() external {
-        counter++;
-    }
-
-    // TODO: 实现一个函数，测试外部调用
-    function testExternalCall() public {
-        uint gasBefore = gasleft();
-        // 通过 this 调用 externalIncrement
-        uint gasUsed = gasBefore - gasleft();
-        emit CallerInfo(msg.sender, gasUsed);
-    }
-}
-```
-
 ## 小结
 
-本节我们深入学习了 Solidity 函数的方方面面：
+本节我们深入学习了 Solidity 函数的核心知识：
 
 - **函数语法**：理解函数的完整语法结构
 - **可见性**：`public`、`external`、`internal`、`private` 的区别和应用
-- **内部调用 vs 外部调用**：两种调用方式的执行机制、Gas 消耗和安全性差异
+- **调用方式**：内部调用和外部调用的基本区别
 - **状态可变性**：`view`、`pure`、`payable` 的使用场景
 - **参数和返回值**：数据位置、多返回值、解构赋值
 - **函数重载**：同名函数的不同参数版本
 - **特殊函数**：`constructor`、`receive`、`fallback` 的作用
-- **函数修改器**：在函数执行前后添加逻辑
-- **函数选择器**：函数的唯一标识符及其应用
-- **最佳实践**：安全编码、Gas 优化、代码可读性
+- **最佳实践**：安全编码、代码可读性
 
 掌握这些知识后，你就能编写出高效、安全且易维护的智能合约了！
 
+### 进阶学习
+
+对于更高级的主题，可以参考：
+
+- [底层调用](../solidity-adv/3_addr_call.md) - 学习 call、delegatecall、staticcall
+- [ABI 编码](../solidity-adv/2_ABI.md) - 了解函数选择器和数据编码
+- [重入攻击防御](../security/9_reentrancy.md) - 外部调用的安全最佳实践

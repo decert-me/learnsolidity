@@ -2,7 +2,7 @@
 
 # 合约类型
 
-每一个合约，合约本身也是一个数据类型， 称为合约类型，如下代码定义了一个`Hello`合约类型:
+每一个合约，合约本身也是一个数据类型，称为合约类型，如下代码定义了一个`Hello`合约类型:
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -132,12 +132,3 @@ function isContract(address addr) internal view returns (bool) {
 提炼本节的重点：合约是一个类型，我们可以通过这个合约类型来创建合约（即部署合约），然后与合约里的函数交互。
 
 
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
