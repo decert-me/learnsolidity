@@ -1,8 +1,10 @@
 # Dependencies
 /node_modules
+myenv/
 
 # Production
 /build
+.claude/
 
 # Generated files
 .docusaurus
