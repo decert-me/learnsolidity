@@ -6,7 +6,7 @@
 
 而当我们要向合约里转入ETH时，情况比我们想象的复杂一些，被转入的合约需要明确表达其可以接收 ETH，以防因合约没有处理的ETH的，导致ETH永远锁死在合约中。
 
-> 提示： ERC20 代币向合约转账时，并没有对合约进行类似的检查，因此也时不时会发生 ERC20  因误转入合约而锁死。
+> 提示： ERC20 代币向合约转账时，并没有对合约进行类似的检查，因此也时不时会发生 [ERC20](https://learnblockchain.cn/tags/ERC20?map=EVM)  因误转入合约而锁死。
 
 
 
@@ -168,7 +168,7 @@ contract Caller {
 
 以上代码，使用了地址上的底层调用，来模拟调用不存在的函数，这部分内容将在 [地址高阶用法](../solidity-adv/addr_call.md) 进一步介绍。
 
-再次提醒，当使用合约中使用send和transfer向合约转账时，EVM 仅会提供 2300 gas来执行， 如果`receive`或`fallback`函数的实现需要较多的运算量，会导致转账失败。
+再次提醒，当使用合约中使用send和transfer向合约转账时，[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 仅会提供 2300 gas来执行， 如果`receive`或`fallback`函数的实现需要较多的运算量，会导致转账失败。
 
 
 
@@ -233,7 +233,7 @@ contract testPayable {
 
 ![image-20230703223858675](https://img.learnblockchain.cn/pics/20230703223900.png!decert.logo.water)
 
-理解这些机制对于编写安全的智能合约非常重要，可以避免 ETH 被永久锁定在合约中。
+理解这些机制对于编写安全的[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)非常重要，可以避免 ETH 被永久锁定在合约中。
 
 ### 进阶学习
 
@@ -241,4 +241,4 @@ contract testPayable {
 
 - [底层调用](../solidity-adv/3_addr_call.md) - 深入理解 call、delegatecall 和 staticcall
 - [重入攻击](../security/9_reentrancy.md) - 学习在接收 ETH 时如何防范重入攻击
-- [支付模式](../solidity-practice/14_payment_patterns.md) - 学习智能合约中的支付最佳实践
+- [支付模式](../solidity-practice/14_payment_patterns.md) - 学习[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中的支付最佳实践

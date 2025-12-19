@@ -1,12 +1,12 @@
 # 使用地址类型
 
-在[以太坊基础](https://learnblockchain.cn/article/22542)一节中，我们了解了[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的两种账户类型。现在让我们学习如何在 Solidity 合约中使用地址类型来表示这些[账户](https://learnblockchain.cn/tags/账户?map=EVM)。
+在[以太坊基础](https://learnblockchain.cn/article/22542)一节中，我们了解了[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的两种[账户](https://learnblockchain.cn/tags/账户?map=EVM)类型。现在让我们学习如何在 [Solidity](https://learnblockchain.cn/course/93) 合约中使用地址类型来表示这些[账户](https://learnblockchain.cn/tags/账户?map=EVM)。
 
 ## 地址类型基础
 
 ### 什么是地址类型？
 
-Solidity 合约程序里，使用**地址类型**来表示账户，如下在合约中获取用户地址：
+[Solidity](https://learnblockchain.cn/course/93) 合约程序里，使用**地址类型**来表示[账户](https://learnblockchain.cn/tags/账户?map=EVM)，如下在合约中获取用户地址：
 
 ```solidity
 pragma solidity ^0.8.0;

@@ -26,7 +26,7 @@
 
 ## 使用接口
 
-Solidity 用`Interface` 关键字定义接口，以下是一段示例代码定义了一个名为`ICounter` 的接口：
+[Solidity](https://learnblockchain.cn/course/93) 用`Interface` 关键字定义接口，以下是一段示例代码定义了一个名为`ICounter` 的接口：
 
 ```solidity
 pragma solidity ^0.8.10;
@@ -131,7 +131,7 @@ contract MyContract {
 
 合约间的交互，使用非常广泛，因此，这里再举一个示例：实现一个奖励合约，给用户发放 ERC20 代币奖励。
 
-ERC20 代币如下：
+[ERC20](https://learnblockchain.cn/tags/ERC20?map=EVM) 代币如下：
 
 ```solidity
 pragma solidity ^0.8.9;
@@ -192,6 +192,6 @@ contract Award {
 
 想了解更多关于接口的知识，可以参考：
 
-- [ERC20 标准](../solidity-practice/1_erc20.md) - 学习如何实现 ERC20 接口
-- [ERC721 标准](../solidity-practice/2_erc721.md) - 学习 NFT 接口的实现
+- [ERC20 标准](../solidity-practice/1_erc20.md) - 学习如何实现 [ERC20](https://learnblockchain.cn/tags/ERC20?map=EVM) 接口
+- [ERC721 标准](../solidity-practice/2_erc721.md) - 学习 [NFT](https://learnblockchain.cn/tags/NFT) 接口的实现
 - [跨合约调用](../solidity-adv/3_addr_call.md) - 深入理解合约间的交互方式

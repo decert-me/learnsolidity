@@ -108,7 +108,7 @@ library Math {
 }
 ```
 
-`TestMax`代码不用作任何的更改，不过因为`Math`库是独立部署的， `TestMax`合约要调用`Math`库就必须先知道后者的地址，这相当于`TestMax`合约会依赖于`Math`库，因此部署`TestMax`合约会有一点不同，需要让 `TestMax`合约与`Math`库建立链接， Solidity 开发框架会帮助我们进行链接，以[Hardhat](../tools/4_hardhat.md) 为例，部署脚本这样写就好：
+`TestMax`代码不用作任何的更改，不过因为`Math`库是独立部署的， `TestMax`合约要调用`Math`库就必须先知道后者的地址，这相当于`TestMax`合约会依赖于`Math`库，因此部署`TestMax`合约会有一点不同，需要让 `TestMax`合约与`Math`库建立链接， [Solidity](https://learnblockchain.cn/course/93) 开发框架会帮助我们进行链接，以[Hardhat](../tools/4_hardhat.md) 为例，部署脚本这样写就好：
 
 
 
@@ -210,5 +210,5 @@ contract C {
   - **Public/External 函数**：库需要单独部署，EVM 使用 delegatecall 调用库方法
 - **类型扩展**：使用 `using LibName for Type` 语法给类型扩展功能，如 `using Math for uint`
 
-库是 Solidity 中实现代码复用的重要机制，可以让合约更加模块化和易于维护。
+库是 [Solidity](https://learnblockchain.cn/course/93) 中实现代码复用的重要机制，可以让合约更加模块化和易于维护。
 

@@ -1,10 +1,10 @@
 # 字符串和字节数组
 
-在智能合约开发中，大多数时候，使用多的整型、地址、合约类型，但有时也需要处理文本数据和原始字节数据。Solidity 提供了多种字节相关的类型来满足不同的使用场景。
+在[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)开发中，大多数时候，使用多的整型、地址、合约类型，但有时也需要处理文本数据和原始字节数据。Solidity 提供了多种字节相关的类型来满足不同的使用场景。
 
 ## 字节类型概览
 
-Solidity 提供了三种主要的字节相关类型：
+[Solidity](https://learnblockchain.cn/course/93) 提供了三种主要的字节相关类型：
 
 1. **定长字节数组**：`bytes1`, `bytes2`, `bytes3`, ..., `bytes32`
 2. **动态字节数组**：`bytes`
@@ -154,7 +154,7 @@ contract BytesModification {
 
 ## 字符串类型 string
 
-`string` 是 Solidity 中用于处理文本数据的类型，本质上是 UTF-8 编码的动态字节数组。
+`string` 是 [Solidity](https://learnblockchain.cn/course/93) 中用于处理文本数据的类型，本质上是 UTF-8 编码的动态字节数组。
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -350,7 +350,7 @@ contract SimpleNFT {
 
 不同的字节类型在 Gas 消耗上有显著差异：
 
-| 类型 | 使用场景 | Gas 效率 | 备注 |
+| 类型 | 使用场景 | [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 效率 | 备注 |
 |------|---------|---------|------|
 | `bytes32` | 固定长度哈希、ID | ⭐⭐⭐⭐⭐ | 最省 Gas，推荐用于固定长度数据 |
 | `bytes` | 变长原始数据 | ⭐⭐⭐⭐ | 比 `bytes1[]` 省 Gas |
@@ -362,7 +362,7 @@ contract SimpleNFT {
 > 1. **固定长度数据优先使用定长类型**：如果数据长度确定（如哈希值），使用 `bytes32` 而不是 `bytes` 或 `string`
 > 2. **变长数据使用 bytes**：需要存储变长原始数据时，使用 `bytes` 而不是 `bytes1[]`
 > 3. **短字符串使用 bytes32**：如果字符串长度不超过32字节且长度相对固定，可以考虑使用 `bytes32`
-> 4. **链下存储**：长文本数据（如文章、大段描述）应该存储在链外（IPFS），合约只存储哈希或 URI
+> 4. **链下存储**：长文本数据（如文章、大段描述）应该存储在链外（[IPFS](https://learnblockchain.cn/tags/IPFS)），合约只存储哈希或 URI
 
 ## 操练
 
@@ -428,6 +428,6 @@ contract BytesUtils {
 - **动态字节数组** (`bytes`)：可变长度，适合存储原始字节数据，比 `bytes1[]` 更省 Gas
 - **字符串** (`string`)：UTF-8 编码的文本，操作受限，需要转换为 `bytes` 后才能进行复杂操作
 - **类型转换**：`string` 和 `bytes` 可以相互转换，`bytes32` 需要特殊处理
-- **Gas 优化**：根据数据特点选择合适的类型，固定长度优先使用定长类型
+- **[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化**：根据数据特点选择合适的类型，固定长度优先使用定长类型
 
 字节类型和字符串是处理数据的重要工具。在实际开发中，根据具体场景选择合适的类型，可以提高合约的效率和可维护性。

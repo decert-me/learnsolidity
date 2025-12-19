@@ -2,9 +2,9 @@
 
 在[上一节](https://learnblockchain.cn/article/22529)中，我们学习了合约的基本结构，了解了如何定义状态变量和函数。现在让我们深入探索 Solidity 的类型系统。
 
-Solidity 是一门**静态类型语言**，这意味着每个变量（状态变量或局部变量）的类型都必须在编译时确定。这与 C、C++、Java 等语言类似，需要在编码时为每个变量显式指定类型。
+[Solidity](https://learnblockchain.cn/course/93) 是一门**静态类型语言**，这意味着每个变量（状态变量或局部变量）的类型都必须在编译时确定。这与 C、C++、Java 等语言类似，需要在编码时为每个变量显式指定类型。
 
-Solidity 提供了丰富的基本类型，你也可以使用基本类型组合出新的复杂类型，如结构体。理解类型系统是编写安全、高效[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的基础。
+[Solidity](https://learnblockchain.cn/course/93) 提供了丰富的基本类型，你也可以使用基本类型组合出新的复杂类型，如结构体。理解类型系统是编写安全、高效[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的基础。
 
 ## 类型分类
 
@@ -171,4 +171,4 @@ mapping(KeyType => ValueType) mappingName;
 
 ---
 
-准备好挑战了吗？前往 [Solidity 101：数据结构](https://decert.me/quests/c3e4fda2-d6b9-4c49-ba12-c1d56bc4a0ea)，完成挑战并获得技能认证 NFT。
+准备好挑战了吗？前往 [Solidity 101：数据结构](https://decert.me/quests/c3e4fda2-d6b9-4c49-ba12-c1d56bc4a0ea)，完成挑战并获得技能认证 [NFT](https://learnblockchain.cn/tags/NFT)。

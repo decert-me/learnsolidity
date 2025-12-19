@@ -141,7 +141,7 @@ contract LogicalNot {
 
 ## 短路求值
 
-Solidity 中的逻辑运算符支持**短路求值**（Short-circuit evaluation），这是一个重要的特性，既能提高效率，也能避免错误。
+[Solidity](https://learnblockchain.cn/course/93) 中的逻辑运算符支持**短路求值**（Short-circuit evaluation），这是一个重要的特性，既能提高效率，也能避免错误。
 
 ### && 的短路求值
 
@@ -236,11 +236,11 @@ contract ShortCircuitBenefit {
 }
 ```
 
-> **Gas 优化：** 在使用 `&&` 时，把更可能为 `false` 的条件放在前面；使用 `||` 时，把更可能为 `true` 的条件放在前面。这样可以通过短路求值节省 Gas。
+> **Gas 优化：** 在使用 `&&` 时，把更可能为 `false` 的条件放在前面；使用 `||` 时，把更可能为 `true` 的条件放在前面。这样可以通过短路求值节省 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM)。
 
 ## 比较运算符
 
-Solidity 支持六种比较运算符，比较的结果是布尔值：
+[Solidity](https://learnblockchain.cn/course/93) 支持六种比较运算符，比较的结果是布尔值：
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -575,11 +575,11 @@ contract FeatureToggle {
 - **比较运算符**：`==`、`!=`、`<`、`<=`、`>`、`>=` 返回布尔值
 - **应用场景**：权限控制、状态管理、功能开关、白名单/黑名单
 
-布尔类型虽然简单，但在智能合约中有着广泛而重要的应用。掌握布尔类型和逻辑运算符是编写智能合约的基础技能。
+布尔类型虽然简单，但在智能合约中有着广泛而重要的应用。掌握布尔类型和逻辑运算符是编写[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的基础技能。
 
 ### 进阶学习
 
 想了解更多关于布尔类型的高级应用，可以参考：
 
-- [存储优化](../solidity-adv/5_storage_gas.md) - 学习变量打包和 Gas 优化技术
+- [存储优化](../solidity-adv/5_storage_gas.md) - 学习变量打包和 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技术
 

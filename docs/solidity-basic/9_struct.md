@@ -1,6 +1,6 @@
 # 结构体
 
-在实际编程中，我们经常需要将多个相关的数据组合在一起，形成一个复合类型。例如，描述一个人需要姓名、年龄、地址等多个属性。Solidity 提供了结构体（Struct）来实现这种需求。
+在实际编程中，我们经常需要将多个相关的数据组合在一起，形成一个复合类型。例如，描述一个人需要姓名、年龄、地址等多个属性。[Solidity](https://learnblockchain.cn/course/93) 提供了结构体（Struct）来实现这种需求。
 
 结构体允许我们创建自定义的复合类型，将不同类型的数据组合成一个新的类型，使代码更加清晰和易于维护。
 
@@ -11,7 +11,7 @@
 
 ## 结构体定义
 
-Solidity 使用 `struct` 关键字来定义一个自定义组合类型。例如我们定义一个 Person 结构体：
+[Solidity](https://learnblockchain.cn/course/93) 使用 `struct` 关键字来定义一个自定义组合类型。例如我们定义一个 Person 结构体：
 
 ```solidity
 struct Person {
@@ -48,7 +48,7 @@ struct Person {
 }
 ```
 
-原因是这样的：EVM 会为结构体的成员会分配在一个连续的存储空间，如果结构体包含了自身， EVM 就无法确定存储空间的大小。
+原因是这样的：EVM 会为结构体的成员会分配在一个连续的存储空间，如果结构体包含了自身， [EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 就无法确定存储空间的大小。
 
 
 
@@ -63,7 +63,7 @@ struct Person {
     }
 ```
 
-这个是为什么呢？这个是因为[变长的数据会单独分配存储槽](https://learnblockchain.cn/docs/solidity/internals/layout_in_storage.html#id2)（而不是连续的方式存储）， 在结构体中变长的数据只会有一个固定的存储槽来保存数据指向位置。因此当结构体用有一个变长的数据（即使包含自身）也不会影响 EVM 为结构体分配存储空间。
+这个是为什么呢？这个是因为[变长的数据会单独分配存储槽](https://learnblockchain.cn/docs/solidity/internals/layout_in_storage.html#id2)（而不是连续的方式存储）， 在结构体中变长的数据只会有一个固定的存储槽来保存数据指向位置。因此当结构体用有一个变长的数据（即使包含自身）也不会影响 [EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 为结构体分配存储空间。
 
 
 
@@ -179,7 +179,7 @@ contract testStruct{
 - **赋值方法**：支持 4 种赋值方式（默认值、按顺序、具名、逐个成员赋值）
 - **访问器**：public 结构体变量会生成访问器函数，返回所有成员的元组
 
-结构体是组织复杂数据的重要工具。合理使用结构体可以让智能合约的数据结构更加清晰，代码更易维护。
+结构体是组织复杂数据的重要工具。合理使用结构体可以让[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的数据结构更加清晰，代码更易维护。
 
 ### 进阶学习
 

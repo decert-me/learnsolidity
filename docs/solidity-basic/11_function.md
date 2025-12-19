@@ -194,7 +194,7 @@ contract CallExample {
 
 > **重要提示：**
 >
-> - 优先使用内部调用，Gas 消耗更低
+> - 优先使用内部调用，[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 消耗更低
 > - 外部调用其他合约时要注意安全风险（重入攻击等）
 > - 详见[重入攻击防御章节](../security/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)
 
@@ -241,7 +241,7 @@ contract StateMutability {
 > **最佳实践：**
 >
 > 1. 不修改状态的函数应该标记为 `view` 或 `pure`
-> 2. 这样可以节省 Gas（外部调用时免费）
+> 2. 这样可以节省 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM)（外部调用时免费）
 > 3. 编译器会检查是否违反了承诺
 > 4. 提高代码可读性和安全性
 
@@ -330,7 +330,7 @@ contract MultipleReturns {
 
 ## 函数重载
 
-Solidity 支持函数重载，即同一个合约中可以有多个同名但参数不同的函数。
+[Solidity](https://learnblockchain.cn/course/93) 支持函数重载，即同一个合约中可以有多个同名但参数不同的函数。
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -513,7 +513,7 @@ contract Calculator {
 
 ## 小结
 
-本节我们深入学习了 Solidity 函数的核心知识：
+本节我们深入学习了 [Solidity](https://learnblockchain.cn/course/93) 函数的核心知识：
 
 - **函数语法**：理解函数的完整语法结构
 - **可见性**：`public`、`external`、`internal`、`private` 的区别和应用
@@ -524,7 +524,7 @@ contract Calculator {
 - **特殊函数**：`constructor`、`receive`、`fallback` 的作用
 - **最佳实践**：安全编码、代码可读性
 
-掌握这些知识后，你就能编写出高效、安全且易维护的智能合约了！
+掌握这些知识后，你就能编写出高效、安全且易维护的[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)了！
 
 ### 进阶学习
 

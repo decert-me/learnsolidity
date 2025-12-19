@@ -15,7 +15,7 @@ Remix 是一个运行在浏览器中的集成开发环境（IDE），这意味�
 ## Remix 简介
 
 Remix 对初学者来说，是开发智能合约的最佳开发集成环境（IDE），它无需安装，可以直接快速上手。
-Remix 是在以太坊上构建的最简单的开发工具，并且拥有大量插件来扩展其体验。
+Remix 是在[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)上构建的最简单的开发工具，并且拥有大量插件来扩展其体验。
 
 Remix 可帮助我们直接在浏览器中编写 Solidity 代码，并提供用于测试、调试和将智能合约部署到区块链的工具，除此之外，Remix 还提供：
 
@@ -190,7 +190,7 @@ contract Counter {
 
 Remix 会自动加载 MetaMask 当前选择的网络。上图显示的是 Sepolia，因为 MetaMask 当前连接的是 Sepolia 测试网。
 
-下图是 MetaMask 的钱包界面：
+下图是 MetaMask 的[钱包](https://learnblockchain.cn/tags/%E9%92%B1%E5%8C%85)界面：
 
 ![image-20251218173545922](https://img.learnblockchain.cn/pics/20251218173926.png)
 
@@ -201,7 +201,7 @@ Remix 会自动加载 MetaMask 当前选择的网络。上图显示的是 Sepoli
 ![确认交易](https://img.learnblockchain.cn/pics/20251218174652.png)
 
 这个对话框显示：
-- **Gas 费用**：部署合约需要支付的手续费
+- **[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 费用**：部署合约需要支付的手续费
 - **合约地址**：部署成功后合约的地址
 - **交易详情**：可以查看更多交易信息
 
@@ -246,15 +246,15 @@ Remix里用橙色按钮来这个动作会修改区块链的状态，蓝色按钮
 ✅ **合约开发流程**：编写 → 编译 → 部署 → 调用
 ✅ **两种部署方式**：
    - **Remix VM**（推荐入门）：模拟环境，即时反馈，适合学习语法
-   - **真实网络**（可选）：需要 MetaMask 钱包，体验真实区块链
+   - **真实网络**（可选）：需要 MetaMask [钱包](https://learnblockchain.cn/tags/%E9%92%B1%E5%8C%85)，体验真实区块链
 
 **推荐的学习路径**：
-1. 📚 **现阶段**：使用 Remix VM 学习 Solidity 语法和合约开发
+1. 📚 **现阶段**：使用 Remix VM 学习 [Solidity](https://learnblockchain.cn/course/93) 语法和合约开发
 2. 🎯 **掌握基础后**：尝试部署到 Sepolia 测试网，体验真实区块链
 3. 🚀 **项目开发**：使用 [Foundry](./5_foundry.md) 或 [Hardhat](./4_hardhat.md) 框架
 
 **扩展阅读**：
 - 需要连接多个网络或本地开发环境？查看 [MetaMask 进阶使用](../appendix/metamask_advanced.md)
 
-现在你已经掌握了开发环境的使用，可以开始学习 Solidity 语法了！下一节我们将深入了解合约的代码结构。
+现在你已经掌握了开发环境的使用，可以开始学习 [Solidity](https://learnblockchain.cn/course/93) 语法了！下一节我们将深入了解合约的代码结构。
 

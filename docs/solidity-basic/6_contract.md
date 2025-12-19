@@ -117,12 +117,12 @@ contract TypeConversion {
 
 本节我们学习了合约类型的概念和使用：
 
-- **合约是一种类型**：就像 uint、address 一样，合约也是 Solidity 的一种数据类型
+- **合约是一种类型**：就像 uint、address 一样，合约也是 [Solidity](https://learnblockchain.cn/course/93) 的一种数据类型
 - **创建合约**：使用 `new` 关键字可以在合约中部署新的合约
 - **合约交互**：通过合约类型变量，可以调用其他合约的公开函数
 - **类型转换**：合约类型可以与地址类型相互转换
 
-理解合约类型是掌握 Solidity 合约间交互的基础，这在构建复杂的 DApp 时非常重要。
+理解合约类型是掌握 [Solidity](https://learnblockchain.cn/course/93) 合约间交互的基础，这在构建复杂的 [DApp](https://learnblockchain.cn/tags/DApp) 时非常重要。
 
 ## 操练
 

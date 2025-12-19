@@ -5,7 +5,7 @@
 
 
 
-映射是一种使用非常广泛的类型，经常在合约中充当一个类似数据库的角色，比如在代币合约中用映射来存储账户的余额，在游戏合约里可以用映射来存储每个账号的级别，如：
+映射是一种使用非常广泛的类型，经常在合约中充当一个类似数据库的角色，比如在代币合约中用映射来存储[账户](https://learnblockchain.cn/tags/账户?map=EVM)的余额，在游戏合约里可以用映射来存储每个账号的级别，如：
 
 ```
 mapping(address => uint) public balances;
@@ -156,7 +156,7 @@ function data(uint arg1, bool arg2, uint arg3) external returns (uint a, bytes3 
 
 Solidity 数组更适合数据迭代（例如，使用 for 循环），而基于一个已知的键来获取值时，映射更适合（即不需要迭代获得数据）。
 
-与从映射中获取数据相比，在 Solidity 中对数组进行迭代相对来说Gas消耗更大，而且尽量不要让数组太大。
+与从映射中获取数据相比，在 [Solidity](https://learnblockchain.cn/course/93) 中对数组进行迭代相对来说Gas消耗更大，而且尽量不要让数组太大。
 
 ## 可迭代映射
 
@@ -182,9 +182,9 @@ contract IterableMapping {
 }
 ```
 
-Solidity 中有一个更复杂的[可迭代的映射的例子](https://learnblockchain.cn/docs/solidity/types.html#iterable-mappings)。
+[Solidity](https://learnblockchain.cn/course/93) 中有一个更复杂的[可迭代的映射的例子](https://learnblockchain.cn/docs/solidity/types.html#iterable-mappings)。
 
-不过这种实现的可迭代映射， Gas 成本较高，还有另一个方式是使用 mapping 来实现一个链表，用链表来保存下一个元素来进行迭代（我比较推荐的实现）。
+不过这种实现的可迭代映射， [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 成本较高，还有另一个方式是使用 mapping 来实现一个链表，用链表来保存下一个元素来进行迭代（我比较推荐的实现）。
 
 ```solidity
 pragma solidity >=0.8.0;
@@ -222,7 +222,7 @@ contract IterableMapping {
 - **限制**：映射本身不支持迭代，不能获取长度，不能直接删除
 - **可迭代映射**：可以通过数组或链表等辅助数据结构实现可迭代的映射
 
-映射是智能合约中最常用的数据结构之一，特别适合用来存储账户余额、权限管理等键值对数据。
+映射是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中最常用的数据结构之一，特别适合用来存储[账户](https://learnblockchain.cn/tags/账户?map=EVM)余额、权限管理等键值对数据。
 
 ### 进阶学习
 

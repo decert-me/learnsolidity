@@ -1,6 +1,6 @@
 # 错误处理
 
-在智能合约开发中，错误处理是保证合约安全和健壮性的重要手段。本章将介绍 Solidity 中的错误处理机制。
+在智能合约开发中，错误处理是保证合约安全和健壮性的重要手段。本章将介绍 [Solidity](https://learnblockchain.cn/course/93) 中的错误处理机制。
 
 本章你将学到：
 - EVM 如何处理错误
@@ -12,7 +12,7 @@
 
 EVM 的错误处理方式与常见编程语言（如 Java、JavaScript）不同。当 EVM 执行过程中遇到错误（如数组越界、除以零等），会**回退（revert）整个交易**，撤销当前交易的所有状态改变（包括所有子调用的改变）。
 
-在以太坊上，每个交易都是原子操作，就像数据库中的事务（transaction）一样，要么全部成功，要么全部失败，不会出现部分状态被修改的情况。
+在[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)上，每个交易都是原子操作，就像数据库中的事务（transaction）一样，要么全部成功，要么全部失败，不会出现部分状态被修改的情况。
 
 ![EVM 的错误处理方式](https://img.learnblockchain.cn/pics/20230717102500.png!decert.logo.water)
 
@@ -25,11 +25,11 @@ EVM 的错误处理方式与常见编程语言（如 Java、JavaScript）不同�
 
 进行错误处理的核心是：通过条件检查，针对不符合预期的情况，进行错误捕获或抛出错误。
 
-如果程序抛出了错误（无论是主动抛出还是 EVM 自动触发），EVM 都会回滚整个交易。
+如果程序抛出了错误（无论是主动抛出还是 EVM 自动触发），[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 都会回滚整个交易。
 
 ## 抛出异常
 
-Solidity 提供了 3 种方法来抛出异常：`require()`、`assert()`、`revert()`。
+[Solidity](https://learnblockchain.cn/course/93) 提供了 3 种方法来抛出异常：`require()`、`assert()`、`revert()`。
 
 ### require() - 输入验证
 
@@ -351,14 +351,14 @@ contract ComprehensiveExample {
 
 ## 小结
 
-- **EVM 错误处理**：错误发生时回退整个交易，恢复所有状态改变（原子性）
+- **[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 错误处理**：错误发生时回退整个交易，恢复所有状态改变（原子性）
 - **三种抛出方式**：
   - `require`：用于输入验证和前置条件检查
   - `assert`：用于内部错误和不变量检查
   - `revert`：更灵活，支持自定义错误（推荐）
 - **自定义错误**：使用 `error` 定义，节省 Gas 且提供更好的错误信息
 - **异常捕获**：使用 `try/catch` 捕获外部调用异常，避免整个交易失败
-- **Gas 返还**：0.8.0+ 版本，错误发生时剩余 Gas 会返还
+- **Gas 返还**：0.8.0+ 版本，错误发生时剩余 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 会返还
 
 正确的错误处理是编写安全、健壮智能合约的基础。
 
