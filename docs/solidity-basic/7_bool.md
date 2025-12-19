@@ -582,5 +582,4 @@ contract FeatureToggle {
 想了解更多关于布尔类型的高级应用，可以参考：
 
 - [存储优化](../solidity-adv/5_storage_gas.md) - 学习变量打包和 Gas 优化技术
-- [位运算](../solidity-adv/7_bitwise.md) - 使用位运算优化多个布尔标志的存储
-- [访问控制](../security/1_access_control.md) - 深入学习基于布尔的权限控制模式
+

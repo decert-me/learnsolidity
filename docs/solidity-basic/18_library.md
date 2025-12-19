@@ -212,10 +212,3 @@ contract C {
 
 库是 Solidity 中实现代码复用的重要机制，可以让合约更加模块化和易于维护。
 
-### 进阶学习
-
-想了解更多关于库的知识，可以参考：
-
-- [OpenZeppelin 库](../solidity-practice/16_openzeppelin.md) - 学习使用业界标准的合约库
-- [Delegatecall](../solidity-adv/3_addr_call.md) - 深入理解库函数的调用机制
-
