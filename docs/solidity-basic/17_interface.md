@@ -175,31 +175,23 @@ contract Award {
 
 
 
-## 小结 
+## 小结
 
-本文，我们学习了接口的概念：接口是一组**抽象方法的规范**，在合约间相互调用时，应该**依赖接口，而不是依赖实现**。
+- **接口定义**：使用 `interface` 关键字定义，是一组抽象方法的规范
+- **设计原则**：在合约间相互调用时，应该依赖接口而不是依赖实现（依赖倒置原则）
+- **接口特点**：
+  - 所有函数都必须是 external
+  - 不能有构造函数
+  - 不能有状态变量
+  - 不能继承其他合约（但可以继承其他接口）
+- **使用方式**：接口也是一个类型，通过将地址转换为接口类型，即可调用相应的函数
 
-接口使用 `interface` 来定义，接口也是一个类型，在合约间相互调用时，我们把地址（合约实例）转化为接口，再调用相应的函数。
+接口是合约间交互的标准方式，使用接口可以降低耦合度，提高代码的可维护性和可扩展性。
 
+### 进阶学习
 
+想了解更多关于接口的知识，可以参考：
 
-
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-前往挑战 [Solidity 101：接口](https://decert.me/quests/0528e227-6949-4ec3-9a44-ea075fd519ce)，完成挑战并获得技能认证 NFT。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
-
-
-
-
-
-
-
-
-
+- [ERC20 标准](../solidity-practice/1_erc20.md) - 学习如何实现 ERC20 接口
+- [ERC721 标准](../solidity-practice/2_erc721.md) - 学习 NFT 接口的实现
+- [跨合约调用](../solidity-adv/3_addr_call.md) - 深入理解合约间的交互方式

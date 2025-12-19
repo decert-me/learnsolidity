@@ -488,9 +488,9 @@ contract WhitelistBlacklist {
 }
 ```
 
-## 存储和 Gas 优化
+## 存储和 Gas 优化 (可选内容)
 
-### 布尔值的存储
+### 布尔值的存储特点
 
 布尔值在存储时占用一个完整的存储槽（32字节），即使它只需要1位来表示。
 
@@ -498,12 +498,13 @@ contract WhitelistBlacklist {
 pragma solidity ^0.8.0;
 
 contract BoolStorage {
-    // 每个 bool 占用一个存储槽（浪费）
+    // 每个 bool 单独占用一个存储槽
     bool public flag1;  // 槽 0
     bool public flag2;  // 槽 1
     bool public flag3;  // 槽 2
 
-    // 更好的方式：将多个 bool 与其他小类型变量打包
+    // 更好的方式：将多个 bool 与其他小类型变量一起声明
+    // 它们会被打包到同一个存储槽中，节省 Gas
     bool public flag4;      // 槽 3
     uint8 public value1;    // 槽 3（与 flag4 打包）
     uint8 public value2;    // 槽 3（与 flag4 打包）
@@ -511,37 +512,7 @@ contract BoolStorage {
 }
 ```
 
-> **存储优化：** 将布尔变量与其他小于32字节的变量一起声明，可以打包到同一个存储槽中，节省 Gas。
-
-### 使用 uint256 代替多个 bool
-
-如果需要存储大量布尔标志，可以使用位运算和 `uint256` 来优化：
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract BitmapFlags {
-    // 一个 uint256 可以存储 256 个布尔标志
-    uint256 private flags;
-
-    function setFlag(uint8 position) public {
-        require(position < 256, "Position out of range");
-        flags |= (1 << position);  // 设置为 true
-    }
-
-    function clearFlag(uint8 position) public {
-        require(position < 256, "Position out of range");
-        flags &= ~(1 << position);  // 设置为 false
-    }
-
-    function getFlag(uint8 position) public view returns (bool) {
-        require(position < 256, "Position out of range");
-        return (flags & (1 << position)) != 0;
-    }
-}
-```
-
-这种方式可以在一个存储槽中存储256个标志，大大节省存储成本。
+> **提示：** 目前只需要了解布尔变量可以和其他小变量打包存储即可。更深入的存储优化技术，可以在掌握基础知识后学习。
 
 ## 操练
 
@@ -599,10 +570,17 @@ contract FeatureToggle {
 ## 小结
 
 - **布尔类型**：只有 `true` 和 `false` 两个值，默认值为 `false`
-- **逻辑运算符**：`&&`（与）、`||`（或）、`!`（非）
+- **逻辑运算符**：`&&`（与）、`||`（或）、`!`（非）用于组合条件
 - **短路求值**：`&&` 和 `||` 支持短路求值，可以提高效率和避免错误
 - **比较运算符**：`==`、`!=`、`<`、`<=`、`>`、`>=` 返回布尔值
 - **应用场景**：权限控制、状态管理、功能开关、白名单/黑名单
-- **Gas 优化**：与其他小类型变量打包存储，或使用位运算优化多个标志的存储
 
-布尔类型虽然简单，但在智能合约中有着广泛而重要的应用！
+布尔类型虽然简单，但在智能合约中有着广泛而重要的应用。掌握布尔类型和逻辑运算符是编写智能合约的基础技能。
+
+### 进阶学习
+
+想了解更多关于布尔类型的高级应用，可以参考：
+
+- [存储优化](../solidity-adv/5_storage_gas.md) - 学习变量打包和 Gas 优化技术
+- [位运算](../solidity-adv/7_bitwise.md) - 使用位运算优化多个布尔标志的存储
+- [访问控制](../security/1_access_control.md) - 深入学习基于布尔的权限控制模式

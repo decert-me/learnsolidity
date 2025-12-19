@@ -194,13 +194,6 @@ contract TokenTransfer {
 想了解更多高级用法，可以参考：
 
 - [深入事件日志](../solidity-adv/1_event_logs.md) - 理解日志的底层结构和Bloom过滤器
-- [Web3.js 事件监听](https://learnblockchain.cn/docs/web3.js/) - 使用JavaScript获取和监听事件
-- [Ethers.js 事件处理](https://learnblockchain.cn/ethers_v5/) - 另一个流行的以太坊库
+- [Ethers.js 事件处理](https://docs.ethers.org/v6) 
 
-------
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-前往挑战 [Solidity 101：事件](https://decert.me/quests/99f33f9d-8544-48bf-ad71-4ed92b78b675)，完成挑战并获得技能认证 NFT。
 
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。

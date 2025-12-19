@@ -223,23 +223,22 @@ contract testPayable {
 
 ## 小结
 
-提炼本节的重点：这一节，我们介绍了合约如何接收 ETH，理解了  `receive` 和 `fallback` 函数的作用，以及`payable` 修饰符的作用，可以总结为一下几句话：
+本节介绍了合约如何接收 ETH，理解了 `receive` 和 `fallback` 函数的作用，以及 `payable` 修饰符的作用：
 
-1. `payable` 修饰符表示该函数可以接收 ETH
-2. `receive` 函数是在合约可以接收 ETH 调用的函数。
-3.  `fallback` 函数是在匹配不到对应的函数（`receive` 函数或其他函数找不到）时被调用的函数。
+1. **`payable` 修饰符**：表示该函数可以接收 ETH
+2. **`receive` 函数**：在合约接收 ETH（且无 calldata）时被调用的函数
+3. **`fallback` 函数**：在匹配不到对应的函数（`receive` 函数或其他函数找不到）时被调用的函数
 
-
-
-我画了一个图，`receive` 和 `fallback` 函数在什么时候被调用就一目了然了。
+我画了一个图，`receive` 和 `fallback` 函数在什么时候被调用就一目了然了：
 
 ![image-20230703223858675](https://img.learnblockchain.cn/pics/20230703223900.png!decert.logo.water)
 
-\------
+理解这些机制对于编写安全的智能合约非常重要，可以避免 ETH 被永久锁定在合约中。
 
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+### 进阶学习
 
+想了解更多关于合约接收 ETH 的知识，可以参考：
 
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+- [底层调用](../solidity-adv/3_addr_call.md) - 深入理解 call、delegatecall 和 staticcall
+- [重入攻击](../security/9_reentrancy.md) - 学习在接收 ETH 时如何防范重入攻击
+- [支付模式](../solidity-practice/14_payment_patterns.md) - 学习智能合约中的支付最佳实践

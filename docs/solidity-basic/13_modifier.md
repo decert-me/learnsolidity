@@ -82,7 +82,7 @@ contract testModifty {
 
  猜测一下，下面的例子执行`test1()` 后，a 的结果是什么？
 
-```SolidityEditor
+```Solidity
 contract modifysample {
     uint a = 10;
 
@@ -153,18 +153,16 @@ contract mortal is owned {
 
 ## 小结
 
-函数修改器是一个语法糖，用来给修饰的函数添加一些额外的功能或检查。
+- **函数修改器定义**：使用 `modifier` 关键字定义，用来给修饰的函数添加额外的功能或检查
+- **`_` 占位符**：表示被修饰函数的执行位置
+- **修改器特性**：可以带参数、可以嵌套使用、可以被继承和重写
+- **常用场景**：权限控制、输入条件检查、重入控制、防止重复初始化
 
-常用于如：检查输入条件、权限控制、重入控制、防止重复初始化等场景。
+函数修改器是一个强大的语法糖，可以让代码更加简洁和易读，避免重复代码。
 
-------
+### 进阶学习
 
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
+想了解更多关于函数修改器的知识，可以参考：
 
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
-
-
-
+- [访问控制](../security/1_access_control.md) - 学习使用修改器实现完善的权限控制
+- [重入攻击防护](../security/9_reentrancy.md) - 学习使用修改器防范重入攻击

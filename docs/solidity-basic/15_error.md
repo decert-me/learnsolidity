@@ -1,4 +1,3 @@
-# 错误处理
 
 ## 什么是错误处理
 
@@ -287,26 +286,13 @@ contract TryCatcher {
 
 ## 小结
 
-本节我们学习了 EVM 处理错误的方式，如果没有不做任何处理， 当 EVM 执行代码发生错误时， 就会回退整个交易。
+- **EVM 错误处理**：当 EVM 执行代码发生错误时，会回退整个交易，恢复所有状态改变
+- **抛出异常**：使用 `require`、`revert`、`assert` 来检查错误并给出提示
+  - `require`：用于输入验证和条件检查
+  - `revert`：提供更灵活的错误处理，可配合自定义 error
+  - `assert`：用于检查不应该发生的内部错误
+- **捕获异常**：使用 `try/catch` 来捕获外部调用可能发生的错误，避免整个交易失败
+- **自定义 error**：使用 `error` 定义自定义错误类型，节省 Gas 且提供更好的错误信息
 
-为了让程序对外部调用者更友好，我们可以使用 `require`  `revert` `asset` 来检查各种可能的错误，并给出相应的错误提示。
+正确的错误处理对于编写健壮的智能合约至关重要。
 
-通过当我们的程序调用外部函数时，也可以用 `try/catch`  来捕获外部调用可能发生的错误。
-
-
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-前往挑战 [Solidity 101：错误处理](https://decert.me/quests/bf960021-1f60-4a52-b8fa-ba7a21e39982)，完成挑战并获得技能认证 NFT。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
-
-
-
-
-
----

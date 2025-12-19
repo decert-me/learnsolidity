@@ -38,9 +38,6 @@ contract testMapping {
 ```
 
 
-
-
-
 ## 映射特性与限制
 
 1. 映射变量只能保存在存储中（`storage`），通常作为状态变量。
@@ -219,17 +216,19 @@ contract IterableMapping {
 
 ## 小结
 
-提炼本节的重点：映射类型是一种键值对的映射关系存储结构，映射类型变量只能保存在存储中， 且映射本身不支持迭代，不能获取长度。
+- **映射定义**：键值对的映射关系存储结构，类似 Java 的 Map 或 Python 的 Dict
+- **存储位置**：映射类型变量只能保存在 storage 中
+- **默认值**：不存在的键会返回对应值类型的默认值（如 uint 为 0，bool 为 false）
+- **限制**：映射本身不支持迭代，不能获取长度，不能直接删除
+- **可迭代映射**：可以通过数组或链表等辅助数据结构实现可迭代的映射
 
-我们也介绍了几种方法来实现可迭代映射。
+映射是智能合约中最常用的数据结构之一，特别适合用来存储账户余额、权限管理等键值对数据。
+
+### 进阶学习
+
+想了解更多关于映射的知识，可以参考：
+
+- [存储布局](../solidity-adv/5_storage_gas.md) - 学习映射在 storage 中的存储机制
+- [可迭代映射](https://learnblockchain.cn/article/1632) - 学习如何实现 O(1) 复杂度的可迭代映射
 
 
-
-\------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。

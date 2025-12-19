@@ -330,5 +330,4 @@ contract WorkflowPractice {
 
 想了解更多高级用法，可以参考：
 
-- [存储优化](../solidity-adv/5_storage_gas.md) - 学习枚举与其他变量的打包技术
 - [状态机模式](../solidity-practice/10_state_machine.md) - 复杂状态管理的设计模式

@@ -200,25 +200,22 @@ contract C {
 
 ## 小结
 
-本文，我们学习了库的的概念， 总结要点：
+- **库定义**：使用 `library` 关键字定义，是函数的封装，主要用于代码复用
+- **库特点**：
+  - 库是无状态的，不能有状态变量
+  - 不能给库发送 Ether
+  - 不能被继承，也不能继承其他合约
+- **库的使用方式**：
+  - **Internal 函数**：如果库函数都是 internal 的，库代码会嵌入到合约中
+  - **Public/External 函数**：库需要单独部署，EVM 使用 delegatecall 调用库方法
+- **类型扩展**：使用 `using LibName for Type` 语法给类型扩展功能，如 `using Math for uint`
 
-* 库是函数的封装， 主要用于代码复用
-* 库是没有状态的，也不能给库发送 Ether
+库是 Solidity 中实现代码复用的重要机制，可以让合约更加模块化和易于维护。
 
-- 如果库函数都是 internal 的，库代码会嵌入到合约。 
-- 如果库函数有external或 public ，库需要单独部署，并在部署合约时进行链接，EVM 中使用委托调用库方法。
-- 给类型扩展功能：`Using lib for type`; 如： using Math for uint;
+### 进阶学习
 
+想了解更多关于库的知识，可以参考：
 
-
-
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-前往挑战 [Solidity 101：库](https://decert.me/quests/8867a83b-c3ba-43e2-afa7-324a7d5dcdc6)，完成挑战并获得技能认证 NFT。
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+- [OpenZeppelin 库](../solidity-practice/16_openzeppelin.md) - 学习使用业界标准的合约库
+- [Delegatecall](../solidity-adv/3_addr_call.md) - 深入理解库函数的调用机制
 
