@@ -58,7 +58,7 @@ contract Award {
 
 #### 1. 调用合约函数
 
-在 [接口与函数调用](../solidity-basic/17_interface.md) 一节中，我们介绍过通过 `ICounter(_counter).set(10);` 调用以下 `set` 方法：
+在 [接口与函数调用](https://learnblockchain.cn/article/22559) 一节中，我们介绍过通过 `ICounter(_counter).set(10);` 调用以下 `set` 方法：
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -167,7 +167,7 @@ contract SafeWithdraw {
 
 ### 理解上下文切换
 
-当我们在用钱包发起交易时，使用[合约接口调用函数](../solidity-basic/17_interface.md)，都是常规调用。每次常规调用都会切换上下文：
+当我们在用钱包发起交易时，使用[合约接口调用函数](https://learnblockchain.cn/article/22559)，都是常规调用。每次常规调用都会切换上下文：
 
 **常规调用（call）**：
 - 切换上下文可以这样理解：每一个地址在 EVM 有一个独立的空间，空间有各自的摆设（变量布局）

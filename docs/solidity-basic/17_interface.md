@@ -1,6 +1,6 @@
 # 接口及合约交互
 
-在上一节[继承](./16_is.md)中，我们已经理解了一些抽象的概念：把各个合约都拥有的功能，作为统一接口在父合约里提供，让所有的子合约都可以继承。
+在上一节[继承](https://learnblockchain.cn/article/22558)中，我们已经理解了一些抽象的概念：把各个合约都拥有的功能，作为统一接口在父合约里提供，让所有的子合约都可以继承。
 
 接口（Interface）则更进一步，是一种定义了一组**抽象方法的规范**，接口描述了一组兑现应该具有哪些方法，但并不提供这些方法的具体实现。
 
@@ -100,7 +100,7 @@ contract MyContract {
 
 
 
-高亮代码`ICounter(_counter).increment();`  的含义是：把合约地址 `_counter`  类型转化为接口`ICounter`类型（接口类型与[合约类型](./6_contract.md)一样，也是自定义类型），再调用接口内的`increment()` 方法。
+高亮代码`ICounter(_counter).increment();`  的含义是：把合约地址 `_counter`  类型转化为接口`ICounter`类型（接口类型与[合约类型](https://learnblockchain.cn/article/22561)一样，也是自定义类型），再调用接口内的`increment()` 方法。
 
 
 

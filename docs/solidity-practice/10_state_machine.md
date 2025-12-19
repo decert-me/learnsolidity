@@ -463,6 +463,6 @@ function setState(State newState) internal {
 
 ## 相关资源
 
-- [枚举类型](../solidity-basic/7_enum.md) - 学习枚举的基础知识
-- [函数修改器](../solidity-basic/13_modifier.md) - 使用 modifier 简化状态检查
-- [事件](../solidity-basic/14_event.md) - 记录状态变化
+- [枚举类型](https://learnblockchain.cn/article/22564) - 学习枚举的基础知识
+- [函数修改器](https://learnblockchain.cn/article/22555) - 使用 modifier 简化状态检查
+- [事件](https://learnblockchain.cn/article/22556) - 记录状态变化

@@ -42,7 +42,7 @@ address addr = 0x1234567890123456789012345678901234567890;
 address payable ap = payable(addr);
 ```
 
-> **提示**：如果转换的是合约地址，该合约需要实现 `receive` 或 `payable fallback` 函数才能接收 ETH。详见[合约如何接收 ETH](./12_receive.md)。
+> **提示**：如果转换的是合约地址，该合约需要实现 `receive` 或 `payable fallback` 函数才能接收 ETH。详见[合约如何接收 ETH](https://learnblockchain.cn/article/22554)。
 
 ## 地址类型的常用操作
 
@@ -167,5 +167,5 @@ contract PiggyBank {
 
 如果你想深入了解地址类型的高级用法，可以参考：
 - [地址底层调用（call/delegatecall/staticcall）](../solidity-adv/3_addr_call.md) - 动态调用合约、代理模式、转账方式对比
-- [合约如何接收 ETH（receive/fallback）](./12_receive.md)
+- [合约如何接收 ETH（receive/fallback）](https://learnblockchain.cn/article/22554)
 - [重入攻击防御](../security/9_reentrancy.md) - 防止转账重入攻击

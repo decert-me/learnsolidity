@@ -77,7 +77,7 @@ contract VotingSystem {
 1. 通过消息调用某个函数，但该函数没有正确结束（耗尽 Gas、没有匹配函数、或本身抛出异常）。注意：[低级别操作](../solidity-adv/3_addr_call.md)（call、send、delegatecall、staticcall）不会抛出异常，而是返回 false
 2. 使用 `new` 关键字创建合约失败
 3. 调用不存在的外部函数
-4. 向无法[接收 ETH](./12_receive.md) 的合约 `transfer()`，或附加 ETH 调用没有 payable 修饰符的函数
+4. 向无法[接收 ETH](https://learnblockchain.cn/article/22554) 的合约 `transfer()`，或附加 ETH 调用没有 payable 修饰符的函数
 
 **Gas 处理**：当 require 式异常发生时，EVM 使用 `REVERT` 操作码回滚交易，**剩余未使用的 Gas 会返还**给交易发起者。
 
@@ -191,7 +191,7 @@ require(msg.sender == owner, "调用者不是 Owner");
 
 ## 捕获异常 - try/catch
 
-在与其他合约[交互](./17_interface.md)（[外部调用](./11_function.md#函数调用方式)）时，如果不想因外部调用失败而回滚整个交易，可以使用 `try...catch...` 捕获异常。
+在与其他合约[交互](https://learnblockchain.cn/article/22559)（[外部调用](./11_function.md#函数调用方式)）时，如果不想因外部调用失败而回滚整个交易，可以使用 `try...catch...` 捕获异常。
 
 ### 基本用法
 

@@ -137,7 +137,7 @@ a = 11;
 
 ## 修改器可继承
 
-修改器也是可被[继承](./16_is.md)的，同时还可被继承合约重写（Override）。例如：
+修改器也是可被[继承](https://learnblockchain.cn/article/22558)的，同时还可被继承合约重写（Override）。例如：
 
 ```solidity
 contract mortal is owned {

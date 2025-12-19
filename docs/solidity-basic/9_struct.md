@@ -21,7 +21,7 @@ struct Person {
 }
 ```
 
-`Person` 包含了3个成员，同时需要为每个成员定义其类型。 除可以使用基本类型作为成员以外，还可以使用[数组](./8_array.md)、结构体、[映射](./10_mapping.md)作为成员， 下面是一个更复杂的定义：
+`Person` 包含了3个成员，同时需要为每个成员定义其类型。 除可以使用基本类型作为成员以外，还可以使用[数组](https://learnblockchain.cn/article/22565)、结构体、[映射](https://learnblockchain.cn/article/22552)作为成员， 下面是一个更复杂的定义：
 
 ```solidity
 struct School {
@@ -52,7 +52,7 @@ struct Person {
 
 
 
-但是如果结构体有数组成员是结构体自身或 [映射](10_mapping.md)的值类型是结构体自身，是合法的定义（尽管编写程序时强烈不推荐这么做），如以下定义是合法的：
+但是如果结构体有数组成员是结构体自身或 [映射](https://learnblockchain.cn/article/22552)的值类型是结构体自身，是合法的定义（尽管编写程序时强烈不推荐这么做），如以下定义是合法的：
 
 ```solidity
 struct Person {

@@ -499,7 +499,7 @@ contract EncodeCall {
 
 
 
-ABI 解码一个重要的使用场景是，解析交易中的[事件日志](../solidity-basic/14_event.md)。
+ABI 解码一个重要的使用场景是，解析交易中的[事件日志](https://learnblockchain.cn/article/22556)。
 
 在刚才的[交易](https://sepolia.etherscan.io/tx/0x644cf28068b2e0f144e36f5f65a42897a1904ebe99b958c692fc0b97546c1197#eventlog)中，链上记录了如下日志：
 

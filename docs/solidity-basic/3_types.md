@@ -21,16 +21,16 @@
 值类型变量表示可以用 32 个字节（或更少）表示的数据。**值类型的特点是：在赋值或传参时，总是进行值拷贝**。
 
 值类型包含：
- * [布尔类型（Booleans）](./7_bool.md)
- * [整型（Integers）](./4_int.md)
+ * [布尔类型（Booleans）](https://learnblockchain.cn/article/22562)
+ * [整型（Integers）](https://learnblockchain.cn/article/22532)
  * 定长浮点型（Fixed Point Numbers）
- * [定长字节数组（Fixed-size byte arrays）](./7_bytes_string.md)
+ * [定长字节数组（Fixed-size byte arrays）](https://learnblockchain.cn/article/22563)
  * 有理数和整型常量（Rational and Integer Literals)
  * 字符串常量（String literals）
  * 十六进制常量（Hexadecimal literals）
- * [枚举（Enums）](./7_enum.md)
+ * [枚举（Enums）](https://learnblockchain.cn/article/22564)
  * 函数类型（Function Types）
- * [地址类型（Address)](./5_address.md)
+ * [地址类型（Address)](https://learnblockchain.cn/article/22543)
  * 地址常量（Address Literals）
  * 用户定义值类型
 
@@ -59,9 +59,9 @@ contract ValueTypeExample {
 引用类型用来表示复杂类型，占用的空间通常超过 32 字节，拷贝时开销很大。因此可以使用引用的方式，**通过多个不同名称的变量指向同一个值**。
 
 引用类型包括：
-- **数组（Arrays）** - 固定长度数组和动态数组，详见[数组](./8_array.md)
-- **结构体（Structs）** - 自定义的复合数据类型，详见[结构体](./9_struct.md)
-- **bytes/字符串（String）** - 动态长度的字节数组与 UTF-8 字符串，详见[结构体](./7_bytes_string.md)
+- **数组（Arrays）** - 固定长度数组和动态数组，详见[数组](https://learnblockchain.cn/article/22565)
+- **结构体（Structs）** - 自定义的复合数据类型，详见[结构体](https://learnblockchain.cn/article/22566)
+- **bytes/字符串（String）** - 动态长度的字节数组与 UTF-8 字符串，详见[结构体](https://learnblockchain.cn/article/22563)
 
 
 ### 数据位置（Data Location）

@@ -406,7 +406,7 @@ contract CrowdFunding {
 
 `receive` 和 `fallback` 是两个特殊的函数，用于处理以太币接收和未知函数调用。
 
-关于这两个函数的详细说明，请参考[接收和发送 ETH 章节](./12_receive.md)。
+关于这两个函数的详细说明，请参考[接收和发送 ETH 章节](https://learnblockchain.cn/article/22554)。
 
 这里做一个简要总结：
 
@@ -426,7 +426,7 @@ fallback() external payable {
 
 函数修改器（Modifier）用于在函数执行前后添加额外的逻辑，常用于权限检查、状态验证等。
 
-关于修改器的详细说明，请参考[函数修改器章节](./13_modifier.md)。
+关于修改器的详细说明，请参考[函数修改器章节](https://learnblockchain.cn/article/22555)。
 
 ## 实用技巧和最佳实践
 
