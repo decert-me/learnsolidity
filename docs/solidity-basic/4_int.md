@@ -1,5 +1,3 @@
-# 使用整型
-
 在[上一节](https://learnblockchain.cn/article/22531)中，我们了解了 [Solidity](https://learnblockchain.cn/course/93) 的类型系统。现在让我们深入学习最常用的类型之一：整型。
 
 和大多数编程语言一样，当我们要表达一个数值时，通常用整型来表达。整型是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中使用最频繁的数据类型，用于处理代币数量、余额、时间戳等各种数值。

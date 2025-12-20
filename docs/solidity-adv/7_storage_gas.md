@@ -1,20 +1,23 @@
-# 存储模式与 gas 优化
-
 在 Solidity 编程中，优化合约的 gas 消耗不只是一个性能问题，更是一个经济问题，因为 gas 费用直接关联到合约的使用成本。
 
 Solidity 中的存储模式对 gas 消耗有直接影响，因此理解不同的存储方式以及如何优化它们对于开发高效和成本效益的智能合约至关重要。
 
 ## 存储概览
 
-在Solidity中，有三种类型的存储位置：storage、memory 和 calldata，它们各有不同的用途和成本影响：
+> 在[类型一节](../solidity-basic/3_types.md#数据位置data-location)中，我们已经学习了 Solidity 中的数据位置概念。这里我们再复习一下，并重点讨论如何优化它们的使用以降低 gas 消耗。
 
-1. Storage：是合约在区块链上的永久存储。写入或修改存储的操作是最昂贵的，读取相对较便宜。
-2. Memory：是临时存储，仅在外部函数调用期间存在。其数据在函数调用结束后消失。读写 memory 比 storage 便宜得多。
-3. Calldata：是非持久性的存储位置，只存在于链上的函数调用期间，主要用于存储函数参数。calldata 类型的访问成本通常比memory低。
+在Solidity中，有四种类型的存储位置：storage、memory、calldata 和 transient，它们各有不同的用途和成本影响：
+
+1. **Storage**：是合约在区块链上的永久存储。写入或修改存储的操作是最昂贵的，读取相对较便宜。
+2. **Memory**：是临时存储，仅在外部函数调用期间存在。其数据在函数调用结束后消失。读写 memory 比 storage 便宜得多。
+3. **Calldata**：是非持久性的存储位置，只存在于链上的函数调用期间，主要用于存储函数参数。calldata 类型的访问成本通常比memory低。
+4. **Transient**：在 2024 年 Cancun 升级中新添加的存储位置（Solidity 0.8.24+）。瞬时存储的数据只在单个交易的执行期间存在，交易结束后会被清除。适合用于防重入锁等场景，仅支持值类型。
+
+**Gas 消耗对比**（从高到低）：storage > memory > transient > calldata
 
 ## 深入分析存储模式
 
-理解这三种存储类型的使用场景和优化策略，是避免不必要的高 gas 消耗和优化智能合约性能的关键。
+理解这些存储类型的使用场景和优化策略，是避免不必要的高 gas 消耗和优化智能合约性能的关键。
 
 接下来会逐一深入讨论：
 
@@ -78,13 +81,12 @@ Solidity 中的存储模式对 gas 消耗有直接影响，因此理解不同的
     ```
 
     ```
-    // 更高效的方式：使用内存数据进行操作，之后写回存储
+    // 更高效的方式：缓存数组长度，减少重复的SLOAD操作
     function good(uint256[] memory newValues) public {
-        uint256[] memory tempValues = values;
-        for (uint i = 0; i < newValues.length; i++) {
-            tempValues[i] = newValues[i];
+        uint256 len = newValues.length;
+        for (uint i = 0; i < len; i++) {
+            values[i] = newValues[i];
         }
-        values = tempValues;
     }
     ```
 

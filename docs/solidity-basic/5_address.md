@@ -1,5 +1,3 @@
-# 使用地址类型
-
 在[以太坊基础](https://learnblockchain.cn/article/22542)一节中，我们了解了[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的两种[账户](https://learnblockchain.cn/tags/账户?map=EVM)类型。现在让我们学习如何在 [Solidity](https://learnblockchain.cn/course/93) 合约中使用地址类型来表示这些[账户](https://learnblockchain.cn/tags/账户?map=EVM)。
 
 ## 地址类型基础

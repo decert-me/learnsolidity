@@ -1,4 +1,4 @@
-# 可升级合约
+# 合约升级
 
 在区块链开发中，智能合约一旦部署即无法更改是一个众所周知的限制。随着业务需求的变化，我们可能需要对已部署的合约进行修改或升级，而代理合约是解决这个问题的一种有效方式。
 
@@ -185,7 +185,7 @@ EIP-1967 提出了一种标准化的方法来存储关键信息，如实现合�
 ## 参考
 - [EIP-1967 代理存储槽](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1967.md)
 - [EIP-1822 UUPS](https://github.com/ethereum/ercs/blob/master/ERCS/erc-1822.md)
-- [编写可升级合约](https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable)
+- [合约升级编写指南](https://docs.openzeppelin.com/upgrades-plugins/1.x/writing-upgradeable)
 
 
 ## 总结

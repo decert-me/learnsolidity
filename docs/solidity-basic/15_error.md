@@ -1,5 +1,3 @@
-# 错误处理
-
 在智能合约开发中，错误处理是保证合约安全和健壮性的重要手段。本章将介绍 [Solidity](https://learnblockchain.cn/course/93) 中的错误处理机制。
 
 本章你将学到：
