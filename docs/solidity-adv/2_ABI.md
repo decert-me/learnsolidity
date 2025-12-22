@@ -6,13 +6,13 @@
 
 **ABI** （Application Binary Interfaces），则是用来定义了智能合约中可以进行交互的方法、事件和错误，类似可以把 ABI 理解为与EVM 进行交互的桥梁。
 
-EVM 是以太坊虚拟机，和其他的机器一样，他们无法执行人类可读代码的， 只能够识别和运行二进制数据，这是一串由 0 和 1 所组成的数据流。因此在调用函数时，需要借助 ABI ，把人类可读函数转化为EVM可读的字节码。
+[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 是[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)虚拟机，和其他的机器一样，他们无法执行人类可读代码的， 只能够识别和运行二进制数据，这是一串由 0 和 1 所组成的数据流。因此在调用函数时，需要借助 ABI ，把人类可读函数转化为EVM可读的字节码。
 
 
 
 ![Solidity - ABI - EVM 字节码](https://img.learnblockchain.cn/pics/20230803220935.png!decert.logo.water)
 
-一句话总结：ABI 是 **编码和解码规范**，用来规范外部与 EVM 的交互，也可用于合约间的交互。
+一句话总结：ABI 是 **编码和解码规范**，用来规范外部与 [EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 的交互，也可用于合约间的交互。
 
 
 
@@ -363,7 +363,7 @@ abi.encode(a);   // 0x0000000000000000000000000000000000000000000000000000000000
 
 ### Solidity 编码函数
 
-Solidity 中有 5 个函数：`abi.encode`, `abi.encodePacked`, `abi.encodeWithSignature`, `abi.encodeWithSelector` 及`abi.encodeCall` 用于编码。
+[Solidity](https://learnblockchain.cn/course/93) 中有 5 个函数：`abi.encode`, `abi.encodePacked`, `abi.encodeWithSignature`, `abi.encodeWithSelector` 及`abi.encodeCall` 用于编码。
 
 > 我们可以在 [Chisel](https://learnblockchain.cn/article/6408) 里演练这几个编码函数，Chisel 是Foundry 提供的 Solidity 交互式命令工具
 
@@ -511,7 +511,7 @@ ABI 解码一个重要的使用场景是，解析交易中的[事件日志](http
 
 ![solidity 日志主题](https://img.learnblockchain.cn/pics/20230825191226.png!decert.logo.water)
 
-通过匹配，我们就可以知道 EVM 产生的该条日志是由 `Set(uint256)`  事件生成， 从而根据事件的参数列表解析日志数据。Solidity / web3.js / ethers.js 库都提供了解码函数， 例如：
+通过匹配，我们就可以知道 EVM 产生的该条日志是由 `Set(uint256)`  事件生成， 从而根据事件的参数列表解析日志数据。[Solidity](https://learnblockchain.cn/course/93) / web3.js / ethers.js 库都提供了解码函数， 例如：
 
 ```solidity
 // solidity decode
@@ -539,7 +539,7 @@ ChainToolDAO 开发了几个可视化工具，帮助我们来编解码。
 
 ## 小结 
 
-本文，我们学习了 ABI 的概念，ABI 是一个编解码的规范，是人类可读信息与以太坊虚拟机执行二进制数据的桥梁。
+本文，我们学习了 ABI 的概念，ABI 是一个编解码的规范，是人类可读信息与[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)虚拟机执行二进制数据的桥梁。
 
 在理解 ABI 之上，分别介绍了 ABI 接口描述，ABI 编码与ABI 解码。
 

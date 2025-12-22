@@ -220,7 +220,7 @@ contract SafetyChecker {
 
 ## staticcall 与 view 函数的关系
 
-当你在 Solidity 中调用一个 `view` 或 `pure` 函数时，编译器会自动使用 `staticcall`：
+当你在 [Solidity](https://learnblockchain.cn/course/93) 中调用一个 `view` 或 `pure` 函数时，编译器会自动使用 `staticcall`：
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -270,7 +270,7 @@ function goodStaticCall(address target) public view returns (uint) {
 
 ### ⚠️ 不保证真正只读
 
-虽然 `staticcall` 在 EVM 层面禁止状态修改，但无法阻止被调用合约使用内联汇编绕过限制。
+虽然 `staticcall` 在 [EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 层面禁止状态修改，但无法阻止被调用合约使用内联汇编绕过限制。
 
 ```solidity
 // ⚠️ 理论上可以绕过（但不推荐，且在大多数情况下会失败）

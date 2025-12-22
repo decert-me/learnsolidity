@@ -8,11 +8,11 @@
 - **防止篡改**：确保消息在传输过程中没有被修改
 - **不可否认性**：签名者无法否认其签署的消息
 
-在以太坊中，数字签名基于椭圆曲线密码学（ECDSA - Elliptic Curve Digital Signature Algorithm），使用 secp256k1 曲线。
+在以太坊中，数字签名使用 ECDSA 算法（椭圆曲线数字签名算法）。
 
 ### 你一直在用数字签名
 
-其实，如果你使用过 MetaMask 或其他钱包发送交易，你已经在使用数字签名了！
+其实，如果你使用过 MetaMask 或其他[钱包](https://learnblockchain.cn/tags/%E9%92%B1%E5%8C%85)发送交易，你已经在使用数字签名了！
 
 **当你在 MetaMask 中点击"确认"发送交易时：**
 
@@ -53,53 +53,30 @@
 
 ## 数字签名的工作原理
 
-### 基本概念
-
-数字签名涉及三个核心组件：
-
-1. **私钥（Private Key）**：秘密密钥，用于生成签名
-2. **公钥（Public Key）**：公开密钥，可以从私钥推导出来
-3. **签名（Signature）**：对消息的加密证明
-
-### 签名流程
+以太坊上签名使用ECDSA 算法，但对于使用上来说，工作原理可以简化为：
 
 ```
 消息 + 私钥 → 签名
-消息 + 签名 + 公钥 → 验证（true/false）
+消息 + 签名 → 验证恢复出地址 → 比对地址是否正确
 ```
 
-**签名过程**：
-1. 对消息进行哈希运算，得到消息摘要
-2. 使用私钥对消息摘要进行签名
-3. 生成签名数据（r, s, v）
+**签名过程**：使用私钥对消息进行签名，生成签名数据
 
-**验证过程**：
-1. 对消息进行相同的哈希运算
-2. 使用签名和公钥（或地址）进行验证
-3. 确认签名是否由对应的私钥创建
+**验证过程**：使用消息和签名恢复出签名者的地址，然后验证这个地址是否符合预期
 
-## 以太坊中的签名格式
 
-以太坊使用 ECDSA 签名，签名结果包含三个值：
-
-```
-签名 = (r, s, v)
-```
-
-- **r**：签名的第一部分（32 字节）
-- **s**：签名的第二部分（32 字节）
-- **v**：恢复标识符（1 字节，通常是 27 或 28）
-
-完整的签名通常表示为 65 字节的十六进制字符串：
+以太坊签名内容包含三个部分（r, s, v），完整签名是 65 字节的十六进制字符串：
 ```
 0x[r(32字节)][s(32字节)][v(1字节)]
 ```
+
+在验证签名时，需要将这 65 字节拆分成三个部分使用。
 
 ## 在 Solidity 中验证签名
 
 ### 使用 ecrecover
 
-Solidity 提供了内置函数 `ecrecover` 来恢复签名者的地址：
+[Solidity](https://learnblockchain.cn/course/93) 提供了内置函数 `ecrecover` 来恢复签名者的地址：
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -159,19 +136,12 @@ contract SignatureVerifier {
 }
 ```
 
-### 以太坊签名前缀
+> 关于以太坊签名前缀, 以太坊在签名时会添加一个特殊的前缀：`\x19Ethereum Signed Message:\n32` , 这个前缀的作用让消息的签名与交易签名区隔开，明确表示这是一个消息签名，由于签名和验证需要基于同样的内容，因此链下签名和链上验证时都必须使用相同的前缀。
 
-以太坊在签名时会添加一个特殊的前缀：`\x19Ethereum Signed Message:\n32`
-
-这个前缀的作用是：
-- 防止签名被用于其他用途（如交易签名）
-- 明确表示这是一个以太坊签名的消息
-
-**重要**：链下签名和链上验证时都必须使用相同的前缀！
 
 ## 使用 OpenZeppelin 库
 
-OpenZeppelin 提供了更安全和易用的签名验证工具：
+[OpenZeppelin](https://learnblockchain.cn/tags/OpenZeppelin?map=EVM) 提供了更安全和易用的签名验证工具：
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -232,23 +202,38 @@ function verifySignature(message, signature, expectedAddress) {
 }
 ```
 
-### 使用 web3.js 签名
+### 使用 viem 签名
 
 ```javascript
-const Web3 = require("web3");
-const web3 = new Web3();
+import { createWalletClient, http } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
+import { mainnet } from 'viem/chains'
 
 async function signMessage() {
-    const account = web3.eth.accounts.privateKeyToAccount(privateKey);
+    // 从私钥创建账户
+    const account = privateKeyToAccount('0x...')
 
-    const message = "Hello, Ethereum!";
+    const message = 'Hello, Ethereum!'
 
-    // 签名
-    const signature = account.sign(message);
+    // 签名（会自动添加以太坊前缀）
+    const signature = await account.signMessage({ message })
 
-    console.log("Signature:", signature.signature);
+    console.log('Signature:', signature)
+    // 输出: 0x[130个字符的十六进制字符串]
 
-    return signature.signature;
+    return signature
+}
+
+// 验证签名
+import { verifyMessage } from 'viem'
+
+async function verifySignature(message, signature, expectedAddress) {
+    const valid = await verifyMessage({
+        address: expectedAddress,
+        message,
+        signature,
+    })
+    return valid
 }
 ```
 
@@ -367,10 +352,8 @@ bytes32 messageHash = keccak256(abi.encodePacked(
 
 ### 错误 1：签名验证总是失败
 
-**可能原因**：
-- 链下和链上的消息哈希不一致
-- 忘记添加或错误添加以太坊签名前缀
-- 签名格式错误（r, s, v 顺序）
+**最可能原因**：链下和链上的消息哈希不一致
+
 
 **调试方法**：
 ```solidity
@@ -393,37 +376,22 @@ function debug(
 }
 ```
 
-### 错误 2：Web3.js 和 ethers.js 签名差异
-
-不同库的签名方式可能略有不同，但验证时都需要添加以太坊前缀。
-
 ## 小结
 
-本节我们学习了数字签名在以太坊中的应用：
+本节我们学习了数字签名在[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)中的应用：
 
 ### 核心概念
 
-- **数字签名**：使用私钥对消息签名，使用公钥验证
-- **ECDSA**：以太坊使用的椭圆曲线签名算法
-- **签名格式**：(r, s, v) 三个部分，共 65 字节
-- **ecrecover**：Solidity 内置的签名恢复函数
+- **数字签名**：使用私钥对消息签名，通过签名恢复地址来验证
+- **ecrecover**：[Solidity](https://learnblockchain.cn/course/93) 内置的签名恢复函数
 
-### 关键要点
-
-1. **以太坊前缀**：签名和验证都必须添加 `\x19Ethereum Signed Message:\n32`
+使用签名要注意：
+1. **[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)前缀**：签名和验证都必须添加 `\x19Ethereum Signed Message:\n32`
 2. **防重放**：使用 nonce 或其他机制防止签名被重复使用
 3. **完整上下文**：消息应包含合约地址、链 ID 等信息
-4. **安全验证**：检查签名长度、v 值、零地址等
 
-### 应用场景
-
-- 白名单铸造
-- 元交易
-- 链下订单
-- 投票系统
-- 多步骤授权
 
 ### 延伸阅读
 
-- [EIP-712 结构化数据签名](./11_eip712.md) - 更安全的签名标准
+- [EIP-712 结构化数据签名](../solidity-practice/4_eip712.md) - 更安全的签名标准
 - [OpenZeppelin ECDSA 文档](https://docs.openzeppelin.com/contracts/4.x/api/utils#ECDSA)

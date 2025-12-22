@@ -1,6 +1,6 @@
 # Transient 瞬时存储
 
-这一节我们将介绍 Solidity 0.8.24 引入的新特性 —— `transient` 瞬时存储。这是随着以太坊 Cancun 升级而来的一个重要功能，它为智能合约提供了一种新的临时数据存储方式。
+这一节我们将介绍 [Solidity](https://learnblockchain.cn/course/93) 0.8.24 引入的新特性 —— `transient` 瞬时存储。这是随着以太坊 Cancun 升级而来的一个重要功能，它为智能合约提供了一种新的临时数据存储方式。
 
 ## 什么是 Transient 存储
 
@@ -95,7 +95,7 @@ contract TransientReentrancyGuard {
 ```
 
 **优势对比**：
-- ✅ **Gas 节省**：不需要写入永久存储，成本更低
+- ✅ **[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 节省**：不需要写入永久存储，成本更低
 - ✅ **自动清理**：交易结束后自动重置，无需手动清理
 - ✅ **更安全**：避免忘记重置导致的锁死问题
 
@@ -159,7 +159,7 @@ contract Caller {
 
 ### 1. 版本要求
 
-`transient` 需要 Solidity **0.8.24 或更高版本**，并且需要在支持 Cancun 升级的网络上运行（2024年3月后的以太坊主网和测试网）。
+`transient` 需要 [Solidity](https://learnblockchain.cn/course/93) **0.8.24 或更高版本**，并且需要在支持 Cancun 升级的网络上运行（2024年3月后的[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)主网和测试网）。
 
 ```solidity
 // 在合约开头明确指定版本
@@ -279,7 +279,7 @@ contract SecureBank {
 }
 ```
 
-**Gas 对比测试**：
+**[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 对比测试**：
 
 ```solidity
 // 使用 storage 的防重入（传统方式）
@@ -316,4 +316,4 @@ contract SecureBank {
 
 ---
 
-准备好挑战了吗？前往 [DeCert.me](https://decert.me) 完成相关挑战并获得技能认证 NFT。
+准备好挑战了吗？前往 [DeCert.me](https://decert.me) 完成相关挑战并获得技能认证 [NFT](https://learnblockchain.cn/tags/NFT)。

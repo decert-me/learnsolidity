@@ -1,9 +1,9 @@
 
-日志（Logs）是存储在以太坊区块链上的数据结构，用于记录发生在智能合约中的事件。
+日志（Logs）是存储在[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)区块链上的数据结构，用于记录发生在[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中的事件。
 
 当事件被触发时，相应的日志条目会被创建并添加到区块中。这些信息可以由区块链上的外部消费者（比如前端应用和服务器应用）读取和做出响应。
 
-通过日志，智能合约可以生成一种轻量级的输出，无需更改合约的状态或者进行复杂的计算。
+通过日志，[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)可以生成一种轻量级的输出，无需更改合约的状态或者进行复杂的计算。
 
 
 ### 获取交易日志
@@ -65,7 +65,7 @@
 ### 事件签名
 事件签名是由事件的名称和输入参数的类型列表按顺序组合后形成的一个字符串。
 
-例如，ERC20 转账事件：`event Transfer(address indexed from, address indexed to, uint256 value);`
+例如，[ERC20](https://learnblockchain.cn/tags/ERC20?map=EVM) 转账事件：`event Transfer(address indexed from, address indexed to, uint256 value);`
 
 其事件签名为：Transfer(address,address,uint256)。
 

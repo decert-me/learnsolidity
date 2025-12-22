@@ -154,7 +154,7 @@ contract Proxy {
 
 ### 场景 2：库合约调用
 
-Solidity 的库合约使用 `delegatecall` 来确保库函数在调用者的上下文中执行。
+[Solidity](https://learnblockchain.cn/course/93) 的库合约使用 `delegatecall` 来确保库函数在调用者的上下文中执行。
 
 ```solidity
 pragma solidity ^0.8.0;

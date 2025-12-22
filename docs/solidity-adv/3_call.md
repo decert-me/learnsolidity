@@ -105,7 +105,7 @@ contract Transfer {
 }
 ```
 
-当调用的数据为空，EVM 将把这个调用作为 [ETH 普通转账](https://learnblockchain.cn/article/22542#1.%20%E6%99%AE%E9%80%9A%E8%BD%AC%E8%B4%A6)，因此可以使用 `call{value: msg.value}("")` 作为 ETH 转账。
+当调用的数据为空，[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 将把这个调用作为 [ETH 普通转账](https://learnblockchain.cn/article/22542#1.%20%E6%99%AE%E9%80%9A%E8%BD%AC%E8%B4%A6)，因此可以使用 `call{value: msg.value}("")` 作为 ETH 转账。
 
 **为什么要使用 call 转账？**
 
@@ -189,7 +189,7 @@ contract CallWithBoth {
 
 ### 合约钱包
 
-合约钱包需要代表用户调用任意合约，使用 `call` 实现动态调用。这是 `call` 最典型的应用场景之一。
+合约[钱包](https://learnblockchain.cn/tags/%E9%92%B1%E5%8C%85)需要代表用户调用任意合约，使用 `call` 实现动态调用。这是 `call` 最典型的应用场景之一。
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -240,7 +240,7 @@ contract ContractWallet {
 }
 ```
 
-**合约钱包的优势**：
+**合约[钱包](https://learnblockchain.cn/tags/%E9%92%B1%E5%8C%85)的优势**：
 - 可以调用任何合约的任何函数，无需预先知道接口
 - 支持批量操作，一次交易执行多个调用
 - 可以携带 ETH 进行调用

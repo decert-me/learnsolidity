@@ -13,11 +13,11 @@ Solidity 中的存储模式对 gas 消耗有直接影响，因此理解不同的
 3. **Calldata**：是非持久性的存储位置，只存在于链上的函数调用期间，主要用于存储函数参数。calldata 类型的访问成本通常比memory低。
 4. **Transient**：在 2024 年 Cancun 升级中新添加的存储位置（Solidity 0.8.24+）。瞬时存储的数据只在单个交易的执行期间存在，交易结束后会被清除。适合用于防重入锁等场景，仅支持值类型。
 
-**Gas 消耗对比**（从高到低）：storage > memory > transient > calldata
+**[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 消耗对比**（从高到低）：storage > memory > transient > calldata
 
 ## 深入分析存储模式
 
-理解这些存储类型的使用场景和优化策略，是避免不必要的高 gas 消耗和优化智能合约性能的关键。
+理解这些存储类型的使用场景和优化策略，是避免不必要的高 gas 消耗和优化[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)性能的关键。
 
 接下来会逐一深入讨论：
 
@@ -57,7 +57,7 @@ Solidity 中的存储模式对 gas 消耗有直接影响，因此理解不同的
 
     例如，如果你知道存储的整数永远不会超过255，使用 uint8 而不 uint256 将更省 Storage 空间。
 
-    但注意，函数操作中使用较小类型（小于 uint256）可能会增加 gas 消费，因为 EVM 在操作中会将它们转换为256位。
+    但注意，函数操作中使用较小类型（小于 uint256）可能会增加 gas 消费，因为 [EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 在操作中会将它们转换为256位。
 
 3. 删除不必要的存储变量：
 
@@ -111,7 +111,7 @@ contract MemoryExample {
 ### Calldata 优化
 calldata 类型的数据访问成本通常比 memory 低，因为它直接操作输入数据，避免了额外的内存分配。
 
-以下是一个简单的例子，说明如何在 Solidity 中使用 calldata 优化 gas 消耗：
+以下是一个简单的例子，说明如何在 [Solidity](https://learnblockchain.cn/course/93) 中使用 calldata 优化 gas 消耗：
 
 ```
 pragma solidity ^0.8.0;
@@ -134,6 +134,6 @@ contract CalldataExample {
 
 ## 结语
 
-在 Solidity 中有效地管理和优化不同的存储方式，不仅能显著降低合约执行的 gas 成本，还能大幅提高合约的执行效率。通过运用以上的策略并结合实际的开发经验，开发者可以设计出既经济高效又性能优异的智能合约。
+在 [Solidity](https://learnblockchain.cn/course/93) 中有效地管理和优化不同的存储方式，不仅能显著降低合约执行的 gas 成本，还能大幅提高合约的执行效率。通过运用以上的策略并结合实际的开发经验，开发者可以设计出既经济高效又性能优异的[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)。
 
 > 关于更多提升 gas 效率的技巧，可以查看 Decert.me 翻译的《[Gas 优化手册](https://decert.me/tutorial/rareskills-gas-optimization/)》。
