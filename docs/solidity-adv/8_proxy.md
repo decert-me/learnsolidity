@@ -22,7 +22,7 @@
    - 用户实际交互的合约
    - 存储所有状态数据
    - 地址永不改变
-   - 通过 [delegatecall](./4_delegatecall.md) 转发调用
+   - 通过 [delegatecall](https://learnblockchain.cn/article/22617) 转发调用
 
 2. **实现合约（Implementation/Logic）**：
    - 包含实际的业务逻辑
@@ -89,7 +89,7 @@ contract DEX {
 
 ## delegatecall：代理的核心机制
 
-`delegatecall` 是代理模式的关键。我们在这篇[delegatecall](./4_delegatecall.md)中，详细介绍过了，它允许合约 A 调用合约 B 的代码，但在**合约 A 的上下文中执行**。 
+`delegatecall` 是代理模式的关键。我们在这篇[delegatecall](https://learnblockchain.cn/article/22617)中，详细介绍过了，它允许合约 A 调用合约 B 的代码，但在**合约 A 的上下文中执行**。 
 
 
 ### 简单的代理实现
@@ -304,11 +304,11 @@ proxy.upgrade(userAddress);
 
 * 1. 透明代理模式（Transparent Proxy）
 
-**核心思想**：通过调用者身份区分调用目标，详细介绍参考这里：[透明代理模式](./9_transparent-proxy.md)
+**核心思想**：通过调用者身份区分调用目标，详细介绍参考这里：[透明代理模式](https://learnblockchain.cn/article/22622)
 
 * 2. UUPS 模式（Universal Upgradeable Proxy Standard）
 
-**核心思想**：将升级逻辑放在实现合约中。详细介绍参考：[UUPS 升级模式](./10_uups-proxy.md)
+**核心思想**：将升级逻辑放在实现合约中。详细介绍参考：[UUPS 升级模式](https://learnblockchain.cn/article/22612)
 
 > 还有一种 Beacon 代理模式， 其**核心思想**：多个代理共享一个实现地址,  用户批量升级多个代理， 适合工厂模式。
 
@@ -482,7 +482,7 @@ contract ImplementationV2Bad {
 
 ## 下一步学习
 
-现在你已经了解了代理合约的基础知识和面临的挑战。接下来可以深入学习具体的实现方案  **[透明代理模式](./9_transparent-proxy.md)** 和 **[UUPS 升级模式](./10_uups-proxy.md)**
+现在你已经了解了代理合约的基础知识和面临的挑战。接下来可以深入学习具体的实现方案  **[透明代理模式](https://learnblockchain.cn/article/22622)** 和 **[UUPS 升级模式](https://learnblockchain.cn/article/22612)**
 
 
 ## 总结

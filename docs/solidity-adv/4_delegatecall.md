@@ -2,7 +2,7 @@
 
 ## 什么是 delegatecall
 
-`delegatecall` 是地址类型提供的一个特殊的底层调用函数，它与 [call](3_call.md) 的核心区别在于**不切换执行上下文**。
+`delegatecall` 是地址类型提供的一个特殊的底层调用函数，它与 [call](https://learnblockchain.cn/article/22616) 的核心区别在于**不切换执行上下文**。
 
 **函数签名**：
 ```solidity
@@ -149,8 +149,7 @@ contract Proxy {
 - 节省 gas，数据存储在代理合约中
 
 > **延伸阅读**：
-> - [代理合约](6_proxy.md)
-> - [合约升级模式](7_proxy-upgradeable.md)
+> - [代理合约与升级](https://learnblockchain.cn/article/22621)
 
 ### 场景 2：库合约调用
 
@@ -272,7 +271,7 @@ function goodDelegatecall(address target) public {
 
 ### 延伸阅读
 
-- [call 常规调用](./3_call.md)
-- [staticcall 静态调用](./5_staticcall.md)
+- [call 常规调用](https://learnblockchain.cn/article/22616)
+- [staticcall 静态调用](https://learnblockchain.cn/article/22618)
 - [代理合约](./6_proxy.md)
 - [合约升级模式](./7_proxy-upgradeable.md)

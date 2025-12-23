@@ -2,7 +2,7 @@
 
 ## 什么是 staticcall
 
-`staticcall` 是地址类型提供的一个只读底层调用函数，它与 [call](3_call.md) 类似会切换上下文，但**不允许修改状态**。相当于调用 `view` 或 `pure` 函数。
+`staticcall` 是地址类型提供的一个只读底层调用函数，它与 [call](https://learnblockchain.cn/article/22616) 类似会切换上下文，但**不允许修改状态**。相当于调用 `view` 或 `pure` 函数。
 
 **函数签名**：
 ```solidity
@@ -340,6 +340,6 @@ function correctUsage(address target) public payable {
 
 ### 延伸阅读
 
-- [call 常规调用](./3_call.md)
-- [delegatecall 委托调用](./4_delegatecall.md)
-- [ABI 编码和解码](./2_ABI.md)
+- [call 常规调用](https://learnblockchain.cn/article/22616)
+- [delegatecall 委托调用](https://learnblockchain.cn/article/22617)
+- [ABI 编码和解码](https://learnblockchain.cn/article/22615)

@@ -29,8 +29,8 @@ contract Award {
 地址类型提供了 3 个底层的成员函数：
 
 - `targetAddr.call(bytes memory abiEncodeData) returns (bool, bytes memory)`
-- `targetAddr.delegatecall(bytes memory abiEncodeData) returns (bool, bytes memory)` - 详见 [delegatecall](4_delegatecall.md)
-- `targetAddr.staticcall(bytes memory abiEncodeData) returns (bool, bytes memory)` - 详见 [staticcall](5_staticcall.md)
+- `targetAddr.delegatecall(bytes memory abiEncodeData) returns (bool, bytes memory)` - 详见 [delegatecall](https://learnblockchain.cn/article/22617)
+- `targetAddr.staticcall(bytes memory abiEncodeData) returns (bool, bytes memory)` - 详见 [staticcall](https://learnblockchain.cn/article/22618)
 
 **三种调用方式对比**：
 
@@ -40,7 +40,7 @@ contract Award {
 | `delegatecall` | 委托调用 | ❌ 否 | ✅ 允许（当前合约） | 代理模式、库合约 |
 | `staticcall` | 静态调用 | ✅ 是 | ❌ 不允许 | 只读查询、view 函数调用 |
 
-这三个函数都可以用于与目标合约（`targetAddr`）交互，均接受 [ABI 编码数据](2_ABI.md)作为参数（`abiEncodeData`）来调用对应的函数。
+这三个函数都可以用于与目标合约（`targetAddr`）交互，均接受 [ABI 编码数据](https://learnblockchain.cn/article/22615)作为参数（`abiEncodeData`）来调用对应的函数。
 
 ## call 调用详解
 
@@ -62,7 +62,7 @@ contract Counter {
 }
 ```
 
-在 [ABI 一节](2_ABI.md) 我们知道调用 `set()` 函数，实际上发送的是 ABI 编码数据 `0x60fe47b1000000000000000000000000000000000000000000000000000000000000000a`
+在 [ABI 一节](https://learnblockchain.cn/article/22615) 我们知道调用 `set()` 函数，实际上发送的是 ABI 编码数据 `0x60fe47b1000000000000000000000000000000000000000000000000000000000000000a`
 
 通过 `call` 就可以直接使用编码数据发起调用：
 
@@ -289,6 +289,6 @@ function goodCall(address target) public {
 
 ### 延伸阅读
 
-- [ABI 编码和解码](./2_ABI.md)
-- [delegatecall 委托调用](./4_delegatecall.md)
-- [staticcall 静态调用](./5_staticcall.md)
+- [ABI 编码和解码](https://learnblockchain.cn/article/22615)
+- [delegatecall 委托调用](https://learnblockchain.cn/article/22617)
+- [staticcall 静态调用](https://learnblockchain.cn/article/22618)

@@ -145,7 +145,7 @@ contract testArray {
 
 用法是：`x[start:end]`，`start` 和 `end` 是 `uint256` 类型（或结果为 uint256 的表达式），`x[start:end]` 的第一个元素是 `x[start]`，最后一个元素是 `x[end - 1]`。`start` 和 `end` 都可以是可选的：`start` 默认是 0，而 end 默认是数组长度。如果 `start` 比 `end` 大或者 end 比数组长度还大，将会抛出异常。
 
-如使用以下方法获得了[函数选择器](../solidity-adv/2_ABI.md)：
+如使用以下方法获得了[函数选择器](https://learnblockchain.cn/article/22615)：
 
 ```solidity
 contract testArr {

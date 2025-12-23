@@ -38,7 +38,7 @@ contract testEvent {
 
 ![solidity-event](https://img.learnblockchain.cn/pics/20230715121442.png!decert.logo.water)
 
-我们会在进阶篇：[深入事件日志](../solidity-adv/1_event_logs.md)详细介绍日志，这里我们只需要知道从日志中可以获取到：
+我们会在进阶篇：[深入事件日志](https://learnblockchain.cn/article/22614)详细介绍日志，这里我们只需要知道从日志中可以获取到：
 
 1. 事件来自哪一个合约
 2. 获取到事件本身的信息及其相关参数信息
@@ -191,7 +191,7 @@ contract TokenTransfer {
 
 想了解更多高级用法，可以参考：
 
-- [深入事件日志](../solidity-adv/1_event_logs.md) - 理解日志的底层结构和Bloom过滤器
+- [深入事件日志](https://learnblockchain.cn/article/22614) - 理解日志的底层结构和Bloom过滤器
 - [Ethers.js 事件处理](https://docs.ethers.org/v6) 
 
 

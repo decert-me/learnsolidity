@@ -529,5 +529,5 @@ contract Calculator {
 对于更高级的主题，可以参考：
 
 - [底层调用](../solidity-adv/3_addr_call.md) - 学习 call、delegatecall、staticcall
-- [ABI 编码](../solidity-adv/2_ABI.md) - 了解函数选择器和数据编码
+- [ABI 编码](https://learnblockchain.cn/article/22615) - 了解函数选择器和数据编码
 - [重入攻击防御](../security/9_reentrancy.md) - 外部调用的安全最佳实践

@@ -1,6 +1,6 @@
 # UUPS 升级模式
 
-在[代理合约与升级](./8_proxy.md)中，我们了解到升级运行的原理，理解代理模式面临**函数选择器冲突**的问题：当代理合约和实现合约有相同函数名时，会产生调用歧义。上一篇的透明代理模式是一个方案，本文的UUPS（Universal Upgradeable Proxy Standard，通用可升级代理标准）是一种更加 gas 优化的合约升级方案。与透明代理不同，UUPS 将升级逻辑放在实现合约中，而不是代理合约中。
+在[代理合约与升级](https://learnblockchain.cn/article/22621)中，我们了解到升级运行的原理，理解代理模式面临**函数选择器冲突**的问题：当代理合约和实现合约有相同函数名时，会产生调用歧义。上一篇的透明代理模式是一个方案，本文的UUPS（Universal Upgradeable Proxy Standard，通用可升级代理标准）是一种更加 gas 优化的合约升级方案。与透明代理不同，UUPS 将升级逻辑放在实现合约中，而不是代理合约中。
 
 本文将详细介绍 UUPS 模式，并展示如何在 Foundry 中实际使用。
 
@@ -471,7 +471,7 @@ forge script script/UpgradeBox.s.sol:UpgradeBox \
 
 ## 参考资料
 
-- [透明代理模式](./9_transparent-proxy.md)
+- [透明代理模式](https://learnblockchain.cn/article/22622)
 - [EIP-1822 UUPS 标准](https://eips.ethereum.org/EIPS/eip-1822)
 - [OpenZeppelin UUPSUpgradeable](https://docs.openzeppelin.com/contracts/4.x/api/proxy#UUPSUpgradeable)
 - [OpenZeppelin Foundry Upgrades](https://github.com/OpenZeppelin/openzeppelin-foundry-upgrades)

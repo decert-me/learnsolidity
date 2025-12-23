@@ -57,7 +57,7 @@ contract testPayable {
 
 当对合约进行转账时（不论使用MetaMask钱包转账，还是合约中使用`addr.send()`或者`addr.transfer()`对合约转账），合约在收到ETH时会执行`receive`函数。
 
-若是使用`addr.send()`或者`addr.transfer()`对合约转账，EVM在执行 transfer 和 send 函数只使用固定的 2300 gas， 这个gas 基本上只够`receive`函数输出一条日志，如果`receive`函数有更多逻辑，就需要使用[底层调用call](../solidity-adv/addr_call.md)对合约转账:
+若是使用`addr.send()`或者`addr.transfer()`对合约转账，EVM在执行 transfer 和 send 函数只使用固定的 2300 gas， 这个gas 基本上只够`receive`函数输出一条日志，如果`receive`函数有更多逻辑，就需要使用[底层调用call](https://learnblockchain.cn/article/22616)对合约转账:
 
 
 
