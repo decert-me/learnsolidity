@@ -80,7 +80,7 @@ contract CallExample {
 
 这段代码在功能上和 `ICounter(_counter).set(10);` 等价，但 `call` 的方式可以动态构造 `payload` 编码数据对函数进行调用，从而实现对任意函数、任何类型及任意数量的参数的调用。
 
-示例中的编码数据是通过 `encodeWithSignature` 构造，Solidity 提供了多个[编码函数](./2_ABI.md#编码函数)来构造编码数据，还可以通过工具和 Web3.js 等库在链下构造编码数据。
+示例中的编码数据是通过 `encodeWithSignature` 构造，Solidity 提供了多个[编码函数](https://learnblockchain.cn/article/22615)来构造编码数据，还可以通过工具和 Web3.js 等库在链下构造编码数据。
 
 ### 2. 使用 call 转账 ETH
 

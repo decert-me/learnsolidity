@@ -328,4 +328,4 @@ contract WorkflowPractice {
 
 想了解更多高级用法，可以参考：
 
-- [状态机模式](../solidity-practice/10_state_machine.md) - 复杂状态管理的设计模式
+- [状态机模式](https://learnblockchain.cn/article/22657) - 复杂状态管理的设计模式

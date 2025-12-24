@@ -106,7 +106,7 @@ library Math {
 }
 ```
 
-`TestMax`代码不用作任何的更改，不过因为`Math`库是独立部署的， `TestMax`合约要调用`Math`库就必须先知道后者的地址，这相当于`TestMax`合约会依赖于`Math`库，因此部署`TestMax`合约会有一点不同，需要让 `TestMax`合约与`Math`库建立链接， [Solidity](https://learnblockchain.cn/course/93) 开发框架会帮助我们进行链接，以[Hardhat](../tools/4_hardhat.md) 为例，部署脚本这样写就好：
+`TestMax`代码不用作任何的更改，不过因为`Math`库是独立部署的， `TestMax`合约要调用`Math`库就必须先知道后者的地址，这相当于`TestMax`合约会依赖于`Math`库，因此部署`TestMax`合约会有一点不同，需要让 `TestMax`合约与`Math`库建立链接， [Solidity](https://learnblockchain.cn/course/93) 开发框架会帮助我们进行链接，以[Hardhat](https://learnblockchain.cn/article/22640) 为例，部署脚本这样写就好：
 
 
 

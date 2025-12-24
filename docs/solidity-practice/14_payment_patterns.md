@@ -1,6 +1,6 @@
 # 支付模式
 
-在智能合约中处理 ETH 支付是一个常见且关键的功能。本章介绍安全的支付模式和最佳实践，帮助大家避免常见的支付相关漏洞。
+在[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中处理 ETH 支付是一个常见且关键的功能。本章介绍安全的支付模式和最佳实践，帮助大家避免常见的支付相关漏洞。
 
 本章你将学到：
 - 提取模式（Withdrawal Pattern）
@@ -33,7 +33,7 @@ contract PushPayment {
 **问题**：
 1. 如果某个接收者拒绝接收 ETH，整个分配失败
 2. 容易遭受重入攻击
-3. Gas 消耗不可控
+3. [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 消耗不可控
 
 ### ✅ 推荐：拉取支付（提取模式）
 
@@ -324,14 +324,11 @@ contract PaymentSplitter {
    ```solidity
    // ✅ 总是检查返回值
    (bool success, ) = recipient.call{value: amount}("");
+   //   不推荐限制gas
+   //  (bool success, ) = recipient.call{value: amount, gas: 2300}("");
    require(success, "Transfer failed");
    ```
 
-4. **设置 Gas 限制**（可选）
-   ```solidity
-   // 限制 Gas，防止恶意合约消耗过多 Gas
-   (bool success, ) = recipient.call{value: amount, gas: 2300}("");
-   ```
 
 ## 小结
 
@@ -342,11 +339,3 @@ contract PaymentSplitter {
 - **安全原则**：防重入、检查返回值、使用 call 而非 transfer
 
 使用提取模式可以有效避免重入攻击和其他支付相关的安全问题。
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。

@@ -10,7 +10,7 @@
 - **转换（Transition）**：从一个状态到另一个状态的规则
 - **事件（Event）**：触发状态转换的操作
 
-在智能合约中，状态机可以确保：
+在[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中，状态机可以确保：
 1. 状态转换的合法性
 2. 操作的顺序性
 3. 业务逻辑的清晰性
@@ -399,11 +399,31 @@ contract StateMachineWithModifiers {
 
 在设计复杂状态机时，建议先绘制状态转换图：
 
+```mermaid
+stateDiagram-v2
+    [*] --> Created
+    Created --> Active: activate()
+    Active --> Paused: pause()
+    Paused --> Active: resume()
+    Active --> Completed: complete()
+    Paused --> Completed: complete()
+    Completed --> [*]
 ```
-Created ──activate──> Active ──pause──> Paused
-                        │                │
-                        │                │
-                        └───complete─────┴──> Completed
+
+或者使用流程图形式：
+
+```mermaid
+graph LR
+    Created -->|activate| Active
+    Active -->|pause| Paused
+    Paused -->|resume| Active
+    Active -->|complete| Completed
+    Paused -->|complete| Completed
+
+    style Created fill:#e1f5ff
+    style Active fill:#90ee90
+    style Paused fill:#ffeb3b
+    style Completed fill:#9e9e9e
 ```
 
 ### 3. 记录所有状态变化
@@ -452,7 +472,7 @@ function setState(State newState) internal {
 
 ## 小结
 
-状态机模式是智能合约开发中的重要设计模式：
+状态机模式是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)开发中的重要设计模式：
 
 - **清晰性**：枚举让状态定义清晰明确
 - **安全性**：严格的状态转换检查防止非法操作

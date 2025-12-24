@@ -273,5 +273,5 @@ function goodDelegatecall(address target) public {
 
 - [call 常规调用](https://learnblockchain.cn/article/22616)
 - [staticcall 静态调用](https://learnblockchain.cn/article/22618)
-- [代理合约](./6_proxy.md)
-- [合约升级模式](./7_proxy-upgradeable.md)
+- [代理合约](https://learnblockchain.cn/article/22621)
+- [合约升级模式](https://learnblockchain.cn/article/22622)

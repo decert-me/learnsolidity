@@ -237,4 +237,4 @@ contract testPayable {
 
 - [底层调用](../solidity-adv/3_addr_call.md) - 深入理解 call、delegatecall 和 staticcall
 - [重入攻击](../security/9_reentrancy.md) - 学习在接收 ETH 时如何防范重入攻击
-- [支付模式](../solidity-practice/14_payment_patterns.md) - 学习[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中的支付最佳实践
+- [支付模式](https://learnblockchain.cn/article/22658) - 学习[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中的支付最佳实践

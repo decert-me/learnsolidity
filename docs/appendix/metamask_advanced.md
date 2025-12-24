@@ -16,7 +16,7 @@
 
 ## 连接本地开发网络
 
-使用 [Hardhat](../solidity-basic/4_hardhat.md) 或 [Foundry](../solidity-basic/5_foundry.md) 时，需要添加本地网络：
+使用 [Hardhat](https://learnblockchain.cn/article/22640) 或 [Foundry](https://learnblockchain.cn/article/22641) 时，需要添加本地网络：
 
 在 MetaMask 中手动添加网络，填入以下信息：
 

@@ -393,5 +393,5 @@ function debug(
 
 ### 延伸阅读
 
-- [EIP-712 结构化数据签名](../solidity-practice/4_eip712.md) - 更安全的签名标准
+- [EIP-712 结构化数据签名](https://learnblockchain.cn/article/22662) - 更安全的签名标准
 - [OpenZeppelin ECDSA 文档](https://docs.openzeppelin.com/contracts/4.x/api/utils#ECDSA)
