@@ -61,78 +61,6 @@ contract MyContract is Ownable {
 }
 ```
 
-## 多角色权限管理
-
-使用 mapping 实现多角色权限系统：
-
-```solidity
-pragma solidity ^0.8.0;
-
-contract RoleBasedAccessControl {
-    mapping(address => mapping(bytes32 => bool)) private roles;
-
-    bytes32 public constant ADMIN_ROLE = keccak256("ADMIN_ROLE");
-    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
-    bytes32 public constant BURNER_ROLE = keccak256("BURNER_ROLE");
-
-    event RoleGranted(bytes32 indexed role, address indexed account, address indexed sender);
-    event RoleRevoked(bytes32 indexed role, address indexed account, address indexed sender);
-
-    constructor() {
-        // 部署者获得管理员角色
-        _grantRole(ADMIN_ROLE, msg.sender);
-    }
-
-    modifier onlyRole(bytes32 role) {
-        require(hasRole(role, msg.sender), "Access denied");
-        _;
-    }
-
-    function hasRole(bytes32 role, address account) public view returns (bool) {
-        return roles[account][role];
-    }
-
-    function grantRole(bytes32 role, address account) public onlyRole(ADMIN_ROLE) {
-        _grantRole(role, account);
-    }
-
-    function revokeRole(bytes32 role, address account) public onlyRole(ADMIN_ROLE) {
-        _revokeRole(role, account);
-    }
-
-    function _grantRole(bytes32 role, address account) internal {
-        if (!hasRole(role, account)) {
-            roles[account][role] = true;
-            emit RoleGranted(role, account, msg.sender);
-        }
-    }
-
-    function _revokeRole(bytes32 role, address account) internal {
-        if (hasRole(role, account)) {
-            roles[account][role] = false;
-            emit RoleRevoked(role, account, msg.sender);
-        }
-    }
-}
-```
-
-### 使用多角色系统
-
-```solidity
-contract Token is RoleBasedAccessControl {
-    mapping(address => uint256) public balances;
-
-    function mint(address to, uint256 amount) public onlyRole(MINTER_ROLE) {
-        balances[to] += amount;
-    }
-
-    function burn(address from, uint256 amount) public onlyRole(BURNER_ROLE) {
-        require(balances[from] >= amount, "Insufficient balance");
-        balances[from] -= amount;
-    }
-}
-```
-
 ## 白名单/黑名单模式
 
 使用映射实现白名单或黑名单：
@@ -340,12 +268,4 @@ contract MyContract is Ownable, AccessControl {
 - **时间锁**：为敏感操作添加延迟保护
 - **安全原则**：最小权限、使用 msg.sender、充分验证、记录事件
 
-访问控制是智能合约安全的第一道防线，必须谨慎设计和实现。
-
-------
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
+访问控制是智能合约安全的重要的防线，必须谨慎设计和实现。

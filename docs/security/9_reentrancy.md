@@ -486,113 +486,6 @@ contract ReadOnlyReentrancyAttacker {
 
 > **只读重入的危险：** 即使函数只读取状态不修改状态，如果读取的状态是"不一致"的（已转账但未更新），也可能被利用。
 
-## 实战：编写安全的 DeFi 合约
-
-让我们实现一个安全的质押池合约：
-
-```solidity
-pragma solidity ^0.8.0;
-
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-
-// ✅ 安全的质押池
-contract SecureStakingPool is ReentrancyGuard {
-    IERC20 public stakingToken;
-    IERC20 public rewardToken;
-
-    mapping(address => uint) public stakedBalance;
-    mapping(address => uint) public rewards;
-
-    uint public totalStaked;
-    uint public rewardRate = 100; // 每个区块的奖励率
-
-    mapping(address => uint) private lastUpdateBlock;
-
-    constructor(address _stakingToken, address _rewardToken) {
-        stakingToken = IERC20(_stakingToken);
-        rewardToken = IERC20(_rewardToken);
-    }
-
-    // 更新奖励
-    function updateReward(address account) internal {
-        if (stakedBalance[account] > 0) {
-            uint blocks = block.number - lastUpdateBlock[account];
-            rewards[account] += stakedBalance[account] * blocks * rewardRate / 1e18;
-        }
-        lastUpdateBlock[account] = block.number;
-    }
-
-    // 质押代币
-    function stake(uint amount) external nonReentrant {
-        require(amount > 0, "Cannot stake 0");
-
-        // 1. Checks
-        require(
-            stakingToken.balanceOf(msg.sender) >= amount,
-            "Insufficient balance"
-        );
-
-        // 更新奖励
-        updateReward(msg.sender);
-
-        // 2. Effects - 先更新状态
-        stakedBalance[msg.sender] += amount;
-        totalStaked += amount;
-
-        // 3. Interactions - 最后外部调用
-        require(
-            stakingToken.transferFrom(msg.sender, address(this), amount),
-            "Transfer failed"
-        );
-    }
-
-    // 取出质押
-    function unstake(uint amount) external nonReentrant {
-        require(amount > 0, "Cannot unstake 0");
-
-        // 1. Checks
-        require(stakedBalance[msg.sender] >= amount, "Insufficient staked");
-
-        // 更新奖励
-        updateReward(msg.sender);
-
-        // 2. Effects - 先更新状态
-        stakedBalance[msg.sender] -= amount;
-        totalStaked -= amount;
-
-        // 3. Interactions - 最后外部调用
-        require(stakingToken.transfer(msg.sender, amount), "Transfer failed");
-    }
-
-    // 领取奖励
-    function claimRewards() external nonReentrant {
-        // 更新奖励
-        updateReward(msg.sender);
-
-        // 1. Checks
-        uint reward = rewards[msg.sender];
-        require(reward > 0, "No rewards");
-
-        // 2. Effects - 先更新状态
-        rewards[msg.sender] = 0;
-
-        // 3. Interactions - 最后外部调用
-        require(rewardToken.transfer(msg.sender, reward), "Transfer failed");
-    }
-
-    // 查询可领取奖励
-    function pendingRewards(address account) external view returns (uint) {
-        uint pending = rewards[account];
-        if (stakedBalance[account] > 0) {
-            uint blocks = block.number - lastUpdateBlock[account];
-            pending += stakedBalance[account] * blocks * rewardRate / 1e18;
-        }
-        return pending;
-    }
-}
-```
-
 ## 检查清单：如何避免重入攻击
 
 在编写合约时，请遵循以下检查清单：
@@ -666,26 +559,6 @@ function getBalance() public view returns (uint) {
 ```
 
 **正确做法**：确保状态的一致性，必要时也使用重入保护。
-
-## 实用工具
-
-### Slither 静态分析
-
-```bash
-pip3 install slither-analyzer
-slither vulnerable_contract.sol
-```
-
-Slither 可以自动检测重入漏洞。
-
-### Mythril 符号执行
-
-```bash
-pip3 install mythril
-myth analyze vulnerable_contract.sol
-```
-
-Mythril 可以发现潜在的重入攻击路径。
 
 ## 操练
 
@@ -779,11 +652,3 @@ contract CrowdFunding {
 - **使用安全工具**：Slither、Mythril 可以帮助发现漏洞
 
 **永远记住**：在外部调用**之前**更新状态！
-
----
-
-来 [DeCert.me](https://decert.me/quests/10003) 码一个未来，DeCert 让每一位开发者轻松构建自己的可信履历。
-
-DeCert.me 由登链社区 [@UpchainDAO](https://twitter.com/upchaindao) 孵化，欢迎 [Discord 频道](https://discord.com/invite/kuSZHftTqe) 一起交流。
-
-本教程来自贡献者 [@Tiny熊](https://twitter.com/tinyxiong_eth)。
