@@ -182,7 +182,7 @@ contract Counter {
 
 > 合约内的所有数据（包括公共及私有数据），即便私有数据无法通过合约访问，但在链上都是透明可见的，因此无法将某些函数或变量标记为`private`，来阻止其他人看到该数据。
 
-> **深入学习：** 关于函数可见性的详细对比、调用方式、[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技巧等进阶内容，请参考[函数详解 - 函数可见性章节](./11_function.md#函数可见性)。
+> **深入学习：** 关于函数可见性的详细对比、调用方式、[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技巧等进阶内容，请参考[函数详解 - 函数可见性章节](https://learnblockchain.cn/article/22553)。
 
 
 

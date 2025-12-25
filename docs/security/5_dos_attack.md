@@ -1,6 +1,5 @@
-# DoS 攻击与防御
 
-拒绝服务（Denial of Service, DoS）攻击是一种使合约无法正常运行或消耗过多资源的攻击方式。在智能合约中，DoS 攻击可能导致关键功能无法使用，资金被锁定，或者 Gas 成本过高。
+拒绝服务（Denial of Service, DoS）攻击是一种使合约无法正常运行或消耗过多资源的攻击方式。在[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中，DoS 攻击可能导致关键功能无法使用，资金被锁定，或者 Gas 成本过高。
 
 ## 什么是 DoS 攻击
 
@@ -722,13 +721,13 @@ contract SecureTokenDistributor {
 
 ## 小结
 
-**DoS 攻击是智能合约的常见威胁**：
+**DoS 攻击是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)的常见威胁**：
 
 🎯 **核心原则**
 - 使用拉取模式而非推送模式
 - 避免无界循环
 - 限制数组大小
-- 优化 Gas 消耗
+- 优化 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 消耗
 
 🛡️ **防御策略**
 - 分页/批处理
@@ -738,7 +737,7 @@ contract SecureTokenDistributor {
 
 📋 **最佳实践**
 - 代码审查检查清单
-- Gas 优化技巧
+- [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技巧
 - 充分测试极端情况
 
 > **记住**：在设计合约时，始终考虑"如果有一百万用户会怎样？"

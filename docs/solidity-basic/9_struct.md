@@ -183,4 +183,4 @@ contract testStruct{
 
 想了解更多关于结构体的知识，可以参考：
 
-- [存储布局](../solidity-adv/5_storage_gas.md) - 学习结构体在 storage 中的存储方式
+- [存储布局](https://learnblockchain.cn/article/22620) - 学习结构体在 storage 中的存储方式

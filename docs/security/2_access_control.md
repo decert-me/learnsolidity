@@ -1,6 +1,4 @@
-# 访问控制
-
-访问控制是智能合约安全的基础，用于限制谁可以执行特定的操作。不当的访问控制可能导致合约被恶意利用，造成严重的安全问题。
+访问控制是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)安全的基础，用于限制谁可以执行特定的操作。不当的访问控制可能导致合约被恶意利用，造成严重的安全问题。
 
 本章你将学到：
 - 访问控制的常见模式
@@ -241,7 +239,7 @@ contract Secure {
 
 ## 使用 OpenZeppelin
 
-OpenZeppelin 提供了成熟的访问控制实现：
+[OpenZeppelin](https://learnblockchain.cn/tags/OpenZeppelin?map=EVM) 提供了成熟的访问控制实现：
 
 ```solidity
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -268,4 +266,4 @@ contract MyContract is Ownable, AccessControl {
 - **时间锁**：为敏感操作添加延迟保护
 - **安全原则**：最小权限、使用 msg.sender、充分验证、记录事件
 
-访问控制是智能合约安全的重要的防线，必须谨慎设计和实现。
+访问控制是[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)安全的重要的防线，必须谨慎设计和实现。

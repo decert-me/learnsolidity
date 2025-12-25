@@ -1,5 +1,3 @@
-# delegatecall 委托调用
-
 ## 什么是 delegatecall
 
 `delegatecall` 是地址类型提供的一个特殊的底层调用函数，它与 [call](https://learnblockchain.cn/article/22616) 的核心区别在于**不切换执行上下文**。

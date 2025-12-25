@@ -192,4 +192,4 @@ contract Award {
 
 - [ERC20 标准](https://learnblockchain.cn/article/22659) - 学习如何实现 [ERC20](https://learnblockchain.cn/tags/ERC20?map=EVM) 接口
 - [ERC721 标准](https://learnblockchain.cn/article/22660) - 学习 [NFT](https://learnblockchain.cn/tags/NFT) 接口的实现
-- [跨合约调用](../solidity-adv/3_addr_call.md) - 深入理解合约间的交互方式
+- [跨合约调用](https://learnblockchain.cn/article/22616) - 深入理解合约间的交互方式

@@ -1,10 +1,8 @@
-# Transient 瞬时存储
-
 这一节我们将介绍 [Solidity](https://learnblockchain.cn/course/93) 0.8.24 引入的新特性 —— `transient` 瞬时存储。这是随着以太坊 Cancun 升级而来的一个重要功能，它为智能合约提供了一种新的临时数据存储方式。
 
 ## 什么是 Transient 存储
 
-在[类型一节](3_types.md#数据位置data-location)中，我们学习了 `storage`、`memory` 和 `calldata` 三种数据位置。`transient` 是第四种数据位置，它的特点是：
+在[类型一节](https://learnblockchain.cn/article/22531)中，我们学习了 `storage`、`memory` 和 `calldata` 三种数据位置。`transient` 是第四种数据位置，它的特点是：
 
 - **交易级生命周期**：数据仅在单个交易执行期间存在，交易结束后自动清除
 - **跨合约调用共享**：在同一交易中的多个合约调用之间可以共享数据

@@ -1,6 +1,4 @@
-# 抢跑攻击（Front-Running）
-
-抢跑（Front-Running）是区块链中独特的攻击向量，源于区块链的透明性和交易排序机制。在传统金融市场中这是非法的，但在区块链上由于技术特性，变得难以完全防范。理解抢跑攻击对于构建安全的 DeFi 应用至关重要。
+抢跑（Front-Running）是区块链中独特的攻击向量，源于区块链的透明性和交易排序机制。在传统金融市场中这是非法的，但在区块链上由于技术特性，变得难以完全防范。理解抢跑攻击对于构建安全的 [DeFi](https://learnblockchain.cn/tags/DeFi?map=EVM) 应用至关重要。
 
 ## 什么是抢跑
 
@@ -54,7 +52,7 @@ contract ENSRegistrar {
 
 攻击者在受害者交易前后插入交易获利。
 
-**场景**：DEX 套利
+**场景**：[DEX](https://learnblockchain.cn/tags/DEX?map=EVM) 套利
 
 ```solidity
 // 简化的 DEX
@@ -128,7 +126,7 @@ contract LendingProtocol {
 
 ### MEV 实例
 
-**Uniswap 套利机器人**：
+**[Uniswap](https://learnblockchain.cn/tags/Uniswap?map=EVM) 套利机器人**：
 ```
 区块 N：
 1. 矿工看到一笔大额 USDC->ETH 交易
@@ -417,8 +415,6 @@ contract AntiManipulation {
 - 协议：公平排序、透明机制
 
 > **记住**：完全防止抢跑很难，但可以通过多种手段降低风险和影响。
-
----
 
 ## 相关资源
 

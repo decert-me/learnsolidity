@@ -579,5 +579,5 @@ contract FeatureToggle {
 
 想了解更多关于布尔类型的高级应用，可以参考：
 
-- [存储优化](../solidity-adv/5_storage_gas.md) - 学习变量打包和 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技术
+- [存储优化](https://learnblockchain.cn/article/22620) - 学习变量打包和 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 优化技术
 

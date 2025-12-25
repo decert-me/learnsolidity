@@ -194,7 +194,7 @@ contract CallExample {
 >
 > - 优先使用内部调用，[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 消耗更低
 > - 外部调用其他合约时要注意安全风险（重入攻击等）
-> - 详见[重入攻击防御章节](../security/9_reentrancy.md)和[底层调用章节](../solidity-adv/3_addr_call.md)
+> - 详见[重入攻击防御章节](https://learnblockchain.cn/article/22675)和[底层调用章节](https://learnblockchain.cn/article/22616)
 
 ## 函数状态可变性
 
@@ -528,6 +528,6 @@ contract Calculator {
 
 对于更高级的主题，可以参考：
 
-- [底层调用](../solidity-adv/3_addr_call.md) - 学习 call、delegatecall、staticcall
+- [底层调用](https://learnblockchain.cn/article/22616) - 学习 call、delegatecall、staticcall
 - [ABI 编码](https://learnblockchain.cn/article/22615) - 了解函数选择器和数据编码
-- [重入攻击防御](../security/9_reentrancy.md) - 外部调用的安全最佳实践
+- [重入攻击防御](https://learnblockchain.cn/article/22675) - 外部调用的安全最佳实践

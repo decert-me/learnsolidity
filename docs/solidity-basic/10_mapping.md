@@ -224,7 +224,7 @@ contract IterableMapping {
 
 想了解更多关于映射的知识，可以参考：
 
-- [存储布局](../solidity-adv/5_storage_gas.md) - 学习映射在 storage 中的存储机制
+- [存储布局](https://learnblockchain.cn/article/22620) - 学习映射在 storage 中的存储机制
 - [可迭代映射](https://learnblockchain.cn/article/1632) - 学习如何实现 O(1) 复杂度的可迭代映射
 
 

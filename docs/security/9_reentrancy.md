@@ -1,6 +1,4 @@
-# 重入攻击与防御
-
-重入攻击（Reentrancy Attack）是智能合约中最危险和最常见的漏洞之一。历史上最著名的 The DAO 攻击事件就是利用了重入漏洞，导致了价值 6000 万美元的以太币被盗。理解和防范重入攻击是每个 Solidity 开发者必须掌握的技能。
+重入攻击（Reentrancy Attack）是智能合约中最危险和最常见的漏洞之一。历史上最著名的 The DAO 攻击事件就是利用了重入漏洞，导致了价值 6000 万美元的以太币被盗。理解和防范重入攻击是每个 [Solidity](https://learnblockchain.cn/course/93) 开发者必须掌握的技能。
 
 ## 什么是重入攻击
 
@@ -24,7 +22,7 @@
 
 2016 年 6 月，The DAO 遭受重入攻击，攻击者利用 splitDAO 函数的重入漏洞，盗取了约 360 万个以太币（当时价值约 6000 万美元）。
 
-这次攻击直接导致了以太坊的硬分叉，分裂成 Ethereum (ETH) 和 Ethereum Classic (ETC)。
+这次攻击直接导致了[以太坊](https://learnblockchain.cn/tags/以太坊?map=EVM)的硬分叉，分裂成 Ethereum (ETH) 和 Ethereum Classic (ETC)。
 
 > **历史教训：** The DAO 攻击是区块链历史上最重大的安全事件之一，它深刻地告诉我们：**智能合约的安全性至关重要，一个小的漏洞可能导致灾难性后果**。
 
@@ -177,7 +175,7 @@ contract SecureBank {
 
 ### 方法 2：使用 ReentrancyGuard（推荐）
 
-OpenZeppelin 提供了一个可重用的重入防护合约。
+[OpenZeppelin](https://learnblockchain.cn/tags/OpenZeppelin?map=EVM) 提供了一个可重用的重入防护合约。
 
 ```solidity
 pragma solidity ^0.8.0;
@@ -307,7 +305,7 @@ contract GasLimitedBank {
 
 > **为什么不推荐？**
 >
-> 1. **Gas 成本可能改变**：EVM 的 opcode 成本在硬分叉后可能改变
+> 1. **Gas 成本可能改变**：[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 的 opcode 成本在硬分叉后可能改变
 > 2. **限制了合法使用**：接收方可能是合约，需要执行一些逻辑
 > 3. **不是根本解决方案**：应该从设计上避免重入，而不是依赖 Gas 限制
 
@@ -639,7 +637,7 @@ contract CrowdFunding {
   - Effects：更新状态
   - Interactions：外部调用
 
-- **使用 ReentrancyGuard**：OpenZeppelin 提供的可靠保护
+- **使用 ReentrancyGuard**：[OpenZeppelin](https://learnblockchain.cn/tags/OpenZeppelin?map=EVM) 提供的可靠保护
 
 - **全面保护**：不仅是提款函数，所有涉及外部调用的函数都要考虑
 
@@ -647,7 +645,7 @@ contract CrowdFunding {
 
 - **只读重入**：即使是 view 函数也可能被利用
 
-- **不要依赖 Gas 限制**：这不是可靠的防御方法
+- **不要依赖 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 限制**：这不是可靠的防御方法
 
 - **使用安全工具**：Slither、Mythril 可以帮助发现漏洞
 

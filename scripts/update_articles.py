@@ -100,13 +100,39 @@ def main():
     parser.add_argument('files', nargs='*', help='要更新的文章文件路径（可以是多个）')
     parser.add_argument('--dir', type=str, help='更新指定目录下的所有 .md 文件')
     parser.add_argument('--pattern', type=str, help='文件匹配模式（如 "加密朋克*"）')
+    parser.add_argument('--all', action='store_true', help='更新 published_articles.json 中的所有已发布文章')
 
     args = parser.parse_args()
 
     # 收集要更新的文件
     files_to_update = []
 
-    if args.dir:
+    if args.all:
+        # 更新所有已发布的文章
+        published_articles = load_published_articles()
+
+        if not published_articles:
+            print("✗ 没有找到已发布的文章记录")
+            return 1
+
+        print(f"从 published_articles.json 加载了 {len(published_articles)} 个已发布文章")
+        print()
+
+        # 获取项目根目录
+        project_root = Path(__file__).parent.parent
+
+        for relative_path in published_articles.keys():
+            file_path = project_root / relative_path
+            if file_path.exists():
+                files_to_update.append(file_path)
+            else:
+                print(f"⚠️  文件不存在（将跳过）: {relative_path}")
+
+        if not files_to_update:
+            print("✗ 没有找到可更新的文件")
+            return 1
+
+    elif args.dir:
         # 更新指定目录下的所有文件
         dir_path = Path(args.dir)
         if not dir_path.exists():
@@ -133,7 +159,7 @@ def main():
 
         if not articles_dir.exists():
             print(f"✗ 默认目录不存在: {articles_dir}")
-            print("请使用 --dir 或 --files 参数指定要更新的文件")
+            print("请使用 --all, --dir 或 --files 参数指定要更新的文件")
             return 1
 
         files_to_update = list(articles_dir.glob('*.md'))

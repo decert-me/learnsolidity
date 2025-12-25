@@ -1,5 +1,3 @@
-# staticcall 静态调用
-
 ## 什么是 staticcall
 
 `staticcall` 是地址类型提供的一个只读底层调用函数，它与 [call](https://learnblockchain.cn/article/22616) 类似会切换上下文，但**不允许修改状态**。相当于调用 `view` 或 `pure` 函数。

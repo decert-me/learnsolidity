@@ -162,7 +162,7 @@ contract Caller {
 }
 ```
 
-以上代码，使用了地址上的底层调用，来模拟调用不存在的函数，这部分内容将在 [地址高阶用法](../solidity-adv/addr_call.md) 进一步介绍。
+以上代码，使用了地址上的底层调用，来模拟调用不存在的函数，这部分内容将在 [地址高阶用法](https://learnblockchain.cn/article/22616) 进一步介绍。
 
 再次提醒，当使用合约中使用send和transfer向合约转账时，[EVM](https://learnblockchain.cn/tags/EVM?map=EVM) 仅会提供 2300 gas来执行， 如果`receive`或`fallback`函数的实现需要较多的运算量，会导致转账失败。
 
@@ -235,6 +235,6 @@ contract testPayable {
 
 想了解更多关于合约接收 ETH 的知识，可以参考：
 
-- [底层调用](../solidity-adv/3_addr_call.md) - 深入理解 call、delegatecall 和 staticcall
-- [重入攻击](../security/9_reentrancy.md) - 学习在接收 ETH 时如何防范重入攻击
+- [底层调用](https://learnblockchain.cn/article/22616) - 深入理解 call、delegatecall 和 staticcall
+- [重入攻击](https://learnblockchain.cn/article/22675) - 学习在接收 ETH 时如何防范重入攻击
 - [支付模式](https://learnblockchain.cn/article/22658) - 学习[智能合约](https://learnblockchain.cn/tags/%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6)中的支付最佳实践

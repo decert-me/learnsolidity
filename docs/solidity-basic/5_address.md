@@ -103,7 +103,7 @@ contract Transfer {
 
 **为什么不用 transfer/send？**
 
-早期的 `transfer` 和 `send` 方法有 2300 gas 限制，容易在某些情况下失败。现代 Solidity 推荐使用 `call` 方法， 在进阶部分的 [底层调用](../solidity-adv/3_addr_call.md) 中，我们会进一步介绍 call 的使用。 
+早期的 `transfer` 和 `send` 方法有 2300 gas 限制，容易在某些情况下失败。现代 Solidity 推荐使用 `call` 方法， 在进阶部分的 [底层调用](https://learnblockchain.cn/article/22616) 中，我们会进一步介绍 call 的使用。 
 
 
 ## 实践示例
@@ -164,6 +164,7 @@ contract PiggyBank {
 ### 进阶学习
 
 如果你想深入了解地址类型的高级用法，可以参考：
-- [地址底层调用（call/delegatecall/staticcall）](../solidity-adv/3_addr_call.md) - 动态调用合约、代理模式、转账方式对比
+- [地址底层调用call](https://learnblockchain.cn/article/22616) 
+- [地址底层调用 deletegatecall](https://learnblockchain.cn/article/22617)
 - [合约如何接收 ETH（receive/fallback）](https://learnblockchain.cn/article/22554)
-- [重入攻击防御](../security/9_reentrancy.md) - 防止转账重入攻击
+- [重入攻击防御](https://learnblockchain.cn/article/22675) - 防止转账重入攻击

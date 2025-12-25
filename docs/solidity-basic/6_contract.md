@@ -144,6 +144,6 @@ pragma solidity ^0.8.0;
 
 想了解更多关于合约创建的知识，可以参考：
 
-- [合约创建：create 与 create2](../solidity-adv/4_create_create2.md) - 学习合约创建的底层机制
+- [合约创建：create 与 create2](https://learnblockchain.cn/article/22619) - 学习合约创建的底层机制
 - [接口](https://learnblockchain.cn/article/22559) - 学习如何通过接口与其他合约交互
-- [代理合约](../solidity-adv/6_proxy.md) - 学习代理模式的合约交互
+- [代理合约](https://learnblockchain.cn/article/22621) - 学习代理模式的合约交互

@@ -162,5 +162,5 @@ contract mortal is owned {
 
 想了解更多关于函数修改器的知识，可以参考：
 
-- [访问控制](../security/2_access_control.md) - 学习使用修改器实现完善的权限控制
-- [重入攻击防护](../security/9_reentrancy.md) - 学习使用修改器防范重入攻击
+- [访问控制](https://learnblockchain.cn/article/22671) - 学习使用修改器实现完善的权限控制
+- [重入攻击防护](https://learnblockchain.cn/article/22675) - 学习使用修改器防范重入攻击
