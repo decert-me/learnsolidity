@@ -1,14 +1,19 @@
 # 开始学习 Solidity
 
-[《Solidity 开发教程》](https://learnblockchain.cn/course/93) 是一个旨在系统深入介绍 Solidity 开发的教程。
+
+
+[《Solidity 开发教程》](https://learnblockchain.cn/course/93) 是一个系统深入介绍 Solidity 开发的教程。
+
+中文世界的很多 Solidity 资料，要么较旧，要么比较基础，本教程在 2023 在 Decert.me 上发布后，不断更新迭代，包含 50+ 篇系统教程、300+ 个代码示例，涵盖语言基础、进阶特性、实战应用和安全开发全链路。应该说是目前 **中文世界最值得推荐的 Solidity 学习教程**
+
+## 关于 Solidity 
 
 Solidity 是专为以太坊平台设计的编程语言，现在是所有 EVM 兼容链的智能合约开发语言，是区块链开发者必备的技能之一。
 
-学习 Solidity 带来多重好处：
-
-1. 创建自己的 Web3 应用（DApp）。
-2. Solidity 开发人员需求不断增加，掌握 Solidity 开发技能有助于在新兴领域找到就业机会。
-3. 通过学习 Solidity 更深入地理解许多项目的运行原理和工作方式。
+学习 Solidity 可以让你：
+- 构建自己的 Web3 应用（DApp、DeFi、NFT、DAO 等）
+- 深入理解区块链项目的运行原理
+- 获得更多的职业发展机会
 
 ## 开始学习之前
 
@@ -91,7 +96,10 @@ Solidity 是专为以太坊平台设计的编程语言，现在是所有 EVM 兼
 4. **参与社区**：在遇到问题时，积极在社区寻求帮助
 5. **安全第一**：在开发时始终将安全性放在首位
 
+## 学习成果认证
 
-完成学习后，你可以前往挑战：[Solidity 101](https://decert.me/collection/9)，完成挑战并获得技能认证 NFT。
+完成学习后，你可以前往 [Solidity 101 挑战](https://decert.me/collection/9)，通过实战挑战检验学习成果，并获得技能认证 NFT。
 
-这份教程提供了系统学习 Solidity 开发的途径，帮助你深入了解区块链和智能合约编程。祝你学习顺利！
+---
+
+祝你学习顺利！

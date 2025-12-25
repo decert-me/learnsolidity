@@ -149,19 +149,209 @@ contract VotingDeployer {
         return address(uint160(uint256(hash)));
     }
 }
+```
 
 在这个例子中，VotingDeployer 合约有两个函数：deployVoting 用于部署新的 Voting 合约，而 getPredictedAddress 则允许用户预先知道将会部署合约的地址。
 
-## 深入理解创建合约
+## 理解创建合约
 
-理解如何使用 new 和 create2 不仅涉及语法，还包括了解底层的合约创建和部署机制。
+在日常开发中，使用 `new` 关键字创建合约看起来很简单，但深入理解其底层机制,可以：
+- 理解 Creation Code 和 Runtime Code 的区别，可以有效减小合约体积，编写更健壮的代码
+- 理解地址计算公式，才能准确预测合约地址，避免地址冲突和前置运行攻击
+- 在可升级合约、多签钱包等复杂场景中正确应用
+- 当部署失败时，能够快速定位原因（构造函数 revert、Gas 不足、地址冲突等）
+- 理解 nonce 机制，在复杂的工厂合约中追踪合约创建
+- 理解底层机制后，才能设计出更优雅的工厂模式
 
-当使用 new 时，你实际上是在发送一个特殊的交易，这个交易在 EVM 中创建和存储新合约的字节码。
 
-同样，create2 不仅发送创建合约的交易，还允许开发者通过 salt 值影响合约的最终地址。
+下面我们将深入探讨合约创建的底层原理。
 
+### 合约字节码的组成
+
+当你编写一个 Solidity 合约时，编译器会生成两种不同的字节码：
+
+**1. Creation Code（创建代码）**
+- 包含合约的构造函数逻辑（初始化）
+- 执行后会返回 Runtime Code
+- 只在合约部署时执行一次
+- 不会被永久存储在区块链上
+
+**2. Runtime Code（运行时代码）**
+- 包含合约的所有函数实现
+- 这是最终存储在区块链上的代码
+- 用户调用合约时执行的就是这部分代码
+- 永久存储，消耗存储 Gas
+
+```solidity
+// 示例：理解字节码
+contract Example {
+    uint public value;
+
+    // 构造函数代码 -> Creation Code 的一部分
+    constructor(uint _value) {
+        value = _value;  // 初始化逻辑
+    }
+
+    // 函数代码 -> Runtime Code 的一部分
+    function getValue() public view returns (uint) {
+        return value;
+    }
+}
+```
+
+你可以通过编译器获取这两种字节码：
+```solidity
+bytes memory creationCode = type(Example).creationCode;  // 获取 Creation Code
+bytes memory runtimeCode = type(Example).runtimeCode;    // 获取 Runtime Code
+```
+
+### EVM 层面的合约创建流程
+
+当你使用 `new` 关键字创建合约时，EVM 会执行以下核心步骤：
+
+**CREATE 操作码**
+
+1. **计算地址**：基于部署者地址和 nonce 生成新合约地址
+2. **执行 Creation Code**：运行构造函数，初始化状态变量
+3. **存储 Runtime Code**：将最终的合约代码（最大 24KB）存储到新地址
+4. **返回地址**：如果成功，返回新合约地址；如果失败（Gas 不足、构造函数 revert 等），回滚所有状态
+
+**CREATE2 操作码**
+
+CREATE2 的执行流程相同，但地址计算方式不同：
+```solidity
+// CREATE: 地址依赖 nonce（不易预测）
+address = keccak256(rlp([sender, nonce]))[12:]
+
+// CREATE2: 地址依赖 salt（可预测）
+address = keccak256(0xff ++ sender ++ salt ++ keccak256(init_code))[12:]
+```
+
+### 合约创建的 Gas 消耗
+
+合约创建的 Gas 成本主要包括以下几部分：
+
+**1. 基础费用**
+- CREATE 操作码基础费用：32,000 Gas
+- CREATE2 额外费用：需要计算 `keccak256(init_code)`
+
+**2. Creation Code 执行费用**
+- 构造函数中的所有操作
+- 状态变量初始化
+- 示例：SSTORE 操作消耗 20,000 Gas（首次设置）
+
+**3. Runtime Code 存储费用**
+- 每字节 200 Gas
+- 示例：如果 Runtime Code 是 10KB，需要约 2,000,000 Gas
+
+**4. 内存扩展费用**
+- 处理 Creation Code 和 Runtime Code 时的内存使用
+
+### 合约创建可能失败的情况
+
+理解失败场景对于编写健壮的代码至关重要：
+
+**1. 地址冲突**
+```solidity
+// CREATE2 可能遇到地址冲突
+function createTwice(bytes32 salt) public {
+    new MyContract{salt: salt}();  // 成功
+    new MyContract{salt: salt}();  // 失败：地址已被占用
+}
+```
+
+**2. Gas 不足**
+```solidity
+// 提供的 Gas 不足以完成部署
+function createWithLowGas() public {
+    new VeryLargeContract{gas: 100000}();  // 可能失败：Gas 不足
+}
+```
+
+**3. 构造函数 revert**
+```solidity
+contract RequireContract {
+    constructor(uint _value) {
+        require(_value > 100, "Value too low");  // 会导致整个部署失败
+    }
+}
+
+function tryCreate(uint _value) public returns (address) {
+    try new RequireContract(_value) returns (RequireContract c) {
+        return address(c);
+    } catch {
+        return address(0);  // 部署失败
+    }
+}
+```
+
+**4. 代码大小超限**
+
+EIP-170 规定合约的 Runtime Code 不能超过 24576 字节（24KB）。当创建的**目标合约**代码太大时，部署会失败。
+
+```solidity
+// ❌ 目标合约太大，创建时会失败
+contract VeryLargeContract {
+    // 包含数百个函数、大量状态变量或复杂业务逻辑
+    // 编译后 Runtime Code 可能超过 24KB
+    function func1() public { /* ... */ }
+    function func2() public { /* ... */ }
+    // ... 数百个函数
+}
+
+contract Factory {
+    function deploy() public {
+        new VeryLargeContract();  // 失败：目标合约超过 24KB
+    }
+}
+
+// ✅ 解决方案：拆分合约或使用库
+contract MainContract {
+    // 将逻辑分散到多个库中，减小合约体积
+    function doWork() public {
+        LibraryA.doSomething();
+        LibraryB.doSomethingElse();
+    }
+}
+
+library LibraryA { /* ... */ }
+library LibraryB { /* ... */ }
+```
+
+**5. 调用深度超限**
+
+EVM 限制调用栈深度为 1024 层。如果在合约创建过程中发生递归调用（如合约在构造函数中创建另一个合约，而后者又创建新合约），可能会达到深度限制。
+
+```solidity
+// ❌ 递归创建可能超过调用深度限制
+contract RecursiveCreator {
+    constructor(uint depth) {
+        if (depth > 0) {
+            new RecursiveCreator(depth - 1);  // 深度超过 1024 会失败
+        }
+    }
+}
+
+// ✅ 实际开发中应避免递归创建合约
+contract SafeFactory {
+    function createMultiple(uint count) public {
+        for (uint i = 0; i < count; i++) {
+            new SimpleContract();  // 迭代而非递归
+        }
+    }
+}
+```
 
 ## 总结
-通过这个章节，你应该对 Solidity 中创建合约的两种主要方法有了深入的理解。
 
-使用 `new` 关键字和 `create` 操作码可以快速部署新合约，而 `create2` 则提供了更高级的控制，特别是在你需要预测合约地址或在更复杂的 DApp 架构中。
+通过本章节的学习，应该对 Solidity 中创建合约有了全面而深入的理解：
+
+**核心概念**
+- `new` 关键字底层使用 CREATE 或 CREATE2 操作码
+- CREATE：地址基于部署者地址和 nonce，不易预测
+- CREATE2：地址基于部署者、salt 和字节码，可预测
+- 合约字节码分为 Creation Code 和 Runtime Code
+- CREATE2 适用于可升级合约、确定性部署等场景
+
+
+掌握这些知识后，你将能够在实际项目中灵活运用合约创建技术，设计更加健壮和高效的智能合约系统。

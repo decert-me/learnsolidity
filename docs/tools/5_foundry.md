@@ -1,5 +1,3 @@
-# Foundry 开发框架
-
 Foundry 是一个Solidity框架，用于构建、测试、模糊、调试和部署Solidity智能合约， Foundry 的优势是以Solidity 作为第一公民，完全使用 Solidity 进行开发与测试，如果你不太熟悉 JavaScript ， 使用 Foundry 是一个非常好的选择，而且Foundry 构建、测试的执行速度非常快。
 
 

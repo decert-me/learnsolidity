@@ -1,5 +1,3 @@
-# Hardhat 开发框架
-
 Hardhat 是一个专业的以太坊开发环境，提供灵活且易于使用的工具链，可以轻松地编写、测试和部署智能合约。Hardhat 支持 JavaScript/TypeScript 和 **Solidity** 两种测试方式。
 
 **Hardhat 核心特性**：
