@@ -1,6 +1,6 @@
 # Multicall：批量调用合约
 
-Multicall 是一种在单个交易中批量调用多个合约函数的技术。它有两种主要应用场景：**批量读取数据**和**批量执行操作**。同时，根据使用 [call](../solidity-adv/3_call.md) 还是 [delegatecall](../solidity-adv/4_delegatecall.md)，又有不同的实现方式和应用场景。
+Multicall 是一种在单个交易中批量调用多个合约函数的技术。它有两种主要应用场景：**批量读取数据**和**批量执行操作**。同时，根据使用 [call](https://learnblockchain.cn/article/22616) 还是 [delegatecall](https://learnblockchain.cn/article/22617)，又有不同的实现方式和应用场景。
 
 ## 理解 Multicall 的两种场景
 
@@ -33,12 +33,12 @@ Multicall 是一种在单个交易中批量调用多个合约函数的技术。�
 **典型应用**：
 - 批量转账
 - 授权 + 交易（approve + swap）
-- 批量铸造 NFT
-- 复杂的 DeFi 操作
+- 批量铸造 [NFT](https://learnblockchain.cn/tags/NFT)
+- 复杂的 [DeFi](https://learnblockchain.cn/tags/DeFi?map=EVM) 操作
 
 ## call vs delegatecall
 
-在使用 Multicall 前，我们需要先了解 [call](../solidity-adv/3_call.md) 和 [delegatecall](../solidity-adv/4_delegatecall.md) 的工作方式。
+在使用 Multicall 前，我们需要先了解 [call](https://learnblockchain.cn/article/22616) 和 [delegatecall](https://learnblockchain.cn/article/22617) 的工作方式。
 
 我们简单的复习一下： call 调用时，会切换上下文，用于调用其他独立合约的函数。
 delegatecall 在调用发起者的上下文执行，用于在自己的合约中执行自己的函数，实现批量操作
@@ -631,7 +631,7 @@ Multicall 有三种主要使用模式：
 
 ### 1. 批量读取（staticcall）
 - **目的**：高效查询多个合约状态
-- **特点**：不消耗 Gas，纯查询
+- **特点**：不消耗 [Gas](https://learnblockchain.cn/tags/Gas?map=EVM)，纯查询
 - **场景**：前端批量获取数据
 
 ### 2. 批量执行外部合约（call）
@@ -647,7 +647,7 @@ Multicall 有三种主要使用模式：
 **核心要点**：
 - ✅ 根据场景选择合适的调用方式
 - ✅ delegatecall 只用于调用自己的函数
-- ✅ 注意安全性：重入、权限、Gas 限制
+- ✅ 注意安全性：重入、权限、[Gas](https://learnblockchain.cn/tags/Gas?map=EVM) 限制
 - ✅ 提供灵活的错误处理机制
 
-掌握这三种模式后，你将能够构建更高效、用户友好的 DApp！
+掌握这三种模式后，你将能够构建更高效、用户友好的 [DApp](https://learnblockchain.cn/tags/DApp)！
