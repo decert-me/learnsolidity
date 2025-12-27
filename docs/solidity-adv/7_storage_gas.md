@@ -44,18 +44,29 @@ SSTORE（写）：
 ### Memory：临时内存
 
 **成本模型**：
-Memory 的成本是**二次增长**的：
+Memory 的成本是初期线性增长，**二次增长**(防止滥用)：
 
 ```
 cost = 3 * word_count + (word_count^2 / 512)
 ```
 
+
 这意味着使用的内存越多，边际成本越高。
 
 **示例**：
-- 前 724 字节：~3 gas/字节
-- 第 1KB - 10KB：~5 gas/字节
-- 超过 100KB：成本急剧上升
+
+- 使用 32 字节内存（1 word）：
+Cost = 1²/512 + 3×1 = 3 Gas
+
+- 使用 320 字节内存（10 words）：
+Cost = 10²/512 + 3×10 = 30.19 ≈ 31 Gas
+
+- 使用 1024 字节内存（32 words）：
+Cost = 32²/512 + 3×32 = 98 Gas
+
+使用 10240 字节内存（320 words）：
+Cost = 320²/512 + 3×320 = 1,160 Gas
+
 
 ### Calldata：交易数据
 
@@ -67,6 +78,23 @@ cost = 3 * word_count + (word_count^2 / 512)
 **为什么便宜**：
 - 直接读取交易数据，无需复制到 memory
 - 只读，无法修改
+
+
+**示例交易：**
+
+function transfer(address to, uint256 amount)
+
+Calldata 分析：
+0xa9059cbb  // 函数选择器（4字节非零）
+0000000000000000000000001234567890123456789012345678901234567890  // to 地址
+0000000000000000000000000000000000000000000000000000000000000064  // amount = 100
+
+成本计算：
+- 函数选择器：4 × 16 = 64 Gas
+- to 地址：12 × 4 + 8 × 16 = 176 Gas（12个零字节 + 8个非零）
+- amount：31 × 4 + 1 × 16 = 140 Gas（31个零字节 + 1个非零）
+总计：380 Gas
+
 
 ### Transient Storage（EIP-1153）
 
@@ -366,6 +394,28 @@ contract MemoryExpansion {
 ```
 
 ### 避免不必要的 Memory 分配
+
+
+```solidity
+// ❌ 低效：频繁扩展内存
+function inefficient(uint[] calldata data) public {
+    for (uint i = 0; i < data.length; i++) {
+        bytes memory temp = new bytes(1024);  // 每次分配 1KB
+        // 内存不断扩展，成本指数增长
+    }
+}
+
+// ✅ 高效：复用内存
+function efficient(uint[] calldata data) public {
+    bytes memory temp = new bytes(1024);  // 一次分配
+    for (uint i = 0; i < data.length; i++) {
+        // 复用同一块内存
+        assembly {
+            mstore(add(temp, 32), data[i])
+        }
+    }
+}
+```
 
 ```solidity
 contract MemoryOptimization {
