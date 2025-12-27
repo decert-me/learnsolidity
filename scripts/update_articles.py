@@ -96,16 +96,25 @@ def update_articles(article_files):
 def main():
     import argparse
 
-    parser = argparse.ArgumentParser(description='批量更新已发布的文章到 LBC')
-    parser.add_argument('files', nargs='*', help='要更新的文章文件路径（可以是多个）')
-    parser.add_argument('--dir', type=str, help='更新指定目录下的所有 .md 文件')
-    parser.add_argument('--pattern', type=str, help='文件匹配模式（如 "加密朋克*"）')
+    parser = argparse.ArgumentParser(
+        description='更新已发布的文章到 LBC',
+        epilog='示例:\n'
+               '  更新所有已发布文章: python update_articles.py --all\n'
+               '  更新单个文章: python update_articles.py docs/solidity-adv/7_storage_gas.md',
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument('file', nargs='?', help='要更新的文章文件路径')
     parser.add_argument('--all', action='store_true', help='更新 published_articles.json 中的所有已发布文章')
 
     args = parser.parse_args()
 
     # 收集要更新的文件
     files_to_update = []
+
+    if args.all and args.file:
+        print("✗ 不能同时使用 --all 和指定文件")
+        print("  使用 --all 更新所有文章，或指定单个文件路径")
+        return 1
 
     if args.all:
         # 更新所有已发布的文章
@@ -132,37 +141,19 @@ def main():
             print("✗ 没有找到可更新的文件")
             return 1
 
-    elif args.dir:
-        # 更新指定目录下的所有文件
-        dir_path = Path(args.dir)
-        if not dir_path.exists():
-            print(f"✗ 目录不存在: {dir_path}")
+    elif args.file:
+        # 更新指定的单个文件
+        file_path = Path(args.file)
+        if not file_path.exists():
+            print(f"✗ 文件不存在: {file_path}")
             return 1
-
-        if args.pattern:
-            files_to_update = list(dir_path.glob(args.pattern))
-        else:
-            files_to_update = list(dir_path.glob('*.md'))
-
-    elif args.files:
-        # 更新指定的文件
-        for file_str in args.files:
-            file_path = Path(file_str)
-            if not file_path.exists():
-                print(f"⚠️  文件不存在: {file_path}")
-                continue
-            files_to_update.append(file_path)
+        files_to_update.append(file_path)
 
     else:
-        script_dir = Path(__file__).parent
-        articles_dir = script_dir.parent / 'docs' / 'solidity-basic'
-
-        if not articles_dir.exists():
-            print(f"✗ 默认目录不存在: {articles_dir}")
-            print("请使用 --all, --dir 或 --files 参数指定要更新的文件")
-            return 1
-
-        files_to_update = list(articles_dir.glob('*.md'))
+        print("✗ 请指定要更新的文章")
+        print("  使用 --all 更新所有已发布文章")
+        print("  或指定单个文件路径，例如: python update_articles.py docs/solidity-adv/7_storage_gas.md")
+        return 1
 
     if not files_to_update:
         print("✗ 没有找到要更新的文件")

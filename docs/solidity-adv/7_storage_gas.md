@@ -19,6 +19,7 @@ Solidity 中有四种数据位置，它们在 EVM 层面有完全不同的实现
 | **calldata** | 交易数据 | 函数调用期间 | 3 gas (只读) | 外部函数参数 |
 | **transient** | 临时存储 | 交易期间 | 100 gas (写) | 重入锁、临时标记 |
 
+
 ## EVM 存储机制解析
 
 ### Storage：存储槽
@@ -156,8 +157,13 @@ Optimized.set():   23,000 gas
 ### 2. 使用 `immutable` 和 `constant`
 
 **原理**：
-- `constant`：编译时确定，直接嵌入字节码
-- `immutable`：部署时确定，存储在代码中而非 storage
+- `constant`：编译时确定，值直接嵌入到合约的字节码中，不占用 storage 槽位
+- `immutable`：部署时确定，值保存在合约的不可变字节码（immutable bytecode）中，而非 storage 槽位
+
+**存储位置对比**：
+- 普通状态变量：存储在 storage 槽位中，每次读取需要 SLOAD 操作（2,100 gas 冷访问）
+- `constant` 变量：编译器将值直接替换到使用处，相当于硬编码（~3 gas）
+- `immutable` 变量：存储在合约字节码的特殊区域，通过 PUSH 指令读取（~100 gas）
 
 **实测对比**：
 
